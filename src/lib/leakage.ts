@@ -55,12 +55,14 @@ export function buildSafePrompt(
 
   switch (mode) {
     case 'ru-de':
-      prompt = entry.ru[0];
+      // All senses so the prompt matches the example (e.g. большой / высокий)
+      prompt = entry.ru.join(' / ');
       promptLang = 'ru';
       answerLang = 'de';
       break;
     case 'en-de':
-      prompt = entry.en[0];
+      // All senses so the prompt matches the example (e.g. big / tall)
+      prompt = entry.en.join(' / ');
       promptLang = 'en';
       answerLang = 'de';
       break;

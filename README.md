@@ -27,12 +27,21 @@ Then open the local URL. See [docs/USER_GUIDE.md](docs/USER_GUIDE.md).
 
 | Doc | Contents |
 | --- | --- |
-| [USER_GUIDE.md](docs/USER_GUIDE.md) | How to learn with Wortklar |
-| [ARCHITECTURE.md](docs/ARCHITECTURE.md) | Product & technical decisions |
-| [DEPLOYMENT.md](docs/DEPLOYMENT.md) | Run & host for free |
-| [CONTENT_SOURCES.md](docs/CONTENT_SOURCES.md) | Licensing & content provenance |
-| [QA_REPORT.md](docs/QA_REPORT.md) | What was tested and limitations |
-| [RESEARCH.md](docs/RESEARCH.md) | Learning-product research notes |
+| [USER_GUIDE.md](guide/USER_GUIDE.md) | How to learn with Wortklar |
+| [ARCHITECTURE.md](guide/ARCHITECTURE.md) | Product & technical decisions |
+| [DEPLOYMENT.md](guide/DEPLOYMENT.md) | Run & host for free |
+| [CONTENT_SOURCES.md](guide/CONTENT_SOURCES.md) | Licensing & content provenance |
+| [QA_REPORT.md](guide/QA_REPORT.md) | What was tested and limitations |
+| [RESEARCH.md](guide/RESEARCH.md) | Learning-product research notes |
+
+## GitHub Pages
+
+Built site lives in `/docs` (Vite `outDir`). In the repo **Settings → Pages**:
+
+1. Source: **Deploy from a branch**
+2. Branch: `main` / folder: **/docs**
+
+Site URL: https://vkhramov.github.io/wortklar/
 
 ## Scripts
 

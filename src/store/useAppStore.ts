@@ -61,7 +61,8 @@ export const useAppStore = create<AppState>((set, get) => ({
   progress: loadProgress(),
 
   init: async () => {
-    const res = await fetch('/data/vocabulary.json');
+    const base = import.meta.env.BASE_URL || '/';
+    const res = await fetch(`${base}data/vocabulary.json`);
     const vocabulary = (await res.json()) as VocabEntry[];
     set({ vocabulary, progress: loadProgress(), ready: true });
   },

@@ -1,0 +1,33 @@
+{
+  "name": "wortklar",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "lint": "oxlint src",
+    "preview": "vite preview",
+    "vocab:generate": "node scripts/generate-vocab.mjs",
+    "vocab:validate": "node scripts/validate-vocab.mjs",
+    "smoke": "node scripts/smoke.mjs",
+    "test:unit": "tsx src/lib/srs.test.ts && tsx src/lib/answer.test.ts && tsx src/lib/leakage.test.ts",
+    "qa": "npm run smoke && npm run build"
+  },
+  "dependencies": {
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-router-dom": "^7.18.5",
+    "zustand": "^5.0.16"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^6.1.2",
+    "oxlint": "^1.89.0",
+    "tsx": "^4.23.15",
+    "typescript": "~7.0.2",
+    "vite": "^8.3.5"
+  }
+}

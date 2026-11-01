@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Layout } from './components/Layout';
+import { AuthPage } from './pages/AuthPage';
 import { HomePage } from './pages/HomePage';
 import { LearnPage } from './pages/LearnPage';
 import { LibraryPage } from './pages/LibraryPage';
@@ -9,7 +10,7 @@ import { SettingsPage } from './pages/SettingsPage';
 import { useAppStore } from './store/useAppStore';
 
 export default function App() {
-  const { ready, init } = useAppStore();
+  const { ready, user, init } = useAppStore();
 
   useEffect(() => {
     void init();
@@ -23,6 +24,10 @@ export default function App() {
         </div>
       </div>
     );
+  }
+
+  if (!user) {
+    return <AuthPage />;
   }
 
   const basename = import.meta.env.BASE_URL.replace(/\/$/, '') || undefined;

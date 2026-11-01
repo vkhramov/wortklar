@@ -13,8 +13,15 @@ const TOPICS = [
 ];
 
 export function SettingsPage() {
-  const { progress, updateSettings, resetProgress, exportData, importData } =
-    useAppStore();
+  const {
+    progress,
+    user,
+    updateSettings,
+    resetProgress,
+    exportData,
+    importData,
+    logout,
+  } = useAppStore();
   const s = progress.settings;
   const ui = uiLangFromMode(s.mode);
   const fileRef = useRef<HTMLInputElement>(null);
@@ -35,6 +42,22 @@ export function SettingsPage() {
 
   return (
     <div className="hero">
+      <section className="panel">
+        <div className="panel-title">
+          <h2>{ui === 'ru' ? 'Аккаунт' : 'Account'}</h2>
+        </div>
+        <p className="muted" style={{ marginTop: 0 }}>
+          {ui === 'ru'
+            ? `Вы вошли как «${user?.username ?? '—'}». Прогресс сохраняется на этом устройстве для вашего аккаунта.`
+            : `Signed in as “${user?.username ?? '—'}”. Progress is saved on this device for your account.`}
+        </p>
+        <div className="btn-row">
+          <button type="button" className="btn btn-ghost" onClick={() => logout()}>
+            {ui === 'ru' ? 'Выйти' : 'Log out'}
+          </button>
+        </div>
+      </section>
+
       <section className="panel">
         <div className="panel-title">
           <h2>{ui === 'ru' ? 'Настройки обучения' : 'Study settings'}</h2>
@@ -154,8 +177,8 @@ export function SettingsPage() {
         </div>
         <p className="muted" style={{ marginTop: 0 }}>
           {ui === 'ru'
-            ? 'Прогресс хранится только на этом устройстве. Экспортируйте резервную копию.'
-            : 'Progress stays on this device only. Export a backup anytime.'}
+            ? 'Прогресс привязан к аккаунту в этом браузере. Экспортируйте резервную копию перед сменой устройства.'
+            : 'Progress is tied to your account in this browser. Export a backup before switching devices.'}
         </p>
         <div className="btn-row">
           <button

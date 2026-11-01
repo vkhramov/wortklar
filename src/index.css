@@ -97,6 +97,39 @@ button {
   padding: 0.85rem 0;
 }
 
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.account-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.15rem 0.15rem 0.15rem 0.7rem;
+  border-radius: 999px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--line);
+}
+
+.account-name {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--ink-soft);
+  max-width: 7rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.account-logout {
+  padding: 0.35rem 0.7rem;
+  font-size: 0.78rem;
+}
+
 .brand {
   display: flex;
   align-items: center;
@@ -800,6 +833,46 @@ h2 {
 
 .library-dl dd {
   margin: 0;
+}
+
+.auth-hero {
+  max-width: 34rem;
+  margin: 0 auto;
+  padding-top: 2rem;
+}
+
+.auth-panel h1 {
+  font-size: clamp(1.55rem, 3.5vw, 2.1rem);
+}
+
+.auth-form {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.auth-error {
+  margin: 0 0 0.75rem;
+  color: var(--bad);
+  background: var(--bad-soft);
+  border-radius: var(--radius-sm);
+  padding: 0.65rem 0.8rem;
+  font-size: 0.92rem;
+}
+
+.auth-banner {
+  margin: 0 0 1rem;
+  padding: 0.75rem 0.9rem;
+  border-radius: var(--radius-sm);
+  background: var(--warn-soft);
+  color: var(--warn);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+
+.auth-note {
+  margin: 1.1rem 0 0;
+  font-size: 0.88rem;
+  line-height: 1.45;
 }
 
 @media (max-width: 720px) {

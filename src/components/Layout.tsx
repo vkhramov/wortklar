@@ -1,4 +1,5 @@
 import { NavLink, Outlet } from 'react-router-dom';
+import { useAppStore } from '../store/useAppStore';
 
 const links = [
   { to: '/', label: 'Home', end: true },
@@ -9,6 +10,8 @@ const links = [
 ];
 
 export function Layout() {
+  const { user, logout } = useAppStore();
+
   return (
     <div className="app-shell">
       <header className="topbar">
@@ -19,18 +22,32 @@ export function Layout() {
             </span>
             <span className="brand-text">Wortklar</span>
           </NavLink>
-          <nav className="nav" aria-label="Main">
-            {links.map((l) => (
-              <NavLink
-                key={l.to}
-                to={l.to}
-                end={l.end}
-                className={({ isActive }) => (isActive ? 'active' : undefined)}
-              >
-                {l.label}
-              </NavLink>
-            ))}
-          </nav>
+          <div className="topbar-right">
+            {user && (
+              <div className="account-chip" title={user.username}>
+                <span className="account-name">{user.username}</span>
+                <button
+                  type="button"
+                  className="btn btn-ghost account-logout"
+                  onClick={() => logout()}
+                >
+                  Log out
+                </button>
+              </div>
+            )}
+            <nav className="nav" aria-label="Main">
+              {links.map((l) => (
+                <NavLink
+                  key={l.to}
+                  to={l.to}
+                  end={l.end}
+                  className={({ isActive }) => (isActive ? 'active' : undefined)}
+                >
+                  {l.label}
+                </NavLink>
+              ))}
+            </nav>
+          </div>
         </div>
       </header>
 

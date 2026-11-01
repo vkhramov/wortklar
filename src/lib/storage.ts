@@ -1,6 +1,9 @@
 import type { AppProgress, UserSettings } from '../types/vocab';
-
-const STORAGE_KEY = 'wortklar-progress-v1';
+import {
+  getSessionUserId,
+  LEGACY_PROGRESS_KEY,
+  progressKeyForUser,
+} from './auth';
 
 export const DEFAULT_SETTINGS: UserSettings = {
   mode: 'en-de',
@@ -24,10 +27,15 @@ export function createEmptyProgress(): AppProgress {
   };
 }
 
-export function loadProgress(): AppProgress {
+function activeProgressKey(): string | null {
+  const userId = getSessionUserId();
+  if (!userId) return null;
+  return progressKeyForUser(userId);
+}
+
+function readProgressJson(raw: string | null): AppProgress {
+  if (!raw) return createEmptyProgress();
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return createEmptyProgress();
     const parsed = JSON.parse(raw) as AppProgress;
     return {
       ...createEmptyProgress(),
@@ -39,8 +47,16 @@ export function loadProgress(): AppProgress {
   }
 }
 
+export function loadProgress(): AppProgress {
+  const key = activeProgressKey();
+  if (!key) return createEmptyProgress();
+  return readProgressJson(localStorage.getItem(key));
+}
+
 export function saveProgress(progress: AppProgress): void {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(progress));
+  const key = activeProgressKey();
+  if (!key) return;
+  localStorage.setItem(key, JSON.stringify(progress));
 }
 
 export function exportProgress(progress: AppProgress): string {
@@ -79,4 +95,9 @@ export function updateStreak(progress: AppProgress, now: Date = new Date()): App
     streak,
     lastStudyDate: today,
   };
+}
+
+/** Peek at legacy anonymous progress (for migration messaging). */
+export function hasLegacyProgress(): boolean {
+  return Boolean(localStorage.getItem(LEGACY_PROGRESS_KEY));
 }

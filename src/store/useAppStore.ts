@@ -14,7 +14,16 @@ import {
   updateStreak,
   importProgress as parseImport,
   exportProgress,
+  createEmptyProgress,
 } from '../lib/storage';
+import {
+  type AuthUser,
+  getCurrentUser,
+  loginUser,
+  logoutUser,
+  migrateLegacyProgressIfNeeded,
+  registerUser,
+} from '../lib/auth';
 
 type GradeInput = SrsGrade;
 
@@ -22,7 +31,11 @@ interface AppState {
   ready: boolean;
   vocabulary: VocabEntry[];
   progress: AppProgress;
+  user: AuthUser | null;
   init: () => Promise<void>;
+  register: (username: string, password: string) => Promise<string | null>;
+  login: (username: string, password: string) => Promise<string | null>;
+  logout: () => void;
   setMode: (mode: LearningMode) => void;
   updateSettings: (partial: Partial<AppProgress['settings']>) => void;
   applyGrade: (entryId: string, grade: GradeInput) => void;
@@ -34,7 +47,12 @@ interface AppState {
 
 function bumpDaily(
   progress: AppProgress,
-  patch: Partial<DailyStats> & { correctDelta?: number; incorrectDelta?: number; newDelta?: number; reviewDelta?: number },
+  patch: Partial<DailyStats> & {
+    correctDelta?: number;
+    incorrectDelta?: number;
+    newDelta?: number;
+    reviewDelta?: number;
+  },
 ): DailyStats[] {
   const date = todayKey();
   const daily = [...progress.daily];
@@ -51,23 +69,69 @@ function bumpDaily(
     correct: daily[idx].correct + (patch.correctDelta ?? 0),
     incorrect: daily[idx].incorrect + (patch.incorrectDelta ?? 0),
   };
-  // Keep last 120 days
   return daily.slice(-120);
+}
+
+function requireUser(): AuthUser {
+  const user = getCurrentUser();
+  if (!user) throw new Error('Not signed in');
+  return user;
+}
+
+function activateUserSession(): { user: AuthUser; progress: AppProgress } {
+  const user = requireUser();
+  migrateLegacyProgressIfNeeded(user.id);
+  const progress = loadProgress();
+  return { user, progress };
 }
 
 export const useAppStore = create<AppState>((set, get) => ({
   ready: false,
   vocabulary: [],
-  progress: loadProgress(),
+  progress: createEmptyProgress(),
+  user: null,
 
   init: async () => {
     const base = import.meta.env.BASE_URL || '/';
     const res = await fetch(`${base}data/vocabulary.json`);
     const vocabulary = (await res.json()) as VocabEntry[];
-    set({ vocabulary, progress: loadProgress(), ready: true });
+    const existing = getCurrentUser();
+    if (existing) {
+      migrateLegacyProgressIfNeeded(existing.id);
+      set({
+        vocabulary,
+        user: existing,
+        progress: loadProgress(),
+        ready: true,
+      });
+      return;
+    }
+    set({ vocabulary, user: null, progress: createEmptyProgress(), ready: true });
+  },
+
+  register: async (username, password) => {
+    const result = await registerUser(username, password);
+    if (!result.ok) return result.error;
+    const { user, progress } = activateUserSession();
+    set({ user, progress });
+    return null;
+  },
+
+  login: async (username, password) => {
+    const result = await loginUser(username, password);
+    if (!result.ok) return result.error;
+    const { user, progress } = activateUserSession();
+    set({ user, progress });
+    return null;
+  },
+
+  logout: () => {
+    logoutUser();
+    set({ user: null, progress: createEmptyProgress() });
   },
 
   setMode: (mode) => {
+    if (!get().user) return;
     const progress = {
       ...get().progress,
       settings: { ...get().progress.settings, mode },
@@ -77,6 +141,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   },
 
   updateSettings: (partial) => {
+    if (!get().user) return;
     const progress = {
       ...get().progress,
       settings: { ...get().progress.settings, ...partial },
@@ -86,6 +151,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   },
 
   applyGrade: (entryId, grade) => {
+    if (!get().user) return;
     let progress = updateStreak(get().progress);
     const existing = progress.cards[entryId] ?? createNewCard(entryId);
     const wasNew = existing.state === 'new' || !existing.introducedAt;
@@ -93,7 +159,6 @@ export const useAppStore = create<AppState>((set, get) => ({
     progress = {
       ...progress,
       cards: { ...progress.cards, [entryId]: updated },
-      // Accuracy is recorded in recordAnswer (by verdict), not by SRS grade buttons
       daily: bumpDaily(progress, {
         reviewDelta: 1,
         newDelta: wasNew && grade !== 'again' && grade !== 'know' ? 1 : 0,
@@ -104,6 +169,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   },
 
   recordAnswer: (entryId, correct) => {
+    if (!get().user) return;
     const existing = get().progress.cards[entryId] ?? createNewCard(entryId);
     const card = {
       ...existing,
@@ -123,6 +189,7 @@ export const useAppStore = create<AppState>((set, get) => ({
   },
 
   resetProgress: () => {
+    if (!get().user) return;
     const { settings } = get().progress;
     const progress = {
       cards: {},
@@ -140,11 +207,11 @@ export const useAppStore = create<AppState>((set, get) => ({
   exportData: () => exportProgress(get().progress),
 
   importData: (json) => {
+    if (!get().user) return;
     const progress = parseImport(json);
     saveProgress(progress);
     set({ progress });
   },
 }));
 
-// Re-export grade type alias for UI
 export type { GradeInput as Grade };

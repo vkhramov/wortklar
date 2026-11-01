@@ -185,6 +185,7 @@ export function LearnPage() {
         {!result ? (
           <form
             className="answer-form"
+            autoComplete="off"
             onSubmit={(e) => {
               e.preventDefault();
               submit();
@@ -203,12 +204,20 @@ export function LearnPage() {
               id="answer"
               ref={inputRef}
               className="answer-input"
+              name={`wk-answer-${entry.id}`}
               value={answer}
               onChange={(e) => setAnswer(e.target.value)}
-              autoCapitalize="off"
+              // Safari ignores autocomplete=off; new-password suppresses its suggestion UI
+              autoComplete="new-password"
+              autoCapitalize="none"
               autoCorrect="off"
+              autoSave="off"
               spellCheck={false}
+              inputMode="text"
               enterKeyHint="done"
+              data-lpignore="true"
+              data-1p-ignore="true"
+              data-form-type="other"
               placeholder={
                 intoDe && entry.pos === 'noun'
                   ? 'der / die / das …'

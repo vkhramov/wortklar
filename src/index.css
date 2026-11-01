@@ -464,6 +464,19 @@ h2 {
   box-shadow: 0 0 0 4px rgba(12, 107, 92, 0.12);
 }
 
+.answer-editable {
+  min-height: 3.4rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+  caret-color: var(--brand);
+}
+
+.answer-editable.is-empty::before {
+  content: attr(data-placeholder);
+  color: var(--muted);
+  pointer-events: none;
+}
+
 .umlaut-row {
   display: flex;
   flex-wrap: wrap;

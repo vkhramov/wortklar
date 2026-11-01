@@ -1,10 +1,11 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppStore } from '../store/useAppStore';
 import { buildSession } from '../lib/session';
 import { evaluateAnswer, producesGerman } from '../lib/answer';
 import { exampleBeforeAnswer } from '../lib/example';
 import { buildReveal, buildSafePrompt, uiLangFromMode } from '../lib/leakage';
+import { AnswerField } from '../components/AnswerField';
 import { Illustration } from '../components/Illustration';
 import type { AnswerResult, SessionItem } from '../types/vocab';
 import type { Grade } from '../lib/srs';
@@ -21,7 +22,6 @@ export function LearnPage() {
   const [answer, setAnswer] = useState('');
   const [result, setResult] = useState<AnswerResult | null>(null);
   const [finished, setFinished] = useState(false);
-  const inputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const items = buildSession(vocabulary, progress);
@@ -47,10 +47,6 @@ export function LearnPage() {
     () => (entry ? exampleBeforeAnswer(entry, mode) : null),
     [entry, mode],
   );
-
-  useEffect(() => {
-    if (!result) inputRef.current?.focus();
-  }, [index, result]);
 
   function submit() {
     if (!entry || result) return;
@@ -89,7 +85,6 @@ export function LearnPage() {
 
   function insertChar(ch: string) {
     setAnswer((a) => a + ch);
-    inputRef.current?.focus();
   }
 
   if (finished || !entry || !safe) {
@@ -183,15 +178,8 @@ export function LearnPage() {
         )}
 
         {!result ? (
-          <form
-            className="answer-form"
-            autoComplete="off"
-            onSubmit={(e) => {
-              e.preventDefault();
-              submit();
-            }}
-          >
-            <label className="muted" htmlFor="answer">
+          <div className="answer-form">
+            <div className="muted" id="answer-label">
               {intoDe
                 ? ui === 'ru'
                   ? 'Ответ на немецком'
@@ -199,25 +187,13 @@ export function LearnPage() {
                 : mode === 'de-ru'
                   ? 'Ответ на русском'
                   : 'Answer in English'}
-            </label>
-            <input
-              id="answer"
-              ref={inputRef}
-              className="answer-input"
-              name={`wk-answer-${entry.id}`}
+            </div>
+            <AnswerField
+              resetKey={`${entry.id}-${index}`}
               value={answer}
-              onChange={(e) => setAnswer(e.target.value)}
-              // Safari ignores autocomplete=off; new-password suppresses its suggestion UI
-              autoComplete="new-password"
-              autoCapitalize="none"
-              autoCorrect="off"
-              autoSave="off"
-              spellCheck={false}
-              inputMode="text"
-              enterKeyHint="done"
-              data-lpignore="true"
-              data-1p-ignore="true"
-              data-form-type="other"
+              onChange={setAnswer}
+              onSubmit={submit}
+              labelledBy="answer-label"
               placeholder={
                 intoDe && entry.pos === 'noun'
                   ? 'der / die / das …'
@@ -234,11 +210,11 @@ export function LearnPage() {
               </div>
             )}
             <div className="btn-row">
-              <button type="submit" className="btn btn-primary">
+              <button type="button" className="btn btn-primary" onClick={submit}>
                 {ui === 'ru' ? 'Проверить' : 'Check'}
               </button>
             </div>
-          </form>
+          </div>
         ) : (
           <div className={`feedback ${result.verdict}`}>
             <div className="feedback-title">

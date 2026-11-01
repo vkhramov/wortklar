@@ -168,13 +168,7 @@ export function LearnPage() {
         {previewExample && !result && (
           <div className="example-block">
             <div className="example-label">
-              {previewExample.cloze
-                ? ui === 'ru'
-                  ? 'Пример (слово скрыто)'
-                  : 'Example (word hidden)'
-                : ui === 'ru'
-                  ? 'Пример'
-                  : 'Example'}
+              {ui === 'ru' ? 'Пример' : 'Example'}
             </div>
             <div className="example-de">{previewExample.text}</div>
           </div>

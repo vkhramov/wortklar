@@ -11,7 +11,7 @@
     "vocab:generate": "node scripts/generate-vocab.mjs",
     "vocab:validate": "node scripts/validate-vocab.mjs",
     "smoke": "node scripts/smoke.mjs",
-    "test:unit": "tsx src/lib/srs.test.ts && tsx src/lib/answer.test.ts && tsx src/lib/leakage.test.ts",
+    "test:unit": "tsx src/lib/srs.test.ts && tsx src/lib/answer.test.ts && tsx src/lib/leakage.test.ts && tsx src/lib/example.test.ts",
     "qa": "npm run smoke && npm run build"
   },
   "dependencies": {

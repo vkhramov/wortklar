@@ -56,7 +56,7 @@ export function LearnPage() {
     if (!entry || result) return;
     const evaluated = evaluateAnswer(entry, mode, answer);
     // Accuracy follows the answer, not the later SRS button
-    recordAnswer(evaluated.verdict === 'correct');
+    recordAnswer(entry.id, evaluated.verdict === 'correct');
     setResult(evaluated);
   }
 

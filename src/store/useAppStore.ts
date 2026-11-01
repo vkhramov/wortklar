@@ -26,7 +26,7 @@ interface AppState {
   setMode: (mode: LearningMode) => void;
   updateSettings: (partial: Partial<AppProgress['settings']>) => void;
   applyGrade: (entryId: string, grade: GradeInput) => void;
-  recordAnswer: (correct: boolean) => void;
+  recordAnswer: (entryId: string, correct: boolean) => void;
   resetProgress: () => void;
   exportData: () => string;
   importData: (json: string) => void;
@@ -103,9 +103,16 @@ export const useAppStore = create<AppState>((set, get) => ({
     set({ progress });
   },
 
-  recordAnswer: (correct) => {
+  recordAnswer: (entryId, correct) => {
+    const existing = get().progress.cards[entryId] ?? createNewCard(entryId);
+    const card = {
+      ...existing,
+      correctCount: existing.correctCount + (correct ? 1 : 0),
+      incorrectCount: existing.incorrectCount + (correct ? 0 : 1),
+    };
     const progress = {
       ...get().progress,
+      cards: { ...get().progress.cards, [entryId]: card },
       daily: bumpDaily(get().progress, {
         correctDelta: correct ? 1 : 0,
         incorrectDelta: correct ? 0 : 1,

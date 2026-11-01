@@ -82,7 +82,7 @@ export function scheduleReview(
       interval: 3650,
       repetitions: Math.max(card.repetitions, 1),
       introducedAt: card.introducedAt ?? isoDate(now),
-      correctCount: card.correctCount + 1,
+      // Answer tallies come from recordAnswer (typed verdict), not grade buttons
     };
   }
 
@@ -96,7 +96,6 @@ export function scheduleReview(
     card.state === 'relearning';
 
   if (grade === 'again') {
-    next.incorrectCount = card.incorrectCount + 1;
     next.lapses = card.state === 'review' ? card.lapses + 1 : card.lapses;
     next.easeFactor = Math.max(MIN_EASE, card.easeFactor - 0.2);
     next.learningStep = 0;
@@ -105,8 +104,6 @@ export function scheduleReview(
     next.dueDate = isoDate(addMinutes(now, LEARNING_STEPS_MINUTES[0]));
     return next;
   }
-
-  next.correctCount = card.correctCount + 1;
 
   if (inLearning) {
     if (grade === 'easy') {

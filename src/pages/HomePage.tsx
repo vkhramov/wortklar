@@ -48,7 +48,10 @@ export function HomePage() {
           <Link className="btn btn-primary" to="/learn">
             Start session
           </Link>
-          <Link className="btn btn-secondary" to="/progress">
+          <Link className="btn btn-secondary" to="/library">
+            Browse library
+          </Link>
+          <Link className="btn btn-ghost" to="/progress">
             View progress
           </Link>
         </div>
@@ -85,8 +88,11 @@ export function HomePage() {
           losing later review access.
         </p>
         <p className="muted" style={{ margin: '0.75rem 0 0', lineHeight: 1.55 }}>
-          Library: <strong style={{ color: 'var(--ink)' }}>{vocabulary.length}</strong> curated entries ·
-          local-only progress · no account required.
+          Library:{' '}
+          <Link to="/library" style={{ color: 'var(--brand)', fontWeight: 600 }}>
+            {vocabulary.length} curated entries
+          </Link>{' '}
+          · local-only progress · no account required.
         </p>
       </section>
     </div>

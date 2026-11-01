@@ -1,5 +1,6 @@
 import { NavLink, Outlet } from 'react-router-dom';
 import { useAppStore } from '../store/useAppStore';
+import { AppVersion } from './AppVersion';
 
 const links = [
   { to: '/', label: 'Home', end: true },
@@ -54,6 +55,7 @@ export function Layout() {
       <main className="page">
         <div className="container">
           <Outlet />
+          <AppVersion />
         </div>
       </main>
 

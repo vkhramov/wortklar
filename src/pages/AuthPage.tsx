@@ -1,4 +1,5 @@
 import { useState, type FormEvent } from 'react';
+import { AppVersion } from '../components/AppVersion';
 import { useAppStore } from '../store/useAppStore';
 import { hasLegacyProgress } from '../lib/storage';
 
@@ -120,6 +121,7 @@ export function AuthPage() {
                 Settings to back up before clearing browser data or switching
                 phones.
               </p>
+              <AppVersion />
             </section>
           </div>
         </div>

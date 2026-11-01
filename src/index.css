@@ -875,6 +875,15 @@ h2 {
   line-height: 1.45;
 }
 
+.app-version {
+  margin: 1.5rem 0 0;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+}
+
 @media (max-width: 720px) {
   .container {
     width: min(100% - 1.25rem, 960px);

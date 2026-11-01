@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAppStore } from '../store/useAppStore';
 import { buildSession } from '../lib/session';
 import { evaluateAnswer, producesGerman } from '../lib/answer';
+import { exampleBeforeAnswer } from '../lib/example';
 import { buildReveal, buildSafePrompt, uiLangFromMode } from '../lib/leakage';
 import { Illustration } from '../components/Illustration';
 import type { AnswerResult, SessionItem } from '../types/vocab';
@@ -11,7 +12,7 @@ import type { Grade } from '../lib/srs';
 const UMLAUTS = ['ä', 'ö', 'ü', 'ß', 'Ä', 'Ö', 'Ü'];
 
 export function LearnPage() {
-  const { vocabulary, progress, applyGrade } = useAppStore();
+  const { vocabulary, progress, applyGrade, recordAnswer } = useAppStore();
   const mode = progress.settings.mode;
   const ui = uiLangFromMode(mode);
 
@@ -42,6 +43,10 @@ export function LearnPage() {
     () => (entry && result ? buildReveal(entry, mode) : null),
     [entry, mode, result],
   );
+  const previewExample = useMemo(
+    () => (entry ? exampleBeforeAnswer(entry, mode) : null),
+    [entry, mode],
+  );
 
   useEffect(() => {
     if (!result) inputRef.current?.focus();
@@ -50,33 +55,36 @@ export function LearnPage() {
   function submit() {
     if (!entry || result) return;
     const evaluated = evaluateAnswer(entry, mode, answer);
+    // Accuracy follows the answer, not the later SRS button
+    recordAnswer(evaluated.verdict === 'correct');
     setResult(evaluated);
+  }
+
+  function advance() {
+    const next = index + 1;
+    if (next >= session.length) {
+      setFinished(true);
+      return;
+    }
+    setIndex(next);
+    setAnswer('');
+    setResult(null);
   }
 
   function gradeAndNext(grade: Grade) {
     if (!entry) return;
     applyGrade(entry.id, grade);
-    const next = index + 1;
-    if (next >= session.length) {
-      setFinished(true);
-      return;
-    }
-    setIndex(next);
-    setAnswer('');
-    setResult(null);
+    advance();
   }
 
   function onAlreadyKnow() {
     if (!entry) return;
     applyGrade(entry.id, 'know');
-    const next = index + 1;
-    if (next >= session.length) {
-      setFinished(true);
-      return;
-    }
-    setIndex(next);
-    setAnswer('');
-    setResult(null);
+    advance();
+  }
+
+  function finishSession() {
+    setFinished(true);
   }
 
   function insertChar(ch: string) {
@@ -131,7 +139,12 @@ export function LearnPage() {
         <span>
           {index + 1} / {session.length}
         </span>
-        <span className={`chip reason-chip`}>{item.reason}</span>
+        <div style={{ display: 'flex', gap: '0.4rem', alignItems: 'center' }}>
+          <span className="chip reason-chip">{item.reason}</span>
+          <button type="button" className="btn btn-ghost" onClick={finishSession}>
+            {ui === 'ru' ? 'Завершить' : 'End session'}
+          </button>
+        </div>
       </div>
       <div className="progress-bar" aria-hidden>
         <span style={{ width: `${pct}%` }} />
@@ -151,6 +164,21 @@ export function LearnPage() {
         </div>
 
         <div className="prompt-text">{safe.prompt}</div>
+
+        {previewExample && !result && (
+          <div className="example-block">
+            <div className="example-label">
+              {previewExample.cloze
+                ? ui === 'ru'
+                  ? 'Пример (слово скрыто)'
+                  : 'Example (word hidden)'
+                : ui === 'ru'
+                  ? 'Пример'
+                  : 'Example'}
+            </div>
+            <div className="example-de">{previewExample.text}</div>
+          </div>
+        )}
 
         {safe.safeHints.length > 0 && (
           <ul className="hint-list">
@@ -251,7 +279,6 @@ export function LearnPage() {
                   <div className="example-tr">
                     {ui === 'ru' ? reveal.example.ru : reveal.example.en}
                   </div>
-                  {/* Strict mode: only show the translation matching the L1 side */}
                 </div>
               </>
             )}
@@ -313,6 +340,13 @@ export function LearnPage() {
                     onClick={() => gradeAndNext('easy')}
                   >
                     {ui === 'ru' ? 'Легко' : 'Easy'}
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-ghost"
+                    onClick={onAlreadyKnow}
+                  >
+                    {ui === 'ru' ? 'Уже знаю' : 'Already know'}
                   </button>
                 </>
               )}

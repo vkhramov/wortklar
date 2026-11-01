@@ -93,19 +93,26 @@ export const useAppStore = create<AppState>((set, get) => ({
     progress = {
       ...progress,
       cards: { ...progress.cards, [entryId]: updated },
+      // Accuracy is recorded in recordAnswer (by verdict), not by SRS grade buttons
       daily: bumpDaily(progress, {
         reviewDelta: 1,
-        newDelta: wasNew && grade !== 'again' ? 1 : 0,
-        correctDelta: grade === 'again' ? 0 : 1,
-        incorrectDelta: grade === 'again' ? 1 : 0,
+        newDelta: wasNew && grade !== 'again' && grade !== 'know' ? 1 : 0,
       }),
     };
     saveProgress(progress);
     set({ progress });
   },
 
-  recordAnswer: () => {
-    /* grading handled in applyGrade */
+  recordAnswer: (correct) => {
+    const progress = {
+      ...get().progress,
+      daily: bumpDaily(get().progress, {
+        correctDelta: correct ? 1 : 0,
+        incorrectDelta: correct ? 0 : 1,
+      }),
+    };
+    saveProgress(progress);
+    set({ progress });
   },
 
   resetProgress: () => {

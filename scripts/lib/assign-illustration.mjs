@@ -10,11 +10,9 @@ const catalog = JSON.parse(
 /** @type {string[]} */
 export const ILLUSTRATION_IDS = Object.keys(catalog);
 
-/** Concrete / pictorial parts of speech only. */
 const ALLOWED_POS = new Set(['noun', 'verb']);
 
 /**
- * Build lookup: keyword → { id, weight } with longer keywords preferred.
  * @returns {Map<string, { id: string, weight: number }>}
  */
 function buildKeywordIndex() {
@@ -24,9 +22,9 @@ function buildKeywordIndex() {
     for (const raw of meta.keywords ?? []) {
       const key = normalizeToken(raw);
       if (!key) continue;
-      const weight = key.length;
+      // Longer / more specific keywords win ties
+      const weight = key.length * 10;
       const prev = map.get(key);
-      // Prefer longer / more specific keywords; on ties keep first (more specific entries listed first in catalog intent)
       if (!prev || weight > prev.weight) {
         map.set(key, { id, weight });
       }
@@ -47,19 +45,34 @@ export function normalizeToken(s) {
     .trim();
 }
 
-function tokensFromEntry(entry) {
-  const out = new Set();
-  const add = (s) => {
-    const n = normalizeToken(s);
-    if (!n) return;
-    out.add(n);
+/**
+ * Prefer exact lemma / primary English gloss, then other gloss tokens.
+ * @returns {{ token: string, boost: number }[]}
+ */
+function rankedTokens(entry) {
+  /** @type {{ token: string, boost: number }[]} */
+  const ranked = [];
+  const seen = new Set();
+
+  const push = (raw, boost) => {
+    const n = normalizeToken(raw);
+    if (!n || seen.has(n)) return;
+    seen.add(n);
+    ranked.push({ token: n, boost });
     for (const part of n.split(/\s+/)) {
-      if (part.length >= 3) out.add(part);
+      if (part.length < 3 || seen.has(part)) continue;
+      seen.add(part);
+      // Parts of a multi-word gloss are weaker than the full gloss
+      ranked.push({ token: part, boost: Math.max(0, boost - 20) });
     }
   };
-  add(entry.lemma?.replace(/^sich\s+/i, '') ?? '');
-  for (const g of entry.en ?? []) add(g);
-  return out;
+
+  push(entry.lemma?.replace(/^sich\s+/i, '') ?? '', 100);
+  const en = entry.en ?? [];
+  if (en[0]) push(en[0], 90);
+  for (const g of en.slice(1)) push(g, 40);
+
+  return ranked;
 }
 
 /**
@@ -68,18 +81,17 @@ function tokensFromEntry(entry) {
 export function assignIllustration(entry) {
   if (!ALLOWED_POS.has(entry.pos)) return null;
 
-  const tokens = tokensFromEntry(entry);
   let best = null;
-
-  for (const token of tokens) {
+  for (const { token, boost } of rankedTokens(entry)) {
     const hit = KEYWORD_INDEX.get(token);
     if (!hit) continue;
-    if (!best || hit.weight > best.weight) {
-      best = hit;
+    const score = hit.weight + boost;
+    if (!best || score > best.score) {
+      best = { id: hit.id, score, weight: hit.weight };
     }
   }
 
-  if (entry.pos === 'verb' && best && best.weight < 4) {
+  if (entry.pos === 'verb' && best && best.weight < 40) {
     return null;
   }
 

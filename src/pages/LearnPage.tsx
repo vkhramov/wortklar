@@ -97,6 +97,14 @@ export function LearnPage() {
   }
 
   function finishSession() {
+    // Persist the open card if the learner already checked it but didn't grade yet
+    if (entry && result) {
+      applyGrade(
+        entry.id,
+        result.verdict === 'correct' ? 'good' : 'again',
+      );
+    }
+    setResult(null);
     setFinished(true);
   }
 

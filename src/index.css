@@ -473,6 +473,63 @@ h2 {
   gap: 0.75rem;
 }
 
+.answer-field-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.answer-field-row .answer-input {
+  flex: 1;
+  min-width: 0;
+}
+
+.dictate-wrap {
+  display: grid;
+  gap: 0.25rem;
+  flex-shrink: 0;
+  padding-top: 0.35rem;
+}
+
+.dictate-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.55rem 0.75rem;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.dictate-btn.is-listening {
+  color: var(--bad, #b42318);
+  border-color: currentColor;
+}
+
+.dictate-icon {
+  flex-shrink: 0;
+}
+
+.dictate-btn.is-listening .dictate-icon {
+  animation: dictate-pulse 1.1s ease-in-out infinite;
+}
+
+@keyframes dictate-pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.dictate-error {
+  font-size: 0.75rem;
+  color: var(--bad, #b42318);
+  max-width: 8.5rem;
+  line-height: 1.25;
+}
+
 .answer-input {
   width: 100%;
   border: 1.5px solid var(--line);

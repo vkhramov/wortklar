@@ -6,8 +6,10 @@ import { evaluateAnswer, producesGerman } from '../lib/answer';
 import { exampleBeforeAnswer } from '../lib/example';
 import { buildReveal, buildSafePrompt, uiLangFromMode } from '../lib/leakage';
 import { AnswerField } from '../components/AnswerField';
+import { DictateButton } from '../components/DictateButton';
 import { Illustration } from '../components/Illustration';
 import { PronounceButton } from '../components/PronounceButton';
+import { recognitionLangForMode } from '../lib/speechRecognition';
 import type { AnswerResult, SessionItem } from '../types/vocab';
 import type { Grade } from '../lib/srs';
 
@@ -303,18 +305,26 @@ export function LearnPage() {
                   ? 'Ответ на русском'
                   : 'Answer in English'}
             </div>
-            <AnswerField
-              resetKey={`${entry.id}-${index}`}
-              value={answer}
-              onChange={setAnswer}
-              onSubmit={submit}
-              labelledBy="answer-label"
-              placeholder={
-                intoDe && entry.pos === 'noun'
-                  ? 'der / die / das …'
-                  : undefined
-              }
-            />
+            <div className="answer-field-row">
+              <AnswerField
+                resetKey={`${entry.id}-${index}`}
+                value={answer}
+                onChange={setAnswer}
+                onSubmit={submit}
+                labelledBy="answer-label"
+                placeholder={
+                  intoDe && entry.pos === 'noun'
+                    ? 'der / die / das …'
+                    : undefined
+                }
+              />
+              <DictateButton
+                lang={recognitionLangForMode(mode)}
+                onTranscript={setAnswer}
+                resetKey={`${entry.id}-${index}`}
+                ui={ui}
+              />
+            </div>
             {progress.settings.showUmlautButtons && intoDe && (
               <div className="umlaut-row" aria-label="Umlaut helpers">
                 {UMLAUTS.map((ch) => (

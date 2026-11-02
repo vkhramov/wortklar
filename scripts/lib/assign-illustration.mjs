@@ -2,9 +2,9 @@ import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
 
-const root = join(dirname(fileURLToPath(import.meta.url)), '..');
+const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
 const catalog = JSON.parse(
-  readFileSync(join(root, 'illustration-catalog.json'), 'utf8'),
+  readFileSync(join(root, 'src/data/illustration-catalog.json'), 'utf8'),
 );
 
 /** @type {string[]} */
@@ -26,6 +26,7 @@ function buildKeywordIndex() {
       if (!key) continue;
       const weight = key.length;
       const prev = map.get(key);
+      // Prefer longer / more specific keywords; on ties keep first (more specific entries listed first in catalog intent)
       if (!prev || weight > prev.weight) {
         map.set(key, { id, weight });
       }
@@ -56,7 +57,6 @@ function tokensFromEntry(entry) {
       if (part.length >= 3) out.add(part);
     }
   };
-  // Lemma + English glosses only — topics are too broad (e.g. every "work" word → briefcase)
   add(entry.lemma?.replace(/^sich\s+/i, '') ?? '');
   for (const g of entry.en ?? []) add(g);
   return out;
@@ -79,10 +79,6 @@ export function assignIllustration(entry) {
     }
   }
 
-  // Multi-word EN glosses: try full normalized gloss as one token already in set.
-  // Also try joining lemma without spaces for compounds already handled.
-
-  // Verbs: only keep if we matched a fairly specific keyword (len >= 4)
   if (entry.pos === 'verb' && best && best.weight < 4) {
     return null;
   }

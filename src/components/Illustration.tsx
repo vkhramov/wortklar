@@ -1,128 +1,18 @@
-import type { LucideIcon } from 'lucide-react';
-import {
-  AppWindow,
-  Apple,
-  Armchair,
-  Baby,
-  BedDouble,
-  Beef,
-  Bike,
-  Bird,
-  BookOpen,
-  Briefcase,
-  Bus,
-  Calendar,
-  Car,
-  Cat,
-  CloudRain,
-  Coffee,
-  Croissant,
-  Dog,
-  DoorOpen,
-  Fish,
-  Flower2,
-  Footprints,
-  Gift,
-  GlassWater,
-  Globe2,
-  Heart,
-  Hospital,
-  House,
-  KeyRound,
-  LampDesk,
-  Laptop,
-  Luggage,
-  Map,
-  Mountain,
-  Music,
-  PenLine,
-  PersonStanding,
-  Plane,
-  School,
-  Ship,
-  Shirt,
-  ShoppingBag,
-  Smartphone,
-  Snowflake,
-  Sofa,
-  Sun,
-  Table2,
-  TrainFront,
-  TreePine,
-  Users,
-  UtensilsCrossed,
-  Watch,
-  CircleDot,
-} from 'lucide-react';
+import catalog from '../data/illustration-catalog.json';
 
-/** Must stay in sync with scripts/illustration-catalog.json */
-const ICONS: Record<string, LucideIcon> = {
-  house: House,
-  bed: BedDouble,
-  sofa: Sofa,
-  table: Table2,
-  chair: Armchair,
-  door: DoorOpen,
-  window: AppWindow,
-  lamp: LampDesk,
-  food: UtensilsCrossed,
-  coffee: Coffee,
-  apple: Apple,
-  bread: Croissant,
-  fish: Fish,
-  meat: Beef,
-  drink: GlassWater,
-  utensils: UtensilsCrossed,
-  car: Car,
-  bus: Bus,
-  train: TrainFront,
-  plane: Plane,
-  bike: Bike,
-  ship: Ship,
-  person: PersonStanding,
-  users: Users,
-  baby: Baby,
-  dog: Dog,
-  cat: Cat,
-  bird: Bird,
-  tree: TreePine,
-  flower: Flower2,
-  sun: Sun,
-  cloud: CloudRain,
-  snow: Snowflake,
-  mountain: Mountain,
-  book: BookOpen,
-  pen: PenLine,
-  school: School,
-  briefcase: Briefcase,
-  laptop: Laptop,
-  phone: Smartphone,
-  heart: Heart,
-  clock: Watch,
-  calendar: Calendar,
-  bag: Luggage,
-  shirt: Shirt,
-  shoe: Footprints,
-  music: Music,
-  ball: CircleDot,
-  key: KeyRound,
-  map: Map,
-  globe: Globe2,
-  hospital: Hospital,
-  shopping: ShoppingBag,
-  gift: Gift,
-  walk: Footprints,
-};
+type CatalogEntry = { emoji: string; keywords: string[] };
+
+const CATALOG = catalog as Record<string, CatalogEntry>;
 
 export function Illustration({ id }: { id?: string }) {
   if (!id) return null;
-  const Icon = ICONS[id];
-  if (!Icon) return null;
+  const entry = CATALOG[id];
+  if (!entry?.emoji) return null;
   return (
     <div className="illustration" aria-hidden>
-      <Icon absoluteStrokeWidth strokeWidth={1.75} />
+      <span className="illustration-emoji">{entry.emoji}</span>
     </div>
   );
 }
 
-export const ILLUSTRATION_ICON_IDS = Object.keys(ICONS);
+export const ILLUSTRATION_ICON_IDS = Object.keys(CATALOG);

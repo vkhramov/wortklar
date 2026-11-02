@@ -199,10 +199,10 @@ function evaluateGerman(
     if (lemmaHit) {
       if (!article) {
         return {
-          verdict: 'partial',
+          verdict: 'incorrect',
           message: {
-            en: `Almost — include the article: ${entry.article} ${entry.lemma}`,
-            ru: `Почти — укажите артикль: ${entry.article} ${entry.lemma}`,
+            en: `Missing article. Correct: ${entry.article} ${entry.lemma}`,
+            ru: `Нет артикля. Правильно: ${entry.article} ${entry.lemma}`,
           },
           expected: expectedDisplay,
           normalizedExpected: expandGermanVariants(expectedDisplay)[0],
@@ -212,7 +212,7 @@ function evaluateGerman(
       }
       if (article !== entry.article) {
         return {
-          verdict: 'partial',
+          verdict: 'incorrect',
           message: {
             en: `Wrong article. Correct: ${entry.article} ${entry.lemma}`,
             ru: `Неверный артикль. Правильно: ${entry.article} ${entry.lemma}`,

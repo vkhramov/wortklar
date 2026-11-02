@@ -12,6 +12,13 @@ import type { Grade } from '../lib/srs';
 
 const UMLAUTS = ['ä', 'ö', 'ü', 'ß', 'Ä', 'Ö', 'Ü'];
 
+type GradeAction = {
+  id: string;
+  label: string;
+  className: string;
+  run: () => void;
+};
+
 export function LearnPage() {
   const { vocabulary, progress, applyGrade, recordAnswer } = useAppStore();
   const mode = progress.settings.mode;
@@ -22,6 +29,7 @@ export function LearnPage() {
   const [answer, setAnswer] = useState('');
   const [result, setResult] = useState<AnswerResult | null>(null);
   const [finished, setFinished] = useState(false);
+  const [actionIndex, setActionIndex] = useState(0);
 
   useEffect(() => {
     const items = buildSession(vocabulary, progress);
@@ -54,6 +62,7 @@ export function LearnPage() {
     // Accuracy follows the answer, not the later SRS button
     recordAnswer(entry.id, evaluated.verdict === 'correct');
     setResult(evaluated);
+    setActionIndex(evaluated.verdict === 'correct' ? 1 : 0);
   }
 
   function advance() {
@@ -65,6 +74,7 @@ export function LearnPage() {
     setIndex(next);
     setAnswer('');
     setResult(null);
+    setActionIndex(0);
   }
 
   function gradeAndNext(grade: Grade) {
@@ -86,6 +96,79 @@ export function LearnPage() {
   function insertChar(ch: string) {
     setAnswer((a) => a + ch);
   }
+
+  const gradeActions: GradeAction[] = useMemo(() => {
+    if (!result || !entry) return [];
+    if (result.verdict === 'incorrect') {
+      return [
+        {
+          id: 'again',
+          label: ui === 'ru' ? 'Повторить позже' : 'Again',
+          className: 'btn btn-danger',
+          run: () => gradeAndNext('again'),
+        },
+        {
+          id: 'hard',
+          label: ui === 'ru' ? 'Трудно' : 'Hard',
+          className: 'btn btn-secondary',
+          run: () => gradeAndNext('hard'),
+        },
+      ];
+    }
+    return [
+      {
+        id: 'hard',
+        label: ui === 'ru' ? 'Трудно' : 'Hard',
+        className: 'btn btn-secondary',
+        run: () => gradeAndNext('hard'),
+      },
+      {
+        id: 'good',
+        label: ui === 'ru' ? 'Хорошо · далее' : 'Good · next',
+        className: 'btn btn-primary',
+        run: () => gradeAndNext('good'),
+      },
+      {
+        id: 'easy',
+        label: ui === 'ru' ? 'Легко' : 'Easy',
+        className: 'btn btn-ghost',
+        run: () => gradeAndNext('easy'),
+      },
+      {
+        id: 'know',
+        label: ui === 'ru' ? 'Уже знаю' : 'Already know',
+        className: 'btn btn-ghost',
+        run: () => onAlreadyKnow(),
+      },
+    ];
+    // gradeAndNext/onAlreadyKnow close over entry; rebuild when result/entry/ui change
+  }, [result, entry, ui]);
+
+  useEffect(() => {
+    if (!result || gradeActions.length === 0) return;
+
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault();
+        setActionIndex((i) => (i + 1) % gradeActions.length);
+        return;
+      }
+      if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault();
+        setActionIndex(
+          (i) => (i - 1 + gradeActions.length) % gradeActions.length,
+        );
+        return;
+      }
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        gradeActions[actionIndex]?.run();
+      }
+    }
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, [result, gradeActions, actionIndex]);
 
   if (finished || !entry || !safe) {
     return (
@@ -262,74 +345,28 @@ export function LearnPage() {
               </>
             )}
 
-            <div className="btn-row">
-              {result.verdict === 'incorrect' ? (
-                <>
-                  <button
-                    type="button"
-                    className="btn btn-danger"
-                    onClick={() => gradeAndNext('again')}
-                  >
-                    {ui === 'ru' ? 'Повторить позже' : 'Again'}
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={() => gradeAndNext('hard')}
-                  >
-                    {ui === 'ru' ? 'Трудно' : 'Hard'}
-                  </button>
-                </>
-              ) : result.verdict === 'partial' ? (
-                <>
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={() => gradeAndNext('hard')}
-                  >
-                    {ui === 'ru' ? 'Почти — дальше' : 'Almost — continue'}
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={() => gradeAndNext('good')}
-                  >
-                    {ui === 'ru' ? 'Принять' : 'Accept'}
-                  </button>
-                </>
-              ) : (
-                <>
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={() => gradeAndNext('hard')}
-                  >
-                    {ui === 'ru' ? 'Трудно' : 'Hard'}
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-primary"
-                    onClick={() => gradeAndNext('good')}
-                  >
-                    {ui === 'ru' ? 'Хорошо · далее' : 'Good · next'}
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-ghost"
-                    onClick={() => gradeAndNext('easy')}
-                  >
-                    {ui === 'ru' ? 'Легко' : 'Easy'}
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-ghost"
-                    onClick={onAlreadyKnow}
-                  >
-                    {ui === 'ru' ? 'Уже знаю' : 'Already know'}
-                  </button>
-                </>
-              )}
+            <div
+              className="btn-row grade-actions"
+              role="toolbar"
+              aria-label={ui === 'ru' ? 'Оценка ответа' : 'Grade answer'}
+            >
+              {gradeActions.map((action, i) => (
+                <button
+                  key={action.id}
+                  type="button"
+                  className={`${action.className}${i === actionIndex ? ' is-keyboard-focus' : ''}`}
+                  onClick={action.run}
+                  onMouseEnter={() => setActionIndex(i)}
+                >
+                  {action.label}
+                </button>
+              ))}
             </div>
+            <p className="muted grade-hint">
+              {ui === 'ru'
+                ? '← → выбор · Enter — подтвердить'
+                : '← → to choose · Enter to confirm'}
+            </p>
           </div>
         )}
       </section>

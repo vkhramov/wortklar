@@ -47,10 +47,10 @@ let r = evaluateAnswer(noun, 'en-de', 'der Tisch');
 console.assert(r.verdict === 'correct', 'article+noun should be correct');
 
 r = evaluateAnswer(noun, 'en-de', 'Tisch');
-console.assert(r.verdict === 'partial' && r.articleIssue, 'missing article partial');
+console.assert(r.verdict === 'incorrect' && r.articleIssue, 'missing article is incorrect');
 
 r = evaluateAnswer(noun, 'en-de', 'die Tisch');
-console.assert(r.verdict === 'partial' && r.articleIssue, 'wrong article partial');
+console.assert(r.verdict === 'incorrect' && r.articleIssue, 'wrong article is incorrect');
 
 r = evaluateAnswer(noun, 'en-de', 'Stuhl');
 console.assert(r.verdict === 'incorrect');

@@ -313,6 +313,17 @@ h2 {
   cursor: not-allowed;
 }
 
+.btn.is-keyboard-focus {
+  outline: 3px solid var(--brand);
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px rgba(12, 107, 92, 0.16);
+}
+
+.grade-hint {
+  margin: 0.55rem 0 0;
+  font-size: 0.8rem;
+}
+
 .panel {
   background: var(--surface);
   border: 1px solid var(--line);

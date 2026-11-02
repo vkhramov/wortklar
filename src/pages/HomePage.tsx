@@ -51,7 +51,7 @@ export function HomePage() {
             Start session
           </Link>
           <Link className="btn btn-secondary" to="/gaps">
-            Verb gaps ({gapStats.total})
+            Verb gaps ({gapStats.total} forms)
           </Link>
           <Link className="btn btn-ghost" to="/library">
             Browse library

@@ -1,46 +1,30 @@
-import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
-import { dirname, join } from 'node:path';
 import {
-  buildGapItem,
   evaluateGapAnswer,
-  listA1GapItems,
+  gapCatalogStats,
+  listGapItems,
 } from './gapFill.ts';
-import type { VocabEntry } from '../types/vocab.ts';
 
-const root = join(dirname(fileURLToPath(import.meta.url)), '../..');
-const vocabulary = JSON.parse(
-  readFileSync(join(root, 'public/data/vocabulary.json'), 'utf8'),
-) as VocabEntry[];
+const stats = gapCatalogStats();
+console.assert(stats.verbs === 332, `verbs ${stats.verbs}`);
+console.assert(stats.forms >= 1800, `forms ${stats.forms}`);
 
-const items = listA1GapItems(vocabulary);
-console.assert(items.length === 96, `expected 96 A1 gaps, got ${items.length}`);
+const all = listGapItems();
+console.assert(all.length === stats.forms, 'list length mismatch');
 
-const fromExample = items.filter((i) => i.source === 'example').length;
-console.assert(fromExample >= 80, `too few example clozes: ${fromExample}`);
+const a1 = listGapItems(['A1']);
+console.assert(a1.length > 400, `A1 forms ${a1.length}`);
+console.assert(a1.every((i) => i.level === 'A1'));
 
-const wohnen = vocabulary.find(
-  (e) => e.lemma === 'wohnen' && e.pos === 'verb',
-);
-console.assert(wohnen);
-const wItem = buildGapItem(wohnen!);
-console.assert(wItem);
-const ok = evaluateGapAnswer(wItem!, 'wohne');
-console.assert(ok.verdict === 'correct', 'wohne should match');
+const seinIch = all.find((i) => i.lemma === 'sein' && i.person === 'ich');
+console.assert(seinIch);
+console.assert(seinIch!.promptDe.includes('_______'));
+console.assert(evaluateGapAnswer(seinIch!, 'bin').verdict === 'correct');
 
-const sein = vocabulary.find((e) => e.id === 'verb-sein');
-const sItem = buildGapItem(sein!);
-console.assert(sItem?.promptDe.includes('_______'));
+const habenDu = all.find((i) => i.lemma === 'haben' && i.person === 'du');
+console.assert(habenDu);
 console.assert(
-  evaluateGapAnswer(sItem!, 'bin').verdict === 'correct',
+  evaluateGapAnswer(habenDu!, 'hast').verdict === 'correct' ||
+    evaluateGapAnswer(habenDu!, 'Hast').verdict === 'correct',
 );
 
-const anfangen = vocabulary.find(
-  (e) => e.lemma === 'anfangen' && e.pos === 'verb',
-);
-const aItem = buildGapItem(anfangen!);
-console.assert(aItem?.source === 'example');
-console.assert(evaluateGapAnswer(aItem!, 'fängt').verdict === 'correct');
-console.assert(evaluateGapAnswer(aItem!, 'fängt an').verdict === 'correct');
-
-console.log('gapFill.test.ts OK', { total: items.length, fromExample });
+console.log('gapFill.test.ts OK', stats, { totalItems: all.length, a1: a1.length });

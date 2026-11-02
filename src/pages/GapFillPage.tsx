@@ -4,7 +4,7 @@ import { useAppStore } from '../store/useAppStore';
 import { AnswerField } from '../components/AnswerField';
 import { DictateButton } from '../components/DictateButton';
 import { PronounceButton } from '../components/PronounceButton';
-import { evaluateGapAnswer } from '../lib/gapFill';
+import { evaluateGapAnswer, gapCatalogStats } from '../lib/gapFill';
 import { buildGapSession, type GapSessionItem } from '../lib/gapSession';
 import { uiLangFromMode } from '../lib/leakage';
 import type { Grade } from '../lib/srs';
@@ -22,6 +22,7 @@ type GradeAction = {
 export function GapFillPage() {
   const { vocabulary, progress, applyGrade, recordAnswer } = useAppStore();
   const ui = uiLangFromMode(progress.settings.mode);
+  const catalogInfo = gapCatalogStats();
 
   const [session, setSession] = useState<GapSessionItem[]>([]);
   const [index, setIndex] = useState(0);
@@ -38,7 +39,7 @@ export function GapFillPage() {
     setAnswer('');
     setResult(null);
     setFinished(items.length === 0);
-  }, [vocabulary]);
+  }, [vocabulary, progress.settings.levels, progress.settings.sessionSize, progress.settings.newPerSession]);
 
   const item = session[index];
   const gap = item?.gap;
@@ -184,11 +185,16 @@ export function GapFillPage() {
           <p className="muted">
             {session.length === 0
               ? ui === 'ru'
-                ? 'Сейчас нет форм к повторению. Загляните позже или начните с новых A1-глаголов.'
-                : 'Nothing due right now. Check back later or start fresh A1 verbs.'
+                ? 'Сейчас нет форм к повторению. Расширьте уровни в настройках или загляните позже.'
+                : 'Nothing due right now. Broaden levels in Settings or check back later.'
               : ui === 'ru'
                 ? 'Интервалы для глагольных форм обновлены.'
                 : 'Verb-form intervals are updated.'}
+          </p>
+          <p className="muted">
+            {ui === 'ru'
+              ? `Каталог: ${catalogInfo.verbs} глаголов · ${catalogInfo.forms} форм (A1–B1)`
+              : `Catalog: ${catalogInfo.verbs} verbs · ${catalogInfo.forms} forms (A1–B1)`}
           </p>
           <div className="btn-row" style={{ justifyContent: 'center' }}>
             <Link className="btn btn-primary" to="/">
@@ -219,6 +225,12 @@ export function GapFillPage() {
 
   const pct = Math.round((index / session.length) * 100);
   const filledPrompt = gap.promptDe.replace('_______', gap.fullForm);
+  const personLabel =
+    gap.person === 'er'
+      ? 'er/sie/es'
+      : gap.person === 'sie'
+        ? 'sie/Sie'
+        : gap.person;
 
   return (
     <div className="learn-screen">
@@ -243,8 +255,8 @@ export function GapFillPage() {
             <span className="chip">
               {ui === 'ru' ? 'Пропуск' : 'Gap-fill'}
             </span>
-            <span className="chip">A1</span>
-            <span className="chip">{gap.person}</span>
+            <span className="chip">{gap.level}</span>
+            <span className="chip">{personLabel}</span>
           </div>
           {!result && item.kind === 'new' && (
             <button type="button" className="btn btn-ghost" onClick={onAlreadyKnow}>
@@ -257,14 +269,15 @@ export function GapFillPage() {
         <p className="gap-infinitive">
           {ui === 'ru' ? 'Инфинитив' : 'Infinitive'}:{' '}
           <strong>{gap.infinitive}</strong>
-          {gap.entry.separable && (
-            <span className="chip" style={{ marginLeft: '0.5rem' }}>
-              {ui === 'ru' ? 'отделяемый' : 'separable'}
-            </span>
+          {gap.ru && (
+            <>
+              {' · '}
+              <span className="muted">{gap.ru}</span>
+            </>
           )}
-          {gap.entry.reflexive && (
+          {gap.rektion && (
             <span className="chip" style={{ marginLeft: '0.5rem' }}>
-              {ui === 'ru' ? 'возвратный' : 'reflexive'}
+              {gap.rektion}
             </span>
           )}
         </p>
@@ -283,11 +296,6 @@ export function GapFillPage() {
                 onChange={setAnswer}
                 onSubmit={submit}
                 labelledBy="gap-answer-label"
-                placeholder={
-                  gap.entry.separable
-                    ? 'fängt / fängt an'
-                    : undefined
-                }
               />
               <DictateButton
                 lang="de-DE"
@@ -345,20 +353,8 @@ export function GapFillPage() {
                 {ui === 'ru' ? 'Предложение' : 'Sentence'}
               </div>
               <div className="example-de">{filledPrompt}</div>
-              <div className="example-tr">
-                {ui === 'ru' ? gap.exampleRu : gap.exampleEn}
-              </div>
+              <div className="example-tr muted">{gap.exampleDe}</div>
             </div>
-
-            {gap.entry.conjugations && (
-              <div className="conjugation-grid" style={{ marginTop: '0.75rem' }}>
-                {Object.entries(gap.entry.conjugations).map(([k, v]) => (
-                  <div key={k} className={k === gap.person ? 'gap-person-hit' : undefined}>
-                    <span className="muted">{k}</span> {v}
-                  </div>
-                ))}
-              </div>
-            )}
 
             <div
               className="btn-row grade-actions"

@@ -1,6 +1,6 @@
-import type { AppProgress, VocabEntry } from '../types/vocab';
+import type { AppProgress, CefrLevel } from '../types/vocab';
 import { createNewCard, isDue } from './srs';
-import { listA1GapItems, type GapFillItem } from './gapFill';
+import { listGapItems, type GapFillItem } from './gapFill';
 
 export type GapSessionItem = {
   gap: GapFillItem;
@@ -12,17 +12,24 @@ function getCard(progress: AppProgress, cardId: string) {
   return progress.cards[cardId] ?? createNewCard(cardId);
 }
 
+function activeLevels(progress: AppProgress): CefrLevel[] | undefined {
+  const levels = progress.settings.levels.filter(
+    (l): l is 'A1' | 'A2' | 'B1' => l === 'A1' || l === 'A2' || l === 'B1',
+  );
+  return levels.length ? levels : undefined;
+}
+
 /**
- * Session for A1 verb gap-fill: overdue/learning first, then new by frequency.
- * Reuses the same SRS cards map with keys gap:verb-*.
+ * Gap-fill session from the natural-examples catalog.
+ * Due/learning first, then new forms in catalog order (A1→B1, ich→sie).
  */
 export function buildGapSession(
-  vocabulary: VocabEntry[],
+  _vocabulary: unknown,
   progress: AppProgress,
   now: Date = new Date(),
 ): GapSessionItem[] {
   const { sessionSize, newPerSession } = progress.settings;
-  const items = listA1GapItems(vocabulary);
+  const items = listGapItems(activeLevels(progress));
 
   const learning: GapSessionItem[] = [];
   const reviews: GapSessionItem[] = [];
@@ -98,10 +105,10 @@ export function buildGapSession(
 }
 
 export function countGapStats(
-  vocabulary: VocabEntry[],
+  _vocabulary: unknown,
   progress: AppProgress,
 ): { total: number; due: number; learned: number; known: number } {
-  const items = listA1GapItems(vocabulary);
+  const items = listGapItems(activeLevels(progress));
   let due = 0;
   let learned = 0;
   let known = 0;

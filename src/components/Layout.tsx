@@ -5,6 +5,7 @@ import { AppVersion } from './AppVersion';
 const links = [
   { to: '/', label: 'Home', end: true },
   { to: '/learn', label: 'Learn' },
+  { to: '/gaps', label: 'Gaps' },
   { to: '/library', label: 'Library' },
   { to: '/progress', label: 'Progress' },
   { to: '/settings', label: 'Settings' },

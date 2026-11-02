@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { useAppStore } from '../store/useAppStore';
+import { countGapStats } from '../lib/gapSession';
 import { countStats } from '../lib/session';
 import { todayKey } from '../lib/storage';
 
@@ -13,6 +14,7 @@ const MODES = [
 export function HomePage() {
   const { vocabulary, progress, setMode } = useAppStore();
   const stats = countStats(vocabulary, progress);
+  const gapStats = countGapStats(vocabulary, progress);
   const today = progress.daily.find((d) => d.date === todayKey());
   const doneToday = (today?.reviewsDone ?? 0);
   const goal = progress.settings.dailyGoal;
@@ -48,11 +50,11 @@ export function HomePage() {
           <Link className="btn btn-primary" to="/learn">
             Start session
           </Link>
-          <Link className="btn btn-secondary" to="/library">
-            Browse library
+          <Link className="btn btn-secondary" to="/gaps">
+            Verb gaps ({gapStats.total})
           </Link>
-          <Link className="btn btn-ghost" to="/progress">
-            View progress
+          <Link className="btn btn-ghost" to="/library">
+            Browse library
           </Link>
         </div>
       </section>

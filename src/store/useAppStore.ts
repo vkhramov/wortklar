@@ -6,7 +6,7 @@ import type {
   VocabEntry,
 } from '../types/vocab';
 import type { Grade as SrsGrade } from '../lib/srs';
-import { scheduleReview, createNewCard } from '../lib/srs';
+import { scheduleReview, createNewCard, resumeFromKnown } from '../lib/srs';
 import {
   loadProgress,
   saveProgress,
@@ -39,6 +39,7 @@ interface AppState {
   setMode: (mode: LearningMode) => void;
   updateSettings: (partial: Partial<AppProgress['settings']>) => void;
   applyGrade: (entryId: string, grade: GradeInput) => void;
+  resumeLearning: (entryId: string) => void;
   recordAnswer: (entryId: string, correct: boolean) => void;
   resetProgress: () => void;
   exportData: () => string;
@@ -163,6 +164,20 @@ export const useAppStore = create<AppState>((set, get) => ({
         reviewDelta: 1,
         newDelta: wasNew && grade !== 'again' && grade !== 'know' ? 1 : 0,
       }),
+    };
+    saveProgress(progress);
+    set({ progress });
+  },
+
+  resumeLearning: (entryId) => {
+    if (!get().user) return;
+    const existing = get().progress.cards[entryId];
+    if (!existing) return;
+    const updated = resumeFromKnown(existing);
+    if (updated === existing) return;
+    const progress = {
+      ...get().progress,
+      cards: { ...get().progress.cards, [entryId]: updated },
     };
     saveProgress(progress);
     set({ progress });

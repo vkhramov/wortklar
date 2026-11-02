@@ -1,4 +1,4 @@
-import { createNewCard, scheduleReview, isDue } from './srs';
+import { createNewCard, scheduleReview, isDue, resumeFromKnown } from './srs';
 
 let card = createNewCard('x');
 console.assert(card.state === 'new');
@@ -21,5 +21,9 @@ console.assert(card.state === 'relearning');
 
 card = scheduleReview(createNewCard('y'), 'know');
 console.assert(card.markedKnown && card.state === 'known');
+
+card = resumeFromKnown(card);
+console.assert(!card.markedKnown && card.state === 'learning');
+console.assert(isDue(card));
 
 console.log('srs.test.ts OK');

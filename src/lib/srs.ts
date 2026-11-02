@@ -164,6 +164,27 @@ export function scheduleReview(
   return next;
 }
 
+/**
+ * Undo “already know”: put the card back into active study, due now.
+ * Learning queue (not new-card cap) so it shows up in the next session.
+ */
+export function resumeFromKnown(
+  card: CardProgress,
+  now: Date = new Date(),
+): CardProgress {
+  if (!card.markedKnown && card.state !== 'known') return card;
+  return {
+    ...card,
+    markedKnown: false,
+    state: 'learning',
+    learningStep: 0,
+    interval: 0,
+    dueDate: isoDate(now),
+    lastReview: isoDate(now),
+    introducedAt: card.introducedAt ?? isoDate(now),
+  };
+}
+
 export function describeSchedule(card: CardProgress): string {
   if (card.markedKnown) return 'Marked as already known';
   if (card.state === 'new') return 'New word';

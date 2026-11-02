@@ -33,7 +33,7 @@ function matchesQuery(entry: VocabEntry, q: string): boolean {
 }
 
 export function LibraryPage() {
-  const { vocabulary, progress, applyGrade } = useAppStore();
+  const { vocabulary, progress, applyGrade, resumeLearning } = useAppStore();
   const ui = uiLangFromMode(progress.settings.mode);
 
   const [query, setQuery] = useState('');
@@ -419,8 +419,16 @@ export function LibraryPage() {
               )}
             </dl>
 
-            {selected.stats.status !== 'known' && (
-              <div className="btn-row" style={{ marginTop: '1rem' }}>
+            <div className="btn-row" style={{ marginTop: '1rem' }}>
+              {selected.stats.status === 'known' ? (
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => resumeLearning(selected.entry.id)}
+                >
+                  {ui === 'ru' ? 'Вернуть в изучение' : 'Return to learning'}
+                </button>
+              ) : (
                 <button
                   type="button"
                   className="btn btn-secondary"
@@ -428,8 +436,8 @@ export function LibraryPage() {
                 >
                   {ui === 'ru' ? 'Отметить «Уже знаю»' : 'Mark as already know'}
                 </button>
-              </div>
-            )}
+              )}
+            </div>
           </section>
         )}
       </div>

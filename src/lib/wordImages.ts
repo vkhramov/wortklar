@@ -2,7 +2,7 @@ import wordImages from '../data/word-images.json';
 
 /** jsDelivr CDN for the separate wortklar-images repo (pinned commit for cache). */
 const DEFAULT_BASE =
-  'https://cdn.jsdelivr.net/gh/vkhramov/wortklar-images@ff9f942/';
+  'https://cdn.jsdelivr.net/gh/vkhramov/wortklar-images@bc81a5f/';
 
 const MAP = wordImages as Record<string, string>;
 

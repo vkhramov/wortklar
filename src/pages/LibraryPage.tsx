@@ -2,12 +2,14 @@ import { useDeferredValue, useMemo, useState } from 'react';
 import { useAppStore } from '../store/useAppStore';
 import { uiLangFromMode } from '../lib/leakage';
 import { resolveIllustrationId } from '../lib/illustrations';
+import { hasWordImage } from '../lib/wordImages';
 import {
   getWordStats,
   statusLabel,
   type WordStatus,
 } from '../lib/wordStats';
 import { Illustration } from '../components/Illustration';
+import { WordPhoto } from '../components/WordPhoto';
 import type { CefrLevel, VocabEntry } from '../types/vocab';
 
 type StatusFilter = 'all' | WordStatus;
@@ -303,7 +305,9 @@ export function LibraryPage() {
           <section className="panel library-detail">
             <div className="panel-title">
               <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
-                <Illustration id={resolveIllustrationId(selected.entry)} />
+                {!hasWordImage(selected.entry.id) && (
+                  <Illustration id={resolveIllustrationId(selected.entry)} />
+                )}
                 <h3 style={{ fontSize: '1.15rem', margin: 0 }}>
                   {selected.entry.pos === 'noun' && selected.entry.article
                     ? `${selected.entry.article} ${selected.entry.lemma}`
@@ -319,12 +323,28 @@ export function LibraryPage() {
               </button>
             </div>
 
+            {hasWordImage(selected.entry.id) && (
+              <div className="library-visuals">
+                <WordPhoto
+                  entryId={selected.entry.id}
+                  alt={selected.entry.lemma}
+                  size="lg"
+                />
+                <Illustration id={resolveIllustrationId(selected.entry)} />
+              </div>
+            )}
+
             <div className="meta-row" style={{ marginBottom: '0.75rem' }}>
               <span className="chip">{selected.entry.pos}</span>
               <span className="chip">{selected.entry.level}</span>
               <span className={`chip status-${selected.stats.status}`}>
                 {statusLabel(selected.stats.status, ui)}
               </span>
+              {hasWordImage(selected.entry.id) && (
+                <span className="chip">
+                  {ui === 'ru' ? 'фото' : 'photo'}
+                </span>
+              )}
             </div>
 
             <div className="library-detail-gloss">

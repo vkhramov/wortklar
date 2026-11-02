@@ -9,7 +9,9 @@ import { AnswerField } from '../components/AnswerField';
 import { DictateButton } from '../components/DictateButton';
 import { Illustration } from '../components/Illustration';
 import { PronounceButton } from '../components/PronounceButton';
+import { WordPhoto } from '../components/WordPhoto';
 import { recognitionLangForMode } from '../lib/speechRecognition';
+import { hasWordImage } from '../lib/wordImages';
 import type { AnswerResult, SessionItem } from '../types/vocab';
 import type { Grade } from '../lib/srs';
 
@@ -359,8 +361,12 @@ export function LearnPage() {
             )}
             {reveal && (
               <>
-                <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-                  <Illustration id={reveal.illustration} />
+                <div className="reveal-visuals">
+                  {entry && hasWordImage(entry.id) ? (
+                    <WordPhoto entryId={entry.id} alt={reveal.lemma} size="sm" />
+                  ) : (
+                    <Illustration id={reveal.illustration} />
+                  )}
                   <div>
                     <div className="example-label">
                       {ui === 'ru' ? 'Правильный ответ' : 'Correct answer'}

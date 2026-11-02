@@ -1,11 +1,13 @@
 import { useDeferredValue, useMemo, useState } from 'react';
 import { useAppStore } from '../store/useAppStore';
 import { uiLangFromMode } from '../lib/leakage';
+import { resolveIllustrationId } from '../lib/illustrations';
 import {
   getWordStats,
   statusLabel,
   type WordStatus,
 } from '../lib/wordStats';
+import { Illustration } from '../components/Illustration';
 import type { CefrLevel, VocabEntry } from '../types/vocab';
 
 type StatusFilter = 'all' | WordStatus;
@@ -300,11 +302,14 @@ export function LibraryPage() {
         {selected && (
           <section className="panel library-detail">
             <div className="panel-title">
-              <h3 style={{ fontSize: '1.15rem', margin: 0 }}>
-                {selected.entry.pos === 'noun' && selected.entry.article
-                  ? `${selected.entry.article} ${selected.entry.lemma}`
-                  : selected.entry.lemma}
-              </h3>
+              <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+                <Illustration id={resolveIllustrationId(selected.entry)} />
+                <h3 style={{ fontSize: '1.15rem', margin: 0 }}>
+                  {selected.entry.pos === 'noun' && selected.entry.article
+                    ? `${selected.entry.article} ${selected.entry.lemma}`
+                    : selected.entry.lemma}
+                </h3>
+              </div>
               <button
                 type="button"
                 className="btn btn-ghost"

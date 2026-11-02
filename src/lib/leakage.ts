@@ -5,6 +5,7 @@
  */
 import type { LearningMode, VocabEntry } from '../types/vocab';
 import { producesGerman } from './answer';
+import { resolveIllustrationId } from './illustrations';
 
 export interface SafePromptView {
   prompt: string;
@@ -182,7 +183,7 @@ export function buildReveal(entry: VocabEntry, mode: LearningMode) {
     en: entry.en,
     ru: entry.ru,
     grammar: grammarLines(entry, ui),
-    illustration: entry.illustration,
+    illustration: resolveIllustrationId(entry),
     caseRequired: entry.caseRequired,
     wechsel: entry.wechsel,
   };

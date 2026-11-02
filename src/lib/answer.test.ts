@@ -41,7 +41,33 @@ const prep: VocabEntry = {
 };
 
 console.assert(normalizeAnswer('  Der Tisch. ', 'de') === 'der tisch');
+console.assert(
+  normalizeAnswer('\u200Bwenig\u200B', 'de') === 'wenig',
+  'must strip zero-width chars from contenteditable',
+);
 console.assert(expandGermanVariants('Straße').includes('strasse') || expandGermanVariants('strasse').length > 0);
+
+const wenig: VocabEntry = {
+  id: 'adjective-wenig',
+  lemma: 'wenig',
+  pos: 'adjective',
+  level: 'A1',
+  topics: ['descriptions'],
+  frequency: 5,
+  en: ['little', 'few'],
+  ru: ['мало'],
+  example: {
+    de: 'Ich habe leider wenig Zeit.',
+    en: 'Unfortunately I have little time.',
+    ru: 'У меня, к сожалению, мало времени.',
+  },
+};
+console.assert(
+  evaluateAnswer(wenig, 'ru-de', 'wenig').verdict === 'correct',
+);
+console.assert(
+  evaluateAnswer(wenig, 'ru-de', '\u200Bwenig').verdict === 'correct',
+);
 
 let r = evaluateAnswer(noun, 'en-de', 'der Tisch');
 console.assert(r.verdict === 'correct', 'article+noun should be correct');

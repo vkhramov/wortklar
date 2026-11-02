@@ -3,7 +3,8 @@ import { useEffect, useRef } from 'react';
 type Props = {
   value: string;
   onChange: (value: string) => void;
-  onSubmit: () => void;
+  /** Optional override so Enter can submit the DOM text immediately. */
+  onSubmit: (value?: string) => void;
   labelledBy: string;
   placeholder?: string;
   /** Bumps when the card changes so the field remounts clean. */
@@ -17,6 +18,13 @@ function placeCaretAtEnd(el: HTMLElement) {
   range.collapse(false);
   sel?.removeAllRanges();
   sel?.addRange(range);
+}
+
+function cleanEditableText(raw: string): string {
+  return raw
+    .replace(/[\u200B-\u200D\uFEFF]/g, '')
+    .replace(/\u00A0/g, ' ')
+    .replace(/\n|\r/g, '');
 }
 
 /**
@@ -66,18 +74,23 @@ export function AnswerField({
       spellCheck={false}
       data-placeholder={placeholder ?? ''}
       onInput={(e) => {
-        const text = (e.currentTarget.textContent ?? '').replace(/\n/g, '');
+        const text = cleanEditableText(e.currentTarget.textContent ?? '');
         onChange(text);
       }}
       onKeyDown={(e) => {
         if (e.key === 'Enter') {
           e.preventDefault();
-          onSubmit();
+          // Pass DOM text directly — React state may not have flushed yet
+          const text = cleanEditableText(ref.current?.textContent ?? '');
+          onChange(text);
+          onSubmit(text);
         }
       }}
       onPaste={(e) => {
         e.preventDefault();
-        const text = e.clipboardData.getData('text/plain').replace(/\n/g, '');
+        const text = cleanEditableText(
+          e.clipboardData.getData('text/plain'),
+        );
         onChange(text);
       }}
     />

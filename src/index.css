@@ -324,6 +324,20 @@ h2 {
   font-size: 0.8rem;
 }
 
+.your-answer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.65rem;
+  align-items: baseline;
+  margin: 0.35rem 0 0.75rem;
+}
+
+.your-answer-text {
+  font-family: var(--font-read);
+  font-size: 1.15rem;
+  color: var(--ink-soft);
+}
+
 .panel {
   background: var(--surface);
   border: 1px solid var(--line);

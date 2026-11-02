@@ -16,16 +16,19 @@ const UMLAUT_MAP: Record<string, string> = {
 
 /** Normalize for comparison without changing meaning. */
 export function normalizeAnswer(raw: string, lang: 'de' | 'en' | 'ru'): string {
-  let s = raw.trim().replace(/\s+/g, ' ');
-  if (lang === 'de' || lang === 'en') {
-    s = s.toLowerCase();
-  } else {
-    s = s.toLowerCase();
-  }
+  let s = raw
+    // contenteditable / mobile keyboards often inject these
+    .replace(/[\u200B-\u200D\uFEFF]/g, '')
+    .replace(/\u00A0/g, ' ')
+    .replace(/\r/g, '')
+    .trim()
+    .replace(/\s+/g, ' ');
+  s = s.toLowerCase();
   // Strip trailing punctuation
-  s = s.replace(/[.!?…]+$/u, '').trim();
-  // German article + noun spacing
+  s = s.replace(/[.!?…,;:]+$/u, '').trim();
   s = s.replace(/\s+/g, ' ');
+  // lang kept for callers / future language-specific rules
+  void lang;
   return s;
 }
 

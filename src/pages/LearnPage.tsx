@@ -56,9 +56,11 @@ export function LearnPage() {
     [entry, mode],
   );
 
-  function submit() {
+  function submit(rawOverride?: string) {
     if (!entry || result) return;
-    const evaluated = evaluateAnswer(entry, mode, answer);
+    const raw = rawOverride ?? answer;
+    if (rawOverride !== undefined) setAnswer(rawOverride);
+    const evaluated = evaluateAnswer(entry, mode, raw);
     // Accuracy follows the answer, not the later SRS button
     recordAnswer(entry.id, evaluated.verdict === 'correct');
     setResult(evaluated);
@@ -293,7 +295,11 @@ export function LearnPage() {
               </div>
             )}
             <div className="btn-row">
-              <button type="button" className="btn btn-primary" onClick={submit}>
+              <button
+                type="button"
+                className="btn btn-primary"
+                onClick={() => submit()}
+              >
                 {ui === 'ru' ? 'Проверить' : 'Check'}
               </button>
             </div>
@@ -303,6 +309,14 @@ export function LearnPage() {
             <div className="feedback-title">
               {result.message[ui]}
             </div>
+            {result.verdict !== 'correct' && result.normalizedGiven && (
+              <div className="your-answer">
+                <span className="example-label">
+                  {ui === 'ru' ? 'Ваш ответ' : 'Your answer'}
+                </span>
+                <span className="your-answer-text">{answer || result.normalizedGiven}</span>
+              </div>
+            )}
             {reveal && (
               <>
                 <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>

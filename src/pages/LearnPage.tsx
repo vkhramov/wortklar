@@ -30,6 +30,8 @@ export function LearnPage() {
   const [result, setResult] = useState<AnswerResult | null>(null);
   const [finished, setFinished] = useState(false);
   const [actionIndex, setActionIndex] = useState(0);
+  // Prevent the submitting Enter/click from also activating a grade button
+  const [gradeReady, setGradeReady] = useState(false);
 
   useEffect(() => {
     const items = buildSession(vocabulary, progress);
@@ -63,6 +65,7 @@ export function LearnPage() {
     const evaluated = evaluateAnswer(entry, mode, raw);
     // Accuracy follows the answer, not the later SRS button
     recordAnswer(entry.id, evaluated.verdict === 'correct');
+    setGradeReady(false);
     setResult(evaluated);
     setActionIndex(evaluated.verdict === 'correct' ? 1 : 0);
   }
@@ -77,6 +80,7 @@ export function LearnPage() {
     setAnswer('');
     setResult(null);
     setActionIndex(0);
+    setGradeReady(false);
   }
 
   function gradeAndNext(grade: Grade) {
@@ -147,7 +151,18 @@ export function LearnPage() {
   }, [result, entry, ui]);
 
   useEffect(() => {
-    if (!result || gradeActions.length === 0) return;
+    if (!result) {
+      setGradeReady(false);
+      return;
+    }
+    // Wait out the submit Enter keyup / click so they don't confirm a grade
+    setGradeReady(false);
+    const t = window.setTimeout(() => setGradeReady(true), 350);
+    return () => window.clearTimeout(t);
+  }, [result]);
+
+  useEffect(() => {
+    if (!result || !gradeReady || gradeActions.length === 0) return;
 
     function onKeyDown(e: KeyboardEvent) {
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
@@ -170,7 +185,7 @@ export function LearnPage() {
 
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
-  }, [result, gradeActions, actionIndex]);
+  }, [result, gradeReady, gradeActions, actionIndex]);
 
   if (finished || !entry || !safe) {
     return (
@@ -369,7 +384,11 @@ export function LearnPage() {
                   key={action.id}
                   type="button"
                   className={`${action.className}${i === actionIndex ? ' is-keyboard-focus' : ''}`}
-                  onClick={action.run}
+                  disabled={!gradeReady}
+                  onClick={() => {
+                    if (!gradeReady) return;
+                    action.run();
+                  }}
                   onMouseEnter={() => setActionIndex(i)}
                 >
                   {action.label}

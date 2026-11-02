@@ -80,6 +80,7 @@ export function AnswerField({
       onKeyDown={(e) => {
         if (e.key === 'Enter') {
           e.preventDefault();
+          e.stopPropagation();
           // Pass DOM text directly — React state may not have flushed yet
           const text = cleanEditableText(ref.current?.textContent ?? '');
           onChange(text);

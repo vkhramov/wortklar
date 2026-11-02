@@ -545,6 +545,25 @@ h2 {
   font-size: 1.05rem;
 }
 
+.reveal-lemma-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55rem 0.75rem;
+}
+
+.pronounce-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 0.75rem;
+  font-size: 0.85rem;
+}
+
+.pronounce-icon {
+  flex-shrink: 0;
+}
+
 .reveal-lemma {
   font-family: var(--font-read);
   font-size: 1.55rem;

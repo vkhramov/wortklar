@@ -7,6 +7,7 @@ import { exampleBeforeAnswer } from '../lib/example';
 import { buildReveal, buildSafePrompt, uiLangFromMode } from '../lib/leakage';
 import { AnswerField } from '../components/AnswerField';
 import { Illustration } from '../components/Illustration';
+import { PronounceButton } from '../components/PronounceButton';
 import type { AnswerResult, SessionItem } from '../types/vocab';
 import type { Grade } from '../lib/srs';
 
@@ -160,6 +161,12 @@ export function LearnPage() {
     const t = window.setTimeout(() => setGradeReady(true), 350);
     return () => window.clearTimeout(t);
   }, [result]);
+
+  useEffect(() => {
+    return () => {
+      window.speechSynthesis?.cancel();
+    };
+  }, [index, result]);
 
   useEffect(() => {
     if (!result || !gradeReady || gradeActions.length === 0) return;
@@ -340,7 +347,13 @@ export function LearnPage() {
                     <div className="example-label">
                       {ui === 'ru' ? 'Правильный ответ' : 'Correct answer'}
                     </div>
-                    <div className="reveal-lemma">{reveal.lemma}</div>
+                    <div className="reveal-lemma-row">
+                      <div className="reveal-lemma">{reveal.lemma}</div>
+                      <PronounceButton
+                        text={reveal.lemma}
+                        label={ui === 'ru' ? 'Слушать' : 'Listen'}
+                      />
+                    </div>
                   </div>
                 </div>
 

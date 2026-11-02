@@ -19,7 +19,7 @@ export function WordPhoto({ entryId, alt = '', size = 'sm' }: Props) {
       <img
         src={url}
         alt={alt}
-        loading="lazy"
+        loading="eager"
         decoding="async"
         onError={() => setFailed(true)}
       />

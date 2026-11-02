@@ -11,7 +11,7 @@ import { Illustration } from '../components/Illustration';
 import { PronounceButton } from '../components/PronounceButton';
 import { WordPhoto } from '../components/WordPhoto';
 import { recognitionLangForMode } from '../lib/speechRecognition';
-import { hasWordImage } from '../lib/wordImages';
+import { hasWordImage, preloadWordImage } from '../lib/wordImages';
 import type { AnswerResult, SessionItem } from '../types/vocab';
 import type { Grade } from '../lib/srs';
 
@@ -49,6 +49,14 @@ export function LearnPage() {
 
   const item = session[index];
   const entry = item?.entry;
+
+  // Prefetch current (+ next) photo while the learner types — before Check
+  useEffect(() => {
+    if (!entry) return;
+    preloadWordImage(entry.id);
+    const next = session[index + 1]?.entry;
+    if (next) preloadWordImage(next.id);
+  }, [entry, session, index]);
 
   const safe = useMemo(
     () => (entry ? buildSafePrompt(entry, mode) : null),

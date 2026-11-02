@@ -23,3 +23,15 @@ export function wordImageUrl(entryId: string): string | undefined {
 export function hasWordImage(entryId: string): boolean {
   return Boolean(MAP[entryId]);
 }
+
+const warmed = new Set<string>();
+
+/** Warm the browser HTTP cache so reveal photos appear instantly. */
+export function preloadWordImage(entryId: string): void {
+  const url = wordImageUrl(entryId);
+  if (!url || warmed.has(url) || typeof Image === 'undefined') return;
+  warmed.add(url);
+  const img = new Image();
+  img.decoding = 'async';
+  img.src = url;
+}

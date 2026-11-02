@@ -9,7 +9,7 @@
   "food": { "emoji": "🍽️", "keywords": ["food", "meal", "breakfast", "lunch", "dinner", "supper", "dish", "dessert", "starter", "essen", "frühstück", "mittagessen", "abendessen", "mahlzeit", "gericht", "nachtisch", "vorspeise", "hauptgericht"] },
   "soup": { "emoji": "🍲", "keywords": ["soup", "suppe"] },
   "coffee": { "emoji": "☕", "keywords": ["coffee", "café", "kaffee"] },
-  "tea": { "emoji": "🍵", "keywords": ["tea", "tee"] },
+  "tea": { "emoji": "🫖", "keywords": ["tea", "tee"] },
   "apple": { "emoji": "🍎", "keywords": ["apple", "apfel"] },
   "banana": { "emoji": "🍌", "keywords": ["banana", "banane"] },
   "orange": { "emoji": "🍊", "keywords": ["orange", "orange"] },

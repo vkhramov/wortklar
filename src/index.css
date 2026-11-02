@@ -611,14 +611,15 @@ h2 {
   height: 88px;
   border-radius: 18px;
   background: var(--brand-soft);
+  color: var(--brand-deep);
   display: grid;
   place-items: center;
   overflow: hidden;
 }
 
 .illustration svg {
-  width: 64px;
-  height: 64px;
+  width: 44px;
+  height: 44px;
 }
 
 .bottom-nav {

@@ -1,7 +1,7 @@
 {
   "name": "wortklar",
   "private": true,
-  "version": "1.1.6",
+  "version": "1.2.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,12 +9,14 @@
     "lint": "oxlint src",
     "preview": "vite preview",
     "vocab:generate": "node scripts/generate-vocab.mjs",
+    "vocab:illustrate": "node scripts/assign-illustrations.mjs",
     "vocab:validate": "node scripts/validate-vocab.mjs",
     "smoke": "node scripts/smoke.mjs",
     "test:unit": "tsx src/lib/srs.test.ts && tsx src/lib/answer.test.ts && tsx src/lib/leakage.test.ts && tsx src/lib/example.test.ts && tsx src/lib/wordStats.test.ts && tsx src/lib/auth.test.ts",
     "qa": "npm run smoke && npm run build"
   },
   "dependencies": {
+    "lucide-react": "^0.544.0",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "react-router-dom": "^7.18.5",

@@ -8,6 +8,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { conjugateWeak } from './lib/conjugator.mjs';
+import { illustrationIdSet } from './lib/assign-illustration.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -26,10 +27,7 @@ const TOPICS = new Set(
   ).split(' '),
 );
 const CASES = new Set(['Akkusativ', 'Dativ', 'Genitiv', 'Wechsel']);
-const ILLUSTRATIONS = new Set([
-  'table', 'house', 'car', 'food', 'walk', 'book', 'phone', 'tree', 'heart',
-  'bag', 'train', 'water', 'sun', 'bed', 'work', 'person', 'clock',
-]);
+const ILLUSTRATIONS = illustrationIdSet();
 const PERSONS = ['ich', 'du', 'er', 'wir', 'ihr', 'sie'];
 const SEIN_VERBS = new Set([
   'gehen', 'kommen', 'fahren', 'bleiben', 'laufen', 'fliegen', 'ankommen',

@@ -1,0 +1,167 @@
+{
+  "house": {
+    "keywords": ["house", "home", "apartment", "flat", "building", "roof", "housing", "haus", "wohnung", "gebäude", "dach", "mietwohnung", "ferienwohnung"]
+  },
+  "bed": {
+    "keywords": ["bed", "bedroom", "sleep", "nap", "bett", "schlafzimmer", "schlaf", "mittagsschlaf"]
+  },
+  "sofa": {
+    "keywords": ["sofa", "couch", "armchair", "sessel", "couch"]
+  },
+  "table": {
+    "keywords": ["table", "desk", "tisch", "schreibtisch"]
+  },
+  "chair": {
+    "keywords": ["chair", "stuhl"]
+  },
+  "door": {
+    "keywords": ["door", "tür", "eingang"]
+  },
+  "window": {
+    "keywords": ["window", "fenster"]
+  },
+  "lamp": {
+    "keywords": ["lamp", "light", "lampe", "licht"]
+  },
+  "food": {
+    "keywords": ["food", "meal", "breakfast", "lunch", "dinner", "supper", "dish", "soup", "dessert", "starter", "essen", "frühstück", "mittagessen", "abendessen", "mahlzeit", "gericht", "suppe", "nachtisch", "vorspeise", "hauptgericht"]
+  },
+  "coffee": {
+    "keywords": ["coffee", "tea", "café", "kaffee", "tee"]
+  },
+  "apple": {
+    "keywords": ["apple", "fruit", "banana", "orange", "pear", "apfel", "obst", "banane", "orange", "birne"]
+  },
+  "bread": {
+    "keywords": ["bread", "roll", "bakery", "brot", "brötchen", "bäckerei"]
+  },
+  "fish": {
+    "keywords": ["fish", "fisch"]
+  },
+  "meat": {
+    "keywords": ["meat", "sausage", "chicken", "beef", "fleisch", "wurst", "hähnchen"]
+  },
+  "drink": {
+    "keywords": ["drink", "water", "beer", "wine", "juice", "milk", "wasser", "mineralwasser", "bier", "wein", "saft", "milch"]
+  },
+  "utensils": {
+    "keywords": ["plate", "fork", "knife", "spoon", "bowl", "cup", "glass", "teller", "gabel", "messer", "löffel", "schüssel", "tasse", "glas"]
+  },
+  "car": {
+    "keywords": ["car", "taxi", "vehicle", "auto", "wagen", "taxi"]
+  },
+  "bus": {
+    "keywords": ["bus", "bus"]
+  },
+  "train": {
+    "keywords": ["train", "tram", "subway", "metro", "railway", "station", "platform", "zug", "bahn", "straßenbahn", "u-bahn", "s-bahn", "bahnhof", "hauptbahnhof", "bahnsteig", "gleis"]
+  },
+  "plane": {
+    "keywords": ["plane", "airplane", "airport", "flight", "flugzeug", "flughafen", "flug"]
+  },
+  "bike": {
+    "keywords": ["bike", "bicycle", "cycle", "fahrrad", "rad"]
+  },
+  "ship": {
+    "keywords": ["ship", "boat", "ferry", "schiff", "boot", "fähre"]
+  },
+  "person": {
+    "keywords": ["man", "woman", "person", "boy", "girl", "human", "mann", "frau", "junge", "mädchen", "mensch", "person"]
+  },
+  "users": {
+    "keywords": ["family", "people", "parents", "friend", "familie", "leute", "eltern", "freund", "freundin"]
+  },
+  "baby": {
+    "keywords": ["baby", "child", "kid", "baby", "kind", "kinder"]
+  },
+  "dog": {
+    "keywords": ["dog", "hund"]
+  },
+  "cat": {
+    "keywords": ["cat", "katze"]
+  },
+  "bird": {
+    "keywords": ["bird", "vogel"]
+  },
+  "tree": {
+    "keywords": ["tree", "forest", "park", "plant", "garden", "baum", "wald", "park", "pflanze", "garten"]
+  },
+  "flower": {
+    "keywords": ["flower", "rose", "blume", "rose"]
+  },
+  "sun": {
+    "keywords": ["sun", "summer", "sunshine", "sonne", "sommer", "sonnenschein", "sonnenbrille"]
+  },
+  "cloud": {
+    "keywords": ["rain", "cloud", "weather", "regen", "wolke", "wetter"]
+  },
+  "snow": {
+    "keywords": ["snow", "winter", "schnee", "winter"]
+  },
+  "mountain": {
+    "keywords": ["mountain", "hill", "berg", "hügel"]
+  },
+  "book": {
+    "keywords": ["book", "dictionary", "novel", "library", "notebook", "buch", "wörterbuch", "roman", "bibliothek", "heft"]
+  },
+  "pen": {
+    "keywords": ["pen", "pencil", "stift", "kuli", "bleistift"]
+  },
+  "school": {
+    "keywords": ["school", "university", "college", "schule", "universität", "uni", "hochschule"]
+  },
+  "briefcase": {
+    "keywords": ["work", "job", "office", "career", "company", "arbeit", "büro", "beruf", "job", "firma", "arbeitsplatz"]
+  },
+  "laptop": {
+    "keywords": ["computer", "laptop", "pc", "computer", "laptop", "rechner"]
+  },
+  "phone": {
+    "keywords": ["phone", "mobile", "smartphone", "call", "telefon", "handy", "smartphone", "anruf"]
+  },
+  "heart": {
+    "keywords": ["heart", "love", "herz", "liebe"]
+  },
+  "clock": {
+    "keywords": ["clock", "time", "watch", "alarm", "hour", "minute", "second", "uhr", "zeit", "uhrzeit", "wecker", "stunde", "minute", "sekunde"]
+  },
+  "calendar": {
+    "keywords": ["calendar", "date", "appointment", "kalender", "datum", "termin"]
+  },
+  "bag": {
+    "keywords": ["bag", "suitcase", "backpack", "luggage", "tasche", "koffer", "rucksack", "tüte", "handtasche", "gepäck"]
+  },
+  "shirt": {
+    "keywords": ["shirt", "clothes", "clothing", "dress", "trousers", "pants", "skirt", "jacket", "hemd", "kleidung", "kleid", "hose", "rock", "jacke"]
+  },
+  "shoe": {
+    "keywords": ["shoe", "boot", "schuh", "stiefel"]
+  },
+  "music": {
+    "keywords": ["music", "song", "concert", "musik", "lied", "konzert"]
+  },
+  "ball": {
+    "keywords": ["ball", "sport", "football", "soccer", "tennis", "ball", "sport", "fußball", "tennis"]
+  },
+  "key": {
+    "keywords": ["key", "schlüssel"]
+  },
+  "map": {
+    "keywords": ["map", "city", "street", "karte", "stadtplan", "straße", "stadt"]
+  },
+  "globe": {
+    "keywords": ["world", "earth", "country", "welt", "erde", "land"]
+  },
+  "hospital": {
+    "keywords": ["hospital", "doctor", "medicine", "pharmacy", "krankenhaus", "arzt", "ärztin", "medizin", "apotheke"]
+  },
+  "shopping": {
+    "keywords": ["shop", "store", "market", "supermarket", "laden", "geschäft", "markt", "supermarkt", "einkaufen"]
+  },
+  "gift": {
+    "keywords": ["gift", "present", "geschenk"]
+  },
+  "walk": {
+    "keywords": ["walk", "hike", "pedestrian", "spaziergang", "wanderung", "fußgänger"]
+  }
+}

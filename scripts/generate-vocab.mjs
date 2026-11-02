@@ -30,6 +30,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { conjugateStemChange, conjugateWeak } from './lib/conjugator.mjs';
+import { assignIllustration } from './lib/assign-illustration.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(__dirname, '..');
@@ -62,35 +63,6 @@ const CASE_HINTS = {
     ru: 'Предлог двойного управления: дательный — где? винительный — куда?',
   },
 };
-
-/**
- * lemma → illustration id. Icons are only attached where the SVG literally depicts
- * the word (or is an obvious, non-misleading cue) — abstract words get no icon.
- * Seed-provided illustration ids are intentionally ignored; this map is the single
- * source of truth.
- */
-const ILLUSTRATION_GROUPS = {
-  table: ['Tisch'],
-  house: ['Haus', 'Wohnung', 'Mietwohnung', 'Ferienwohnung', 'Gebäude', 'Dach'],
-  car: ['Auto', 'Wagen', 'Taxi', 'fahren'],
-  food: ['Essen', 'Frühstück', 'Mittagessen', 'Abendessen', 'Mahlzeit', 'Teller', 'Gericht', 'Hauptgericht', 'Vorspeise', 'Nachtisch', 'Suppe', 'essen', 'kochen'],
-  walk: ['Spaziergang', 'Wanderung', 'Fußgänger', 'gehen', 'wandern'],
-  book: ['Buch', 'Heft', 'Wörterbuch', 'Bibliothek', 'Roman', 'lesen'],
-  phone: ['Telefon', 'Handy', 'Smartphone', 'Anruf', 'telefonieren', 'anrufen'],
-  tree: ['Baum', 'Wald', 'Pflanze', 'Park'],
-  heart: ['Herz', 'Liebe', 'lieben'],
-  bag: ['Tasche', 'Handtasche', 'Koffer', 'Rucksack', 'Tüte', 'Gepäck'],
-  train: ['Zug', 'Bahn', 'Straßenbahn', 'U-Bahn', 'S-Bahn', 'Bahnhof', 'Hauptbahnhof', 'Bahnsteig', 'Gleis'],
-  water: ['Wasser', 'Mineralwasser', 'Tropfen', 'Regen', 'Wasserhahn', 'trinken'],
-  sun: ['Sonne', 'Sonnenschein', 'Sommer', 'Sonnenbrille'],
-  bed: ['Bett', 'Schlafzimmer', 'Schlaf', 'Mittagsschlaf', 'schlafen'],
-  work: ['Arbeit', 'Büro', 'Job', 'Beruf', 'Arbeitsplatz', 'Firma', 'arbeiten'],
-  person: ['Mensch', 'Person', 'Mann', 'Frau', 'Junge', 'Mädchen'],
-  clock: ['Uhr', 'Zeit', 'Uhrzeit', 'Wecker', 'Stunde', 'Minute', 'Sekunde'],
-};
-const ILLUSTRATIONS = Object.fromEntries(
-  Object.entries(ILLUSTRATION_GROUPS).flatMap(([icon, lemmas]) => lemmas.map((l) => [l, icon])),
-);
 
 // ---------------------------------------------------------------- helpers
 
@@ -427,7 +399,6 @@ function adaptNoun(row, ctx) {
   full.article = article;
   full.plural = String(plural).trim() || '-';
   if (illustration) full.illustration = illustration;
-  else if (ILLUSTRATIONS[full.lemma]) full.illustration = ILLUSTRATIONS[full.lemma];
   return full;
 }
 
@@ -457,7 +428,6 @@ function adaptVerb(row, ctx) {
   if (f.irregular) full.irregular = true;
   full.auxiliary = f.auxiliary ?? 'haben';
   if (illustration) full.illustration = illustration;
-  else if (ILLUSTRATIONS[full.lemma]) full.illustration = ILLUSTRATIONS[full.lemma];
   return full;
 }
 
@@ -501,11 +471,10 @@ const ALLOWED_KEYS = new Set([
 ]);
 
 function normalizeEntry(e) {
-  // Illustration: only from the curated map (nouns and a few action verbs).
+  // Illustration: keyword catalog for concrete nouns/verbs only.
   delete e.illustration;
-  if (ILLUSTRATIONS[e.lemma] && (e.pos === 'noun' || e.pos === 'verb')) {
-    e.illustration = ILLUSTRATIONS[e.lemma];
-  }
+  const ill = assignIllustration(e);
+  if (ill) e.illustration = ill;
   for (const k of Object.keys(e)) if (!ALLOWED_KEYS.has(k)) delete e[k];
   if (e.pos === 'noun' && PLURAL_ONLY.has(e.lemma) && e.plural === '-') {
     e.plural = e.lemma;

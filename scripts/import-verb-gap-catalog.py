@@ -11,7 +11,7 @@ from openpyxl import load_workbook
 
 ROOT = Path(__file__).resolve().parents[1]
 XLSX = Path(
-    "/Users/vkhramov/Downloads/German_Verbs_Real_Natural_Examples (1).xlsx"
+    "/Users/vkhramov/Downloads/German_Verbs_Fixed_Catalog_332.xlsx"
 )
 OUT = ROOT / "src/data/verb-gap-catalog.json"
 VOCAB = ROOT / "public/data/vocabulary.json"
@@ -125,66 +125,81 @@ def uniq(items: list[str]) -> list[str]:
     return out
 
 
+_SKIP_FINITE = {
+    "ich",
+    "du",
+    "er",
+    "sie",
+    "es",
+    "wir",
+    "ihr",
+    "das",
+    "der",
+    "die",
+    "man",
+    "was",
+    "wo",
+    "wann",
+    "warum",
+    "weshalb",
+    "wieso",
+    "wie",
+    "wer",
+    "wen",
+    "wem",
+    "welch",
+    "welche",
+    "welcher",
+    "welches",
+}
+
+
 def extract_heuristic(sentence: str, person: str) -> dict | None:
     s = sentence.strip()
-    patterns: list[re.Pattern[str]] = []
-    if person == "ich":
-        patterns = [re.compile(r"^Ich\s+(\S+)", re.I)]
-    elif person == "du":
-        patterns = [
-            re.compile(r"^(\S+)\s+du\b", re.I),
-            re.compile(r"^Du\s+(\S+)", re.I),
-        ]
-    elif person == "er":
-        patterns = [
-            re.compile(r"^(Er|Sie|Es|Das|Der|Die|Man)\s+(\S+)", re.I),
-            re.compile(r"^(\S+)\s+(er|sie|es)\b", re.I),
-        ]
-    elif person == "wir":
-        patterns = [
-            re.compile(r"^Wir\s+(\S+)", re.I),
-            re.compile(r"^(\S+)\s+wir\b", re.I),
-        ]
-    elif person == "ihr":
-        patterns = [
-            re.compile(r"^Ihr\s+(\S+)", re.I),
-            re.compile(r"^(\S+)\s+ihr\b", re.I),
-        ]
-    elif person == "sie":
-        patterns = [
-            re.compile(r"^Sie\s+(\S+)", re.I),
-            re.compile(r"^(\S+)\s+Sie\b"),
-        ]
+    candidates: list[tuple[int, str]] = []
 
-    for pat in patterns:
-        m = pat.search(s)
-        if not m:
-            continue
-        # last group is the verb token
-        finite = m.group(m.lastindex or 1)
-        # skip if captured subject pronoun by mistake
-        if finite.lower() in {
-            "ich",
-            "du",
-            "er",
-            "sie",
-            "es",
-            "wir",
-            "ihr",
-            "das",
-            "der",
-            "die",
-            "man",
-        }:
-            continue
-        start = m.start(m.lastindex or 1)
-        return {
-            "finite": finite,
-            "fullForm": finite,
-            "promptDe": blank(s, start, len(finite)),
-            "expected": uniq([finite, finite.lower()]),
-        }
-    return None
+    def add(match: re.Match[str] | None, group: int) -> None:
+        if not match:
+            return
+        finite = match.group(group)
+        if finite.lower().strip(".,!?;:") in _SKIP_FINITE:
+            return
+        candidates.append((match.start(group), finite))
+
+    if person == "ich":
+        add(re.search(r"^Ich\s+(\S+)", s, re.I), 1)
+    elif person == "du":
+        add(re.search(r"^Du\s+(\S+)", s, re.I), 1)
+        for m in re.finditer(r"(\S+)\s+du\b", s, re.I):
+            add(m, 1)
+    elif person == "er":
+        add(re.search(r"^(Er|Sie|Es|Das|Der|Die|Man)\s+(\S+)", s, re.I), 2)
+        for m in re.finditer(r"(\S+)\s+(er|sie|es)\b", s, re.I):
+            add(m, 1)
+    elif person == "wir":
+        add(re.search(r"^Wir\s+(\S+)", s, re.I), 1)
+        for m in re.finditer(r"(\S+)\s+wir\b", s, re.I):
+            add(m, 1)
+    elif person == "ihr":
+        add(re.search(r"^Ihr\s+(\S+)", s, re.I), 1)
+        for m in re.finditer(r"(\S+)\s+ihr\b", s, re.I):
+            add(m, 1)
+    elif person == "sie":
+        add(re.search(r"^Sie\s+(\S+)", s, re.I), 1)
+        for m in re.finditer(r"(\S+)\s+Sie\b", s):
+            add(m, 1)
+
+    if not candidates:
+        return None
+    # Prefer the last candidate before the pronoun (Was meinst du → meinst)
+    start, finite = candidates[-1]
+    finite = finite.strip(".,!?;:")
+    return {
+        "finite": finite,
+        "fullForm": finite,
+        "promptDe": blank(s, start, len(finite)),
+        "expected": uniq([finite, finite.lower()]),
+    }
 
 
 def load_vocab_conjugations() -> dict[str, dict]:

@@ -6,7 +6,7 @@ import {
 
 const stats = gapCatalogStats();
 console.assert(stats.verbs === 332, `verbs ${stats.verbs}`);
-console.assert(stats.forms >= 1800, `forms ${stats.forms}`);
+console.assert(stats.forms === 1992, `forms ${stats.forms}`);
 
 const all = listGapItems();
 console.assert(all.length === stats.forms, 'list length mismatch');

@@ -353,7 +353,11 @@ export function GapFillPage() {
                 {ui === 'ru' ? 'Предложение' : 'Sentence'}
               </div>
               <div className="example-de">{filledPrompt}</div>
-              <div className="example-tr muted">{gap.exampleDe}</div>
+              {(ui === 'ru' ? gap.exampleRu : gap.exampleEn) && (
+                <div className="example-tr">
+                  {ui === 'ru' ? gap.exampleRu : gap.exampleEn}
+                </div>
+              )}
             </div>
 
             <div

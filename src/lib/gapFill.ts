@@ -10,6 +10,8 @@ export type GapForm = {
   finite: string;
   fullForm: string;
   expected: string[];
+  en?: string;
+  ru?: string;
 };
 
 export type GapVerb = {
@@ -36,6 +38,8 @@ export type GapFillItem = {
   expectedForms: string[];
   fullForm: string;
   exampleDe: string;
+  exampleEn?: string;
+  exampleRu?: string;
 };
 
 const PERSONS: GapPerson[] = ['ich', 'du', 'er', 'wir', 'ihr', 'sie'];
@@ -74,6 +78,8 @@ export function listGapItems(levels?: CefrLevel[]): GapFillItem[] {
         expectedForms: form.expected,
         fullForm: form.fullForm || form.finite,
         exampleDe: form.de,
+        exampleEn: form.en,
+        exampleRu: form.ru,
       });
     }
   }

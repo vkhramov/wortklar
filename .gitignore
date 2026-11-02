@@ -11,6 +11,9 @@ node_modules
 dist
 dist-ssr
 *.local
+scripts/.gap-translate-cache.json
+scripts/gap-translate-cache.backup.json
+scripts/.gap-chunk-*.txt
 
 # Editor directories and files
 .vscode/*

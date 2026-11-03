@@ -1,29 +1,41 @@
+/**
+ * Web Speech TTS helpers.
+ *
+ * Chrome on macOS is fragile: utterances can be GC'd, the synth can stick in
+ * paused state, and speak() after setTimeout can lose the user-gesture token
+ * (autoplay policy → silent failure). Keep speak() synchronous on click.
+ */
+
 /** Keep utterances alive until spoken — Chrome GC can drop them mid-flight. */
 const pendingUtterances = new Set<SpeechSynthesisUtterance>();
 
+let voicesReady = false;
+
+function normalizeLang(lang: string): string {
+  return lang.replace('_', '-').toLowerCase();
+}
+
 function pickGermanVoice(): SpeechSynthesisVoice | undefined {
   const voices = window.speechSynthesis.getVoices();
-  const de = voices.filter((v) => v.lang.toLowerCase().startsWith('de'));
+  const de = voices.filter((v) => normalizeLang(v.lang).startsWith('de'));
   if (!de.length) return undefined;
 
-  // Prefer local/system voices: Chrome's remote "Google …" voices are flaky on macOS.
+  // Prefer on-device voices only. Chrome "Google Deutsch" is remote and often
+  // silent or stuck on macOS.
   const local =
-    de.find((v) => v.localService && /de-DE/i.test(v.lang)) ??
+    de.find((v) => v.localService && normalizeLang(v.lang).startsWith('de-de')) ??
     de.find((v) => v.localService);
   if (local) return local;
 
-  return (
-    de.find((v) => /de-DE/i.test(v.lang) && !/google/i.test(v.name)) ??
-    de.find((v) => /de-DE/i.test(v.lang)) ??
-    de[0]
-  );
+  // No local German voice: do not assign a Google network voice — leave unset
+  // and rely on utter.lang so the engine can pick a workable default.
+  return undefined;
 }
 
 function unlockSynth(): void {
   const s = window.speechSynthesis;
-  // Chrome macOS often sticks in paused=true and then silently ignores speak().
   try {
-    s.resume();
+    if (s.paused) s.resume();
   } catch {
     /* ignore */
   }
@@ -41,6 +53,7 @@ function enqueue(text: string): void {
   utter.lang = 'de-DE';
   utter.rate = 0.92;
   const voice = pickGermanVoice();
+  // Only pin a voice when it is local; otherwise lang alone is safer on Chrome Mac.
   if (voice) utter.voice = voice;
 
   const release = () => {
@@ -50,15 +63,35 @@ function enqueue(text: string): void {
   utter.addEventListener('error', release);
   pendingUtterances.add(utter);
 
-  // cancel() then immediate speak() can no-op on Chrome desktop — brief defer helps.
+  // Must stay in the same user-gesture turn as the click (no setTimeout).
+  try {
+    window.speechSynthesis.resume();
+  } catch {
+    /* ignore */
+  }
+  window.speechSynthesis.speak(utter);
+
+  // Chrome sometimes leaves speaking=true but produces no audio until resume.
   window.setTimeout(() => {
     try {
-      window.speechSynthesis.resume();
+      if (window.speechSynthesis.speaking && window.speechSynthesis.paused) {
+        window.speechSynthesis.resume();
+      }
     } catch {
       /* ignore */
     }
-    window.speechSynthesis.speak(utter);
-  }, 40);
+  }, 100);
+}
+
+/** Warm the voice list early (safe to call from app boot). */
+export function prefetchSpeechVoices(): void {
+  if (typeof window === 'undefined' || !window.speechSynthesis) return;
+  const mark = () => {
+    voicesReady = window.speechSynthesis.getVoices().length > 0;
+  };
+  mark();
+  window.speechSynthesis.addEventListener('voiceschanged', mark);
+  window.speechSynthesis.getVoices();
 }
 
 /** Speak text with the browser’s German voice (Web Speech API). */
@@ -69,23 +102,19 @@ export function speakGerman(text: string): boolean {
   }
 
   const voices = window.speechSynthesis.getVoices();
-  if (voices.length === 0) {
-    // Voices load async on first use (especially Chrome).
+  voicesReady = voices.length > 0;
+
+  if (!voicesReady) {
+    // Kick load; speak immediately anyway with lang=de-DE (gesture still valid).
     const onVoices = () => {
       window.speechSynthesis.removeEventListener('voiceschanged', onVoices);
-      enqueue(trimmed);
-    };
-    window.speechSynthesis.addEventListener('voiceschanged', onVoices);
-    // Kick the voice list load.
-    window.speechSynthesis.getVoices();
-    // Fallback if voiceschanged never fires (some Chrome builds).
-    window.setTimeout(() => {
-      if (window.speechSynthesis.getVoices().length > 0) {
-        window.speechSynthesis.removeEventListener('voiceschanged', onVoices);
+      // Re-speak once voices arrive only if nothing is audible yet.
+      if (!window.speechSynthesis.speaking) {
         enqueue(trimmed);
       }
-    }, 250);
-    return true;
+    };
+    window.speechSynthesis.addEventListener('voiceschanged', onVoices);
+    window.speechSynthesis.getVoices();
   }
 
   enqueue(trimmed);

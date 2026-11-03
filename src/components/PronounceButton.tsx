@@ -15,13 +15,23 @@ export function PronounceButton({ text, label = 'Listen' }: Props) {
     <button
       type="button"
       className="btn btn-ghost pronounce-btn"
-      title={label}
+      title={
+        unsupported
+          ? 'Speech not available in this browser'
+          : label
+      }
       aria-label={label}
       disabled={unsupported}
-      onClick={() => {
-        if (!canSpeak() || !speakGerman(text)) {
+      onClick={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!canSpeak()) {
           setUnsupported(true);
+          return;
         }
+        // Call synchronously in the click handler (Chrome autoplay / gesture).
+        const ok = speakGerman(text);
+        if (!ok) setUnsupported(true);
       }}
     >
       <svg

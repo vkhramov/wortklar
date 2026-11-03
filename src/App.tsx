@@ -8,6 +8,7 @@ import { LearnPage } from './pages/LearnPage';
 import { LibraryPage } from './pages/LibraryPage';
 import { ProgressPage } from './pages/ProgressPage';
 import { SettingsPage } from './pages/SettingsPage';
+import { prefetchSpeechVoices } from './lib/speech';
 import { useAppStore } from './store/useAppStore';
 
 export default function App() {
@@ -16,6 +17,10 @@ export default function App() {
   useEffect(() => {
     void init();
   }, [init]);
+
+  useEffect(() => {
+    prefetchSpeechVoices();
+  }, []);
 
   if (!ready) {
     return (

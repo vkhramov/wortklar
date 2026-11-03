@@ -6,7 +6,23 @@ const pkg = JSON.parse(readFileSync(new URL('./package.json', import.meta.url), 
   version: string
 }
 
-const buildId = new Date().toISOString().replace('T', ' ').slice(0, 16)
+/** Build stamp in Europe/Berlin local time: `YYYY-MM-DD HH:mm`. */
+function berlinBuildId(d = new Date()): string {
+  const parts = new Intl.DateTimeFormat('en-GB', {
+    timeZone: 'Europe/Berlin',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  }).formatToParts(d)
+  const g = (type: Intl.DateTimeFormatPartTypes) =>
+    parts.find((p) => p.type === type)?.value ?? ''
+  return `${g('year')}-${g('month')}-${g('day')} ${g('hour')}:${g('minute')}`
+}
+
+const buildId = berlinBuildId()
 
 // https://vite.dev/config/
 export default defineConfig({

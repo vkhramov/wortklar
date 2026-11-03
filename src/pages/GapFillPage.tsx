@@ -1,15 +1,27 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useAppStore } from '../store/useAppStore';
 import { AnswerField } from '../components/AnswerField';
 import { DictateButton } from '../components/DictateButton';
 import { PronounceButton } from '../components/PronounceButton';
-import { evaluateGapAnswer, gapCatalogStats } from '../lib/gapFill';
+import {
+  SessionSummary,
+  type SessionMiss,
+} from '../components/SessionSummary';
+import { evaluateGapAnswer, gapCatalogStats, type GapFillItem } from '../lib/gapFill';
 import { buildGapSession, type GapSessionItem } from '../lib/gapSession';
 import { uiLangFromMode } from '../lib/leakage';
 import { scrollGradeActionsIntoView } from '../lib/scrollGradeActions';
 import type { Grade } from '../lib/srs';
 import type { AnswerResult } from '../types/vocab';
+
+function gapMissLabel(gap: GapFillItem): SessionMiss {
+  const filled = gap.promptDe.replace('_______', gap.fullForm);
+  return {
+    id: gap.cardId,
+    primary: `${gap.infinitive} → ${gap.fullForm}`,
+    secondary: filled,
+  };
+}
 
 const UMLAUTS = ['ä', 'ö', 'ü', 'ß', 'Ä', 'Ö', 'Ü'];
 
@@ -32,6 +44,22 @@ export function GapFillPage() {
   const [finished, setFinished] = useState(false);
   const [actionIndex, setActionIndex] = useState(0);
   const [gradeReady, setGradeReady] = useState(false);
+  const [correctCount, setCorrectCount] = useState(0);
+  const [answeredCount, setAnsweredCount] = useState(0);
+  const [misses, setMisses] = useState<SessionMiss[]>([]);
+
+  function resetSession(items: GapSessionItem[]) {
+    setSession(items);
+    setIndex(0);
+    setAnswer('');
+    setResult(null);
+    setFinished(items.length === 0);
+    setActionIndex(0);
+    setGradeReady(false);
+    setCorrectCount(0);
+    setAnsweredCount(0);
+    setMisses([]);
+  }
 
   // Value keys — not `settings.levels` by reference. GitHub sync replaces
   // progress with a new object and was restarting the session mid-run.
@@ -40,12 +68,7 @@ export function GapFillPage() {
   const newPerSession = progress.settings.newPerSession;
 
   useEffect(() => {
-    const items = buildGapSession(vocabulary, useAppStore.getState().progress);
-    setSession(items);
-    setIndex(0);
-    setAnswer('');
-    setResult(null);
-    setFinished(items.length === 0);
+    resetSession(buildGapSession(vocabulary, useAppStore.getState().progress));
     // Card updates / sync must not rebuild the queue mid-session (same as Learn).
     // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional
   }, [vocabulary, levelsKey, sessionSize, newPerSession]);
@@ -70,10 +93,20 @@ export function GapFillPage() {
     const raw = rawOverride ?? answer;
     if (rawOverride !== undefined) setAnswer(rawOverride);
     const evaluated = evaluateGapAnswer(gap, raw);
-    recordAnswer(gap.cardId, evaluated.verdict === 'correct');
+    const ok = evaluated.verdict === 'correct';
+    recordAnswer(gap.cardId, ok);
+    setAnsweredCount((n) => n + 1);
+    if (ok) setCorrectCount((n) => n + 1);
+    else {
+      setMisses((prev) =>
+        prev.some((m) => m.id === gap.cardId)
+          ? prev
+          : [...prev, gapMissLabel(gap)],
+      );
+    }
     setGradeReady(false);
     setResult(evaluated);
-    setActionIndex(evaluated.verdict === 'correct' ? 1 : 0);
+    setActionIndex(ok ? 1 : 0);
   }
 
   function advance() {
@@ -198,49 +231,30 @@ export function GapFillPage() {
 
   if (finished || !gap || !item) {
     return (
-      <div className="learn-screen">
-        <section className="panel empty-state">
-          <h2>
-            {ui === 'ru' ? 'Сессия gap-fill завершена' : 'Gap-fill session complete'}
-          </h2>
-          <p className="muted">
-            {session.length === 0
-              ? ui === 'ru'
-                ? 'Сейчас нет форм к повторению. Расширьте уровни в настройках или загляните позже.'
-                : 'Nothing due right now. Broaden levels in Settings or check back later.'
-              : ui === 'ru'
-                ? 'Интервалы для глагольных форм обновлены.'
-                : 'Verb-form intervals are updated.'}
-          </p>
-          <p className="muted">
-            {ui === 'ru'
-              ? `Каталог: ${catalogInfo.verbs} глаголов · ${catalogInfo.forms} форм (A1–B1)`
-              : `Catalog: ${catalogInfo.verbs} verbs · ${catalogInfo.forms} forms (A1–B1)`}
-          </p>
-          <div className="btn-row" style={{ justifyContent: 'center' }}>
-            <Link className="btn btn-primary" to="/">
-              {ui === 'ru' ? 'На главную' : 'Home'}
-            </Link>
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={() => {
-                const items = buildGapSession(
-                  vocabulary,
-                  useAppStore.getState().progress,
-                );
-                setSession(items);
-                setIndex(0);
-                setAnswer('');
-                setResult(null);
-                setFinished(items.length === 0);
-              }}
-            >
-              {ui === 'ru' ? 'Ещё сессия' : 'Another session'}
-            </button>
-          </div>
-        </section>
-      </div>
+      <SessionSummary
+        ui={ui}
+        title={
+          ui === 'ru' ? 'Сессия gap-fill завершена' : 'Gap-fill session complete'
+        }
+        answered={answeredCount}
+        correct={correctCount}
+        misses={misses}
+        emptyMessage={
+          ui === 'ru'
+            ? 'Сейчас нет форм к повторению. Расширьте уровни в настройках или загляните позже.'
+            : 'Nothing due right now. Broaden levels in Settings or check back later.'
+        }
+        footnote={
+          ui === 'ru'
+            ? `Каталог: ${catalogInfo.verbs} глаголов · ${catalogInfo.forms} форм (A1–B1)`
+            : `Catalog: ${catalogInfo.verbs} verbs · ${catalogInfo.forms} forms (A1–B1)`
+        }
+        onAgain={() => {
+          resetSession(
+            buildGapSession(vocabulary, useAppStore.getState().progress),
+          );
+        }}
+      />
     );
   }
 

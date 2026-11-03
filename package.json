@@ -1,7 +1,7 @@
 {
   "name": "wortklar",
   "private": true,
-  "version": "1.5.9",
+  "version": "1.6.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -16,6 +16,7 @@
     "qa": "npm run smoke && npm run build"
   },
   "dependencies": {
+    "@rolldown/binding-darwin-x64": "^1.2.16",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
     "react-router-dom": "^7.18.5",

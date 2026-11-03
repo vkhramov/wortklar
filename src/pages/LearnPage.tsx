@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { useAppStore } from '../store/useAppStore';
 import { buildSession } from '../lib/session';
 import { evaluateAnswer, producesGerman } from '../lib/answer';
@@ -9,12 +8,25 @@ import { AnswerField } from '../components/AnswerField';
 import { DictateButton } from '../components/DictateButton';
 import { Illustration } from '../components/Illustration';
 import { PronounceButton } from '../components/PronounceButton';
+import {
+  SessionSummary,
+  type SessionMiss,
+} from '../components/SessionSummary';
 import { WordPhoto } from '../components/WordPhoto';
 import { recognitionLangForMode } from '../lib/speechRecognition';
 import { hasWordImage, preloadWordImage } from '../lib/wordImages';
 import { scrollGradeActionsIntoView } from '../lib/scrollGradeActions';
-import type { AnswerResult, SessionItem } from '../types/vocab';
+import type { AnswerResult, SessionItem, VocabEntry } from '../types/vocab';
 import type { Grade } from '../lib/srs';
+
+function learnMissLabel(entry: VocabEntry): SessionMiss {
+  const primary =
+    entry.pos === 'noun' && entry.article
+      ? `${entry.article} ${entry.lemma}`
+      : entry.lemma;
+  const secondary = [...entry.ru, ...entry.en].filter(Boolean).slice(0, 2).join(' · ');
+  return { id: entry.id, primary, secondary: secondary || undefined };
+}
 
 const UMLAUTS = ['ä', 'ö', 'ü', 'ß', 'Ä', 'Ö', 'Ü'];
 
@@ -38,15 +50,28 @@ export function LearnPage() {
   const [actionIndex, setActionIndex] = useState(0);
   // Prevent the submitting Enter/click from also activating a grade button
   const [gradeReady, setGradeReady] = useState(false);
+  const [correctCount, setCorrectCount] = useState(0);
+  const [answeredCount, setAnsweredCount] = useState(0);
+  const [misses, setMisses] = useState<SessionMiss[]>([]);
 
-  useEffect(() => {
-    const items = buildSession(vocabulary, progress);
+  function resetSession(items: SessionItem[]) {
     setSession(items);
     setIndex(0);
     setAnswer('');
     setResult(null);
     setFinished(items.length === 0);
-  }, [vocabulary]); // intentionally not re-building mid-session on every progress change
+    setActionIndex(0);
+    setGradeReady(false);
+    setCorrectCount(0);
+    setAnsweredCount(0);
+    setMisses([]);
+  }
+
+  useEffect(() => {
+    resetSession(buildSession(vocabulary, progress));
+    // intentionally not re-building mid-session on every progress change
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional
+  }, [vocabulary]);
 
   const item = session[index];
   const entry = item?.entry;
@@ -77,11 +102,19 @@ export function LearnPage() {
     const raw = rawOverride ?? answer;
     if (rawOverride !== undefined) setAnswer(rawOverride);
     const evaluated = evaluateAnswer(entry, mode, raw);
+    const ok = evaluated.verdict === 'correct';
     // Accuracy follows the answer, not the later SRS button
-    recordAnswer(entry.id, evaluated.verdict === 'correct');
+    recordAnswer(entry.id, ok);
+    setAnsweredCount((n) => n + 1);
+    if (ok) setCorrectCount((n) => n + 1);
+    else {
+      setMisses((prev) =>
+        prev.some((m) => m.id === entry.id) ? prev : [...prev, learnMissLabel(entry)],
+      );
+    }
     setGradeReady(false);
     setResult(evaluated);
-    setActionIndex(evaluated.verdict === 'correct' ? 1 : 0);
+    setActionIndex(ok ? 1 : 0);
   }
 
   function advance() {
@@ -246,39 +279,23 @@ export function LearnPage() {
 
   if (finished || !entry || !safe) {
     return (
-      <div className="learn-screen">
-        <section className="panel empty-state">
-          <h2>{ui === 'ru' ? 'Сессия завершена' : 'Session complete'}</h2>
-          <p className="muted">
-            {session.length === 0
-              ? ui === 'ru'
-                ? 'Сейчас нет карточек по выбранным фильтрам. Расширьте темы или уровни в настройках.'
-                : 'No cards match your filters right now. Broaden topics or levels in Settings.'
-              : ui === 'ru'
-                ? 'Отличная работа. Продолжайте завтра — интервалы уже обновлены.'
-                : 'Nice work. Come back tomorrow — your intervals are already updated.'}
-          </p>
-          <div className="btn-row" style={{ justifyContent: 'center' }}>
-            <Link className="btn btn-primary" to="/">
-              {ui === 'ru' ? 'На главную' : 'Home'}
-            </Link>
-            <button
-              type="button"
-              className="btn btn-secondary"
-              onClick={() => {
-                const items = buildSession(vocabulary, useAppStore.getState().progress);
-                setSession(items);
-                setIndex(0);
-                setAnswer('');
-                setResult(null);
-                setFinished(items.length === 0);
-              }}
-            >
-              {ui === 'ru' ? 'Ещё сессия' : 'Another session'}
-            </button>
-          </div>
-        </section>
-      </div>
+      <SessionSummary
+        ui={ui}
+        title={ui === 'ru' ? 'Сессия завершена' : 'Session complete'}
+        answered={answeredCount}
+        correct={correctCount}
+        misses={misses}
+        emptyMessage={
+          ui === 'ru'
+            ? 'Сейчас нет карточек по выбранным фильтрам. Расширьте темы или уровни в настройках.'
+            : 'No cards match your filters right now. Broaden topics or levels in Settings.'
+        }
+        onAgain={() => {
+          resetSession(
+            buildSession(vocabulary, useAppStore.getState().progress),
+          );
+        }}
+      />
     );
   }
 

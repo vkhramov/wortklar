@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-Rewrite flagged gap-fill German examples with meaningful, person-correct sentences.
+DEPRECATED: template/gtx gap DE is no longer the source of truth.
 
-Uses audit report + catalog conjugations. Rebuilds promptDe/expected and clears
-en/ru for rewritten rows so translate-verb-gap-catalog.py only hits cache misses.
+Use scripts/build-gap-from-corpus.py (Tatoeba + graded readers) instead.
+This file is kept only for historical blanking/audit experiments.
 """
 from __future__ import annotations
 

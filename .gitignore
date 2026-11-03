@@ -14,6 +14,13 @@ dist-ssr
 scripts/.gap-translate-cache.json
 scripts/gap-translate-cache.backup.json
 scripts/.gap-chunk-*.txt
+scripts/data/tatoeba/
+scripts/data/graded-readers/**/*.txt
+scripts/data/graded-readers/**/*.md
+scripts/data/graded-readers/**/*.epub
+scripts/data/graded-readers/.gutenberg*.txt
+!scripts/data/graded-readers/**/README.md
+scripts/.gap-corpus-translate-cache.json
 
 # Editor directories and files
 .vscode/*
@@ -25,3 +32,4 @@ scripts/.gap-chunk-*.txt
 *.njsproj
 *.sln
 *.sw?
+scripts/data/graded-readers/.gutenberg*.txt

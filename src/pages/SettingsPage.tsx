@@ -129,6 +129,12 @@ export function SettingsPage() {
             {ui === 'ru' ? 'Кнопки умляутов' : 'Umlaut helper buttons'}
           </label>
         </div>
+
+        <p className="muted" style={{ marginTop: '0.75rem' }}>
+          {ui === 'ru'
+            ? 'Примеры в gap-fill — из Tatoeba и ваших A1–B1 текстов (личная библиотека).'
+            : 'Gap-fill examples come from Tatoeba and your A1–B1 graded readers (personal library).'}
+        </p>
       </section>
 
       <section className="panel">

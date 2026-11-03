@@ -1,0 +1,3643 @@
+{
+  "vg-sein": {
+    "lemma": "sein",
+    "conjugations": {
+      "ich": "bin",
+      "du": "bist",
+      "er": "ist",
+      "wir": "sind",
+      "ihr": "seid",
+      "sie": "sind"
+    }
+  },
+  "vg-haben": {
+    "lemma": "haben",
+    "conjugations": {
+      "ich": "habe",
+      "du": "hast",
+      "er": "hat",
+      "wir": "haben",
+      "ihr": "habt",
+      "sie": "haben"
+    }
+  },
+  "vg-werden": {
+    "lemma": "werden",
+    "conjugations": {
+      "ich": "werde",
+      "du": "wirst",
+      "er": "wird",
+      "wir": "werden",
+      "ihr": "werdet",
+      "sie": "werden"
+    }
+  },
+  "vg-konnen": {
+    "lemma": "können",
+    "conjugations": {
+      "ich": "kann",
+      "du": "kannst",
+      "er": "kann",
+      "wir": "können",
+      "ihr": "könnt",
+      "sie": "können"
+    }
+  },
+  "vg-mussen": {
+    "lemma": "müssen",
+    "conjugations": {
+      "ich": "muss",
+      "du": "musst",
+      "er": "muss",
+      "wir": "müssen",
+      "ihr": "müsst",
+      "sie": "müssen"
+    }
+  },
+  "vg-wollen": {
+    "lemma": "wollen",
+    "conjugations": {
+      "ich": "will",
+      "du": "willst",
+      "er": "will",
+      "wir": "wollen",
+      "ihr": "wollt",
+      "sie": "wollen"
+    }
+  },
+  "vg-sollen": {
+    "lemma": "sollen",
+    "conjugations": {
+      "ich": "soll",
+      "du": "sollst",
+      "er": "soll",
+      "wir": "sollen",
+      "ihr": "sollt",
+      "sie": "sollen"
+    }
+  },
+  "vg-durfen": {
+    "lemma": "dürfen",
+    "conjugations": {
+      "ich": "darf",
+      "du": "darfst",
+      "er": "darf",
+      "wir": "dürfen",
+      "ihr": "dürft",
+      "sie": "dürfen"
+    }
+  },
+  "vg-sagen": {
+    "lemma": "sagen",
+    "conjugations": {
+      "ich": "sage",
+      "du": "sagst",
+      "er": "sagt",
+      "wir": "sagen",
+      "ihr": "sagt",
+      "sie": "sagen"
+    }
+  },
+  "vg-machen": {
+    "lemma": "machen",
+    "conjugations": {
+      "ich": "mache",
+      "du": "machst",
+      "er": "macht",
+      "wir": "machen",
+      "ihr": "macht",
+      "sie": "machen"
+    }
+  },
+  "vg-geben": {
+    "lemma": "geben",
+    "conjugations": {
+      "ich": "gebe",
+      "du": "gibst",
+      "er": "gibt",
+      "wir": "geben",
+      "ihr": "gebt",
+      "sie": "geben"
+    }
+  },
+  "vg-kommen": {
+    "lemma": "kommen",
+    "conjugations": {
+      "ich": "komme",
+      "du": "kommst",
+      "er": "kommt",
+      "wir": "kommen",
+      "ihr": "kommt",
+      "sie": "kommen"
+    }
+  },
+  "vg-gehen": {
+    "lemma": "gehen",
+    "conjugations": {
+      "ich": "gehe",
+      "du": "gehst",
+      "er": "geht",
+      "wir": "gehen",
+      "ihr": "geht",
+      "sie": "gehen"
+    }
+  },
+  "vg-wissen": {
+    "lemma": "wissen",
+    "conjugations": {
+      "ich": "weiß",
+      "du": "weißt",
+      "er": "weiß",
+      "wir": "wissen",
+      "ihr": "wisst",
+      "sie": "wissen"
+    }
+  },
+  "vg-sehen": {
+    "lemma": "sehen",
+    "conjugations": {
+      "ich": "sehe",
+      "du": "siehst",
+      "er": "sieht",
+      "wir": "sehen",
+      "ihr": "seht",
+      "sie": "sehen"
+    }
+  },
+  "vg-stehen": {
+    "lemma": "stehen",
+    "conjugations": {
+      "ich": "stehe",
+      "du": "stehst",
+      "er": "steht",
+      "wir": "stehen",
+      "ihr": "steht",
+      "sie": "stehen"
+    }
+  },
+  "vg-finden": {
+    "lemma": "finden",
+    "conjugations": {
+      "ich": "finde",
+      "du": "findest",
+      "er": "findet",
+      "wir": "finden",
+      "ihr": "findet",
+      "sie": "finden"
+    }
+  },
+  "vg-bleiben": {
+    "lemma": "bleiben",
+    "conjugations": {
+      "ich": "bleibe",
+      "du": "bleibst",
+      "er": "bleibt",
+      "wir": "bleiben",
+      "ihr": "bleibt",
+      "sie": "bleiben"
+    }
+  },
+  "vg-liegen": {
+    "lemma": "liegen",
+    "conjugations": {
+      "ich": "liege",
+      "du": "liegst",
+      "er": "liegt",
+      "wir": "liegen",
+      "ihr": "liegt",
+      "sie": "liegen"
+    }
+  },
+  "vg-heissen": {
+    "lemma": "heißen",
+    "conjugations": {
+      "ich": "heiße",
+      "du": "heißt",
+      "er": "heißt",
+      "wir": "heißen",
+      "ihr": "heißt",
+      "sie": "heißen"
+    }
+  },
+  "vg-nehmen": {
+    "lemma": "nehmen",
+    "conjugations": {
+      "ich": "nehme",
+      "du": "nimmst",
+      "er": "nimmt",
+      "wir": "nehmen",
+      "ihr": "nehmt",
+      "sie": "nehmen"
+    }
+  },
+  "vg-tun": {
+    "lemma": "tun",
+    "conjugations": {
+      "ich": "tue",
+      "du": "tust",
+      "er": "tut",
+      "wir": "tun",
+      "ihr": "tut",
+      "sie": "tun"
+    }
+  },
+  "vg-glauben": {
+    "lemma": "glauben",
+    "conjugations": {
+      "ich": "glaube",
+      "du": "glaubst",
+      "er": "glaubt",
+      "wir": "glauben",
+      "ihr": "glaubt",
+      "sie": "glauben"
+    }
+  },
+  "vg-zeigen": {
+    "lemma": "zeigen",
+    "conjugations": {
+      "ich": "zeige",
+      "du": "zeigst",
+      "er": "zeigt",
+      "wir": "zeigen",
+      "ihr": "zeigt",
+      "sie": "zeigen"
+    }
+  },
+  "vg-sprechen": {
+    "lemma": "sprechen",
+    "conjugations": {
+      "ich": "spreche",
+      "du": "sprichst",
+      "er": "spricht",
+      "wir": "sprechen",
+      "ihr": "sprecht",
+      "sie": "sprechen"
+    }
+  },
+  "vg-bringen": {
+    "lemma": "bringen",
+    "conjugations": {
+      "ich": "bringe",
+      "du": "bringst",
+      "er": "bringt",
+      "wir": "bringen",
+      "ihr": "bringt",
+      "sie": "bringen"
+    }
+  },
+  "vg-leben": {
+    "lemma": "leben",
+    "conjugations": {
+      "ich": "lebe",
+      "du": "lebst",
+      "er": "lebt",
+      "wir": "leben",
+      "ihr": "lebt",
+      "sie": "leben"
+    }
+  },
+  "vg-fahren": {
+    "lemma": "fahren",
+    "conjugations": {
+      "ich": "fahre",
+      "du": "fährst",
+      "er": "fährt",
+      "wir": "fahren",
+      "ihr": "fahrt",
+      "sie": "fahren"
+    }
+  },
+  "vg-fragen": {
+    "lemma": "fragen",
+    "conjugations": {
+      "ich": "frage",
+      "du": "fragst",
+      "er": "fragt",
+      "wir": "fragen",
+      "ihr": "fragt",
+      "sie": "fragen"
+    }
+  },
+  "vg-kennen": {
+    "lemma": "kennen",
+    "conjugations": {
+      "ich": "kenne",
+      "du": "kennst",
+      "er": "kennt",
+      "wir": "kennen",
+      "ihr": "kennt",
+      "sie": "kennen"
+    }
+  },
+  "vg-spielen": {
+    "lemma": "spielen",
+    "conjugations": {
+      "ich": "spiele",
+      "du": "spielst",
+      "er": "spielt",
+      "wir": "spielen",
+      "ihr": "spielt",
+      "sie": "spielen"
+    }
+  },
+  "vg-arbeiten": {
+    "lemma": "arbeiten",
+    "conjugations": {
+      "ich": "arbeite",
+      "du": "arbeitest",
+      "er": "arbeitet",
+      "wir": "arbeiten",
+      "ihr": "arbeitet",
+      "sie": "arbeiten"
+    }
+  },
+  "vg-brauchen": {
+    "lemma": "brauchen",
+    "conjugations": {
+      "ich": "brauche",
+      "du": "brauchst",
+      "er": "braucht",
+      "wir": "brauchen",
+      "ihr": "braucht",
+      "sie": "brauchen"
+    }
+  },
+  "vg-lernen": {
+    "lemma": "lernen",
+    "conjugations": {
+      "ich": "lerne",
+      "du": "lernst",
+      "er": "lernt",
+      "wir": "lernen",
+      "ihr": "lernt",
+      "sie": "lernen"
+    }
+  },
+  "vg-verstehen": {
+    "lemma": "verstehen",
+    "conjugations": {
+      "ich": "verstehe mich",
+      "du": "verstehst dich",
+      "er": "versteht sich",
+      "wir": "verstehen uns",
+      "ihr": "versteht euch",
+      "sie": "verstehen sich"
+    }
+  },
+  "vg-bekommen": {
+    "lemma": "bekommen",
+    "conjugations": {
+      "ich": "bekomme",
+      "du": "bekommst",
+      "er": "bekommt",
+      "wir": "bekommen",
+      "ihr": "bekommt",
+      "sie": "bekommen"
+    }
+  },
+  "vg-erzahlen": {
+    "lemma": "erzählen",
+    "conjugations": {
+      "ich": "erzähle",
+      "du": "erzählst",
+      "er": "erzählt",
+      "wir": "erzählen",
+      "ihr": "erzählt",
+      "sie": "erzählen"
+    }
+  },
+  "vg-schreiben": {
+    "lemma": "schreiben",
+    "conjugations": {
+      "ich": "schreibe",
+      "du": "schreibst",
+      "er": "schreibt",
+      "wir": "schreiben",
+      "ihr": "schreibt",
+      "sie": "schreiben"
+    }
+  },
+  "vg-antworten": {
+    "lemma": "antworten",
+    "conjugations": {
+      "ich": "antworte",
+      "du": "antwortest",
+      "er": "antwortet",
+      "wir": "antworten",
+      "ihr": "antwortet",
+      "sie": "antworten"
+    }
+  },
+  "vg-suchen": {
+    "lemma": "suchen",
+    "conjugations": {
+      "ich": "suche",
+      "du": "suchst",
+      "er": "sucht",
+      "wir": "suchen",
+      "ihr": "sucht",
+      "sie": "suchen"
+    }
+  },
+  "vg-kaufen": {
+    "lemma": "kaufen",
+    "conjugations": {
+      "ich": "kaufe",
+      "du": "kaufst",
+      "er": "kauft",
+      "wir": "kaufen",
+      "ihr": "kauft",
+      "sie": "kaufen"
+    }
+  },
+  "vg-trinken": {
+    "lemma": "trinken",
+    "conjugations": {
+      "ich": "trinke",
+      "du": "trinkst",
+      "er": "trinkt",
+      "wir": "trinken",
+      "ihr": "trinkt",
+      "sie": "trinken"
+    }
+  },
+  "vg-essen": {
+    "lemma": "essen",
+    "conjugations": {
+      "ich": "esse",
+      "du": "isst",
+      "er": "isst",
+      "wir": "essen",
+      "ihr": "esst",
+      "sie": "essen"
+    }
+  },
+  "vg-schlafen": {
+    "lemma": "schlafen",
+    "conjugations": {
+      "ich": "schlafe",
+      "du": "schläfst",
+      "er": "schläft",
+      "wir": "schlafen",
+      "ihr": "schlaft",
+      "sie": "schlafen"
+    }
+  },
+  "vg-horen": {
+    "lemma": "hören",
+    "conjugations": {
+      "ich": "höre",
+      "du": "hörst",
+      "er": "hört",
+      "wir": "hören",
+      "ihr": "hört",
+      "sie": "hören"
+    }
+  },
+  "vg-lesen": {
+    "lemma": "lesen",
+    "conjugations": {
+      "ich": "lese",
+      "du": "liest",
+      "er": "liest",
+      "wir": "lesen",
+      "ihr": "lest",
+      "sie": "lesen"
+    }
+  },
+  "vg-helfen": {
+    "lemma": "helfen",
+    "conjugations": {
+      "ich": "helfe",
+      "du": "hilfst",
+      "er": "hilft",
+      "wir": "helfen",
+      "ihr": "helft",
+      "sie": "helfen"
+    }
+  },
+  "vg-holen": {
+    "lemma": "holen",
+    "conjugations": {
+      "ich": "hole",
+      "du": "holst",
+      "er": "holt",
+      "wir": "holen",
+      "ihr": "holt",
+      "sie": "holen"
+    }
+  },
+  "vg-sitzen": {
+    "lemma": "sitzen",
+    "conjugations": {
+      "ich": "sitze",
+      "du": "sitzt",
+      "er": "sitzt",
+      "wir": "sitzen",
+      "ihr": "sitzt",
+      "sie": "sitzen"
+    }
+  },
+  "vg-tanzen": {
+    "lemma": "tanzen",
+    "conjugations": {
+      "ich": "tanze",
+      "du": "tanzt",
+      "er": "tanzt",
+      "wir": "tanzen",
+      "ihr": "tanzt",
+      "sie": "tanzen"
+    }
+  },
+  "vg-singen": {
+    "lemma": "singen",
+    "conjugations": {
+      "ich": "singe",
+      "du": "singst",
+      "er": "singt",
+      "wir": "singen",
+      "ihr": "singt",
+      "sie": "singen"
+    }
+  },
+  "vg-lachen": {
+    "lemma": "lachen",
+    "conjugations": {
+      "ich": "lache",
+      "du": "lachst",
+      "er": "lacht",
+      "wir": "lachen",
+      "ihr": "lacht",
+      "sie": "lachen"
+    }
+  },
+  "vg-weinen": {
+    "lemma": "weinen",
+    "conjugations": {
+      "ich": "weine",
+      "du": "weinst",
+      "er": "weint",
+      "wir": "weinen",
+      "ihr": "weint",
+      "sie": "weinen"
+    }
+  },
+  "vg-zahlen": {
+    "lemma": "zahlen",
+    "conjugations": {
+      "ich": "zahle",
+      "du": "zahlst",
+      "er": "zahlt",
+      "wir": "zahlen",
+      "ihr": "zahlt",
+      "sie": "zahlen"
+    }
+  },
+  "vg-kosten": {
+    "lemma": "kosten",
+    "conjugations": {
+      "ich": "koste",
+      "du": "kostest",
+      "er": "kostet",
+      "wir": "kosten",
+      "ihr": "kostet",
+      "sie": "kosten"
+    }
+  },
+  "vg-offnen": {
+    "lemma": "öffnen",
+    "conjugations": {
+      "ich": "öffne",
+      "du": "öffnest",
+      "er": "öffnet",
+      "wir": "öffnen",
+      "ihr": "öffnet",
+      "sie": "öffnen"
+    }
+  },
+  "vg-aufraumen": {
+    "lemma": "aufräumen",
+    "conjugations": {
+      "ich": "räume auf",
+      "du": "räumst auf",
+      "er": "räumt auf",
+      "wir": "räumen auf",
+      "ihr": "räumt auf",
+      "sie": "räumen auf"
+    }
+  },
+  "vg-kochen": {
+    "lemma": "kochen",
+    "conjugations": {
+      "ich": "koche",
+      "du": "kochst",
+      "er": "kocht",
+      "wir": "kochen",
+      "ihr": "kocht",
+      "sie": "kochen"
+    }
+  },
+  "vg-anfangen": {
+    "lemma": "anfangen",
+    "conjugations": {
+      "ich": "fange an",
+      "du": "fängst an",
+      "er": "fängt an",
+      "wir": "fangen an",
+      "ihr": "fangt an",
+      "sie": "fangen an"
+    }
+  },
+  "vg-ankommen": {
+    "lemma": "ankommen",
+    "conjugations": {
+      "ich": "komme an",
+      "du": "kommst an",
+      "er": "kommt an",
+      "wir": "kommen an",
+      "ihr": "kommt an",
+      "sie": "kommen an"
+    }
+  },
+  "vg-anrufen": {
+    "lemma": "anrufen",
+    "conjugations": {
+      "ich": "rufe an",
+      "du": "rufst an",
+      "er": "ruft an",
+      "wir": "rufen an",
+      "ihr": "ruft an",
+      "sie": "rufen an"
+    }
+  },
+  "vg-aufstehen": {
+    "lemma": "aufstehen",
+    "conjugations": {
+      "ich": "stehe auf",
+      "du": "stehst auf",
+      "er": "steht auf",
+      "wir": "stehen auf",
+      "ihr": "steht auf",
+      "sie": "stehen auf"
+    }
+  },
+  "vg-aussehen": {
+    "lemma": "aussehen",
+    "conjugations": {
+      "ich": "sehe aus",
+      "du": "siehst aus",
+      "er": "sieht aus",
+      "wir": "sehen aus",
+      "ihr": "seht aus",
+      "sie": "sehen aus"
+    }
+  },
+  "vg-baden": {
+    "lemma": "baden",
+    "conjugations": {
+      "ich": "bade",
+      "du": "badest",
+      "er": "badet",
+      "wir": "baden",
+      "ihr": "badet",
+      "sie": "baden"
+    }
+  },
+  "vg-besuchen": {
+    "lemma": "besuchen",
+    "conjugations": {
+      "ich": "besuche",
+      "du": "besuchst",
+      "er": "besucht",
+      "wir": "besuchen",
+      "ihr": "besucht",
+      "sie": "besuchen"
+    }
+  },
+  "vg-bestellen": {
+    "lemma": "bestellen",
+    "conjugations": {
+      "ich": "bestelle",
+      "du": "bestellst",
+      "er": "bestellt",
+      "wir": "bestellen",
+      "ihr": "bestellt",
+      "sie": "bestellen"
+    }
+  },
+  "vg-bezahlen": {
+    "lemma": "bezahlen",
+    "conjugations": {
+      "ich": "bezahle",
+      "du": "bezahlst",
+      "er": "bezahlt",
+      "wir": "bezahlen",
+      "ihr": "bezahlt",
+      "sie": "bezahlen"
+    }
+  },
+  "vg-dauern": {
+    "lemma": "dauern",
+    "conjugations": {
+      "ich": "dauere",
+      "du": "dauerst",
+      "er": "dauert",
+      "wir": "dauern",
+      "ihr": "dauert",
+      "sie": "dauern"
+    }
+  },
+  "vg-duschen": {
+    "lemma": "duschen",
+    "conjugations": {
+      "ich": "dusche mich",
+      "du": "duschst dich",
+      "er": "duscht sich",
+      "wir": "duschen uns",
+      "ihr": "duscht euch",
+      "sie": "duschen sich"
+    }
+  },
+  "vg-einkaufen": {
+    "lemma": "einkaufen",
+    "conjugations": {
+      "ich": "kaufe ein",
+      "du": "kaufst ein",
+      "er": "kauft ein",
+      "wir": "kaufen ein",
+      "ihr": "kauft ein",
+      "sie": "kaufen ein"
+    }
+  },
+  "vg-feiern": {
+    "lemma": "feiern",
+    "conjugations": {
+      "ich": "feiere",
+      "du": "feierst",
+      "er": "feiert",
+      "wir": "feiern",
+      "ihr": "feiert",
+      "sie": "feiern"
+    }
+  },
+  "vg-fernsehen": {
+    "lemma": "fernsehen",
+    "conjugations": {
+      "ich": "sehe fern",
+      "du": "siehst fern",
+      "er": "sieht fern",
+      "wir": "sehen fern",
+      "ihr": "seht fern",
+      "sie": "sehen fern"
+    }
+  },
+  "vg-laufen": {
+    "lemma": "laufen",
+    "conjugations": {
+      "ich": "laufe",
+      "du": "läufst",
+      "er": "läuft",
+      "wir": "laufen",
+      "ihr": "lauft",
+      "sie": "laufen"
+    }
+  },
+  "vg-lieben": {
+    "lemma": "lieben",
+    "conjugations": {
+      "ich": "liebe",
+      "du": "liebst",
+      "er": "liebt",
+      "wir": "lieben",
+      "ihr": "liebt",
+      "sie": "lieben"
+    }
+  },
+  "vg-mitbringen": {
+    "lemma": "mitbringen",
+    "conjugations": {
+      "ich": "bringe mit",
+      "du": "bringst mit",
+      "er": "bringt mit",
+      "wir": "bringen mit",
+      "ihr": "bringt mit",
+      "sie": "bringen mit"
+    }
+  },
+  "vg-passieren": {
+    "lemma": "passieren",
+    "conjugations": {
+      "ich": "passiere",
+      "du": "passierst",
+      "er": "passiert",
+      "wir": "passieren",
+      "ihr": "passiert",
+      "sie": "passieren"
+    }
+  },
+  "vg-probieren": {
+    "lemma": "probieren",
+    "conjugations": {
+      "ich": "probiere",
+      "du": "probierst",
+      "er": "probiert",
+      "wir": "probieren",
+      "ihr": "probiert",
+      "sie": "probieren"
+    }
+  },
+  "vg-rauchen": {
+    "lemma": "rauchen",
+    "conjugations": {
+      "ich": "rauche",
+      "du": "rauchst",
+      "er": "raucht",
+      "wir": "rauchen",
+      "ihr": "raucht",
+      "sie": "rauchen"
+    }
+  },
+  "vg-regnen": {
+    "lemma": "regnen",
+    "conjugations": {
+      "ich": "regne",
+      "du": "regnest",
+      "er": "regnet",
+      "wir": "regnen",
+      "ihr": "regnet",
+      "sie": "regnen"
+    }
+  },
+  "vg-schenken": {
+    "lemma": "schenken",
+    "conjugations": {
+      "ich": "schenke",
+      "du": "schenkst",
+      "er": "schenkt",
+      "wir": "schenken",
+      "ihr": "schenkt",
+      "sie": "schenken"
+    }
+  },
+  "vg-schicken": {
+    "lemma": "schicken",
+    "conjugations": {
+      "ich": "schicke",
+      "du": "schickst",
+      "er": "schickt",
+      "wir": "schicken",
+      "ihr": "schickt",
+      "sie": "schicken"
+    }
+  },
+  "vg-schwimmen": {
+    "lemma": "schwimmen",
+    "conjugations": {
+      "ich": "schwimme",
+      "du": "schwimmst",
+      "er": "schwimmt",
+      "wir": "schwimmen",
+      "ihr": "schwimmt",
+      "sie": "schwimmen"
+    }
+  },
+  "vg-telefonieren": {
+    "lemma": "telefonieren",
+    "conjugations": {
+      "ich": "telefoniere",
+      "du": "telefonierst",
+      "er": "telefoniert",
+      "wir": "telefonieren",
+      "ihr": "telefoniert",
+      "sie": "telefonieren"
+    }
+  },
+  "vg-vergessen": {
+    "lemma": "vergessen",
+    "conjugations": {
+      "ich": "vergesse",
+      "du": "vergisst",
+      "er": "vergisst",
+      "wir": "vergessen",
+      "ihr": "vergesst",
+      "sie": "vergessen"
+    }
+  },
+  "vg-warten": {
+    "lemma": "warten",
+    "conjugations": {
+      "ich": "warte",
+      "du": "wartest",
+      "er": "wartet",
+      "wir": "warten",
+      "ihr": "wartet",
+      "sie": "warten"
+    }
+  },
+  "vg-wohnen": {
+    "lemma": "wohnen",
+    "conjugations": {
+      "ich": "wohne",
+      "du": "wohnst",
+      "er": "wohnt",
+      "wir": "wohnen",
+      "ihr": "wohnt",
+      "sie": "wohnen"
+    }
+  },
+  "vg-anschauen": {
+    "lemma": "anschauen",
+    "conjugations": {
+      "ich": "schaue an",
+      "du": "schaust an",
+      "er": "schaut an",
+      "wir": "schauen an",
+      "ihr": "schaut an",
+      "sie": "schauen an"
+    }
+  },
+  "vg-ansehen": {
+    "lemma": "ansehen",
+    "conjugations": {
+      "ich": "sehe an",
+      "du": "siehst an",
+      "er": "sieht an",
+      "wir": "sehen an",
+      "ihr": "seht an",
+      "sie": "sehen an"
+    }
+  },
+  "vg-anziehen": {
+    "lemma": "anziehen",
+    "conjugations": {
+      "ich": "ziehe mich an",
+      "du": "ziehst dich an",
+      "er": "zieht sich an",
+      "wir": "ziehen uns an",
+      "ihr": "zieht euch an",
+      "sie": "ziehen sich an"
+    }
+  },
+  "vg-aufmachen": {
+    "lemma": "aufmachen",
+    "conjugations": {
+      "ich": "mache auf",
+      "du": "machst auf",
+      "er": "macht auf",
+      "wir": "machen auf",
+      "ihr": "macht auf",
+      "sie": "machen auf"
+    }
+  },
+  "vg-aufschreiben": {
+    "lemma": "aufschreiben",
+    "conjugations": {
+      "ich": "schreibe auf",
+      "du": "schreibst auf",
+      "er": "schreibt auf",
+      "wir": "schreiben auf",
+      "ihr": "schreibt auf",
+      "sie": "schreiben auf"
+    }
+  },
+  "vg-ausmachen": {
+    "lemma": "ausmachen",
+    "conjugations": {
+      "ich": "mache aus",
+      "du": "machst aus",
+      "er": "macht aus",
+      "wir": "machen aus",
+      "ihr": "macht aus",
+      "sie": "machen aus"
+    }
+  },
+  "vg-auspacken": {
+    "lemma": "auspacken",
+    "conjugations": {
+      "ich": "packe aus",
+      "du": "packst aus",
+      "er": "packt aus",
+      "wir": "packen aus",
+      "ihr": "packt aus",
+      "sie": "packen aus"
+    }
+  },
+  "vg-lassen": {
+    "lemma": "lassen",
+    "conjugations": {
+      "ich": "lasse",
+      "du": "lässt",
+      "er": "lässt",
+      "wir": "lassen",
+      "ihr": "lasst",
+      "sie": "lassen"
+    }
+  },
+  "vg-denken": {
+    "lemma": "denken",
+    "conjugations": {
+      "ich": "denke",
+      "du": "denkst",
+      "er": "denkt",
+      "wir": "denken",
+      "ihr": "denkt",
+      "sie": "denken"
+    }
+  },
+  "vg-halten": {
+    "lemma": "halten",
+    "conjugations": {
+      "ich": "halte",
+      "du": "hältst",
+      "er": "hält",
+      "wir": "halten",
+      "ihr": "haltet",
+      "sie": "halten"
+    }
+  },
+  "vg-nennen": {
+    "lemma": "nennen",
+    "conjugations": {
+      "ich": "nenne",
+      "du": "nennst",
+      "er": "nennt",
+      "wir": "nennen",
+      "ihr": "nennt",
+      "sie": "nennen"
+    }
+  },
+  "vg-fuhren": {
+    "lemma": "führen",
+    "conjugations": {
+      "ich": "führe",
+      "du": "führst",
+      "er": "führt",
+      "wir": "führen",
+      "ihr": "führt",
+      "sie": "führen"
+    }
+  },
+  "vg-meinen": {
+    "lemma": "meinen",
+    "conjugations": {
+      "ich": "meine",
+      "du": "meinst",
+      "er": "meint",
+      "wir": "meinen",
+      "ihr": "meint",
+      "sie": "meinen"
+    }
+  },
+  "vg-folgen": {
+    "lemma": "folgen",
+    "conjugations": {
+      "ich": "folge",
+      "du": "folgst",
+      "er": "folgt",
+      "wir": "folgen",
+      "ihr": "folgt",
+      "sie": "folgen"
+    }
+  },
+  "vg-setzen": {
+    "lemma": "setzen",
+    "conjugations": {
+      "ich": "setze mich",
+      "du": "setzt dich",
+      "er": "setzt sich",
+      "wir": "setzen uns",
+      "ihr": "setzt euch",
+      "sie": "setzen sich"
+    }
+  },
+  "vg-beginnen": {
+    "lemma": "beginnen",
+    "conjugations": {
+      "ich": "beginne",
+      "du": "beginnst",
+      "er": "beginnt",
+      "wir": "beginnen",
+      "ihr": "beginnt",
+      "sie": "beginnen"
+    }
+  },
+  "vg-versuchen": {
+    "lemma": "versuchen",
+    "conjugations": {
+      "ich": "versuche",
+      "du": "versuchst",
+      "er": "versucht",
+      "wir": "versuchen",
+      "ihr": "versucht",
+      "sie": "versuchen"
+    }
+  },
+  "vg-verkaufen": {
+    "lemma": "verkaufen",
+    "conjugations": {
+      "ich": "verkaufe",
+      "du": "verkaufst",
+      "er": "verkauft",
+      "wir": "verkaufen",
+      "ihr": "verkauft",
+      "sie": "verkaufen"
+    }
+  },
+  "vg-rufen": {
+    "lemma": "rufen",
+    "conjugations": {
+      "ich": "rufe",
+      "du": "rufst",
+      "er": "ruft",
+      "wir": "rufen",
+      "ihr": "ruft",
+      "sie": "rufen"
+    }
+  },
+  "vg-treffen": {
+    "lemma": "treffen",
+    "conjugations": {
+      "ich": "treffe mich",
+      "du": "triffst dich",
+      "er": "trifft sich",
+      "wir": "treffen uns",
+      "ihr": "trefft euch",
+      "sie": "treffen sich"
+    }
+  },
+  "vg-stellen": {
+    "lemma": "stellen",
+    "conjugations": {
+      "ich": "stelle",
+      "du": "stellst",
+      "er": "stellt",
+      "wir": "stellen",
+      "ihr": "stellt",
+      "sie": "stellen"
+    }
+  },
+  "vg-legen": {
+    "lemma": "legen",
+    "conjugations": {
+      "ich": "lege",
+      "du": "legst",
+      "er": "legt",
+      "wir": "legen",
+      "ihr": "legt",
+      "sie": "legen"
+    }
+  },
+  "vg-schliessen": {
+    "lemma": "schließen",
+    "conjugations": {
+      "ich": "schließe",
+      "du": "schließt",
+      "er": "schließt",
+      "wir": "schließen",
+      "ihr": "schließt",
+      "sie": "schließen"
+    }
+  },
+  "vg-sparen": {
+    "lemma": "sparen",
+    "conjugations": {
+      "ich": "spare",
+      "du": "sparst",
+      "er": "spart",
+      "wir": "sparen",
+      "ihr": "spart",
+      "sie": "sparen"
+    }
+  },
+  "vg-waschen": {
+    "lemma": "waschen",
+    "conjugations": {
+      "ich": "wasche",
+      "du": "wäschst",
+      "er": "wäscht",
+      "wir": "waschen",
+      "ihr": "wascht",
+      "sie": "waschen"
+    }
+  },
+  "vg-reisen": {
+    "lemma": "reisen",
+    "conjugations": {
+      "ich": "reise",
+      "du": "reist",
+      "er": "reist",
+      "wir": "reisen",
+      "ihr": "reist",
+      "sie": "reisen"
+    }
+  },
+  "vg-fliegen": {
+    "lemma": "fliegen",
+    "conjugations": {
+      "ich": "fliege",
+      "du": "fliegst",
+      "er": "fliegt",
+      "wir": "fliegen",
+      "ihr": "fliegt",
+      "sie": "fliegen"
+    }
+  },
+  "vg-wandern": {
+    "lemma": "wandern",
+    "conjugations": {
+      "ich": "wandere",
+      "du": "wanderst",
+      "er": "wandert",
+      "wir": "wandern",
+      "ihr": "wandert",
+      "sie": "wandern"
+    }
+  },
+  "vg-backen": {
+    "lemma": "backen",
+    "conjugations": {
+      "ich": "backe",
+      "du": "bäckst",
+      "er": "bäckt",
+      "wir": "backen",
+      "ihr": "backt",
+      "sie": "backen"
+    }
+  },
+  "vg-abholen": {
+    "lemma": "abholen",
+    "conjugations": {
+      "ich": "hole ab",
+      "du": "holst ab",
+      "er": "holt ab",
+      "wir": "holen ab",
+      "ihr": "holt ab",
+      "sie": "holen ab"
+    }
+  },
+  "vg-andern": {
+    "lemma": "ändern",
+    "conjugations": {
+      "ich": "ändere",
+      "du": "änderst",
+      "er": "ändert",
+      "wir": "ändern",
+      "ihr": "ändert",
+      "sie": "ändern"
+    }
+  },
+  "vg-anmelden": {
+    "lemma": "anmelden",
+    "conjugations": {
+      "ich": "melde an",
+      "du": "meldest an",
+      "er": "meldet an",
+      "wir": "melden an",
+      "ihr": "meldet an",
+      "sie": "melden an"
+    }
+  },
+  "vg-argern": {
+    "lemma": "ärgern",
+    "conjugations": {
+      "ich": "ärgere mich",
+      "du": "ärgerst dich",
+      "er": "ärgert sich",
+      "wir": "ärgern uns",
+      "ihr": "ärgert euch",
+      "sie": "ärgern sich"
+    }
+  },
+  "vg-aufhoren": {
+    "lemma": "aufhören",
+    "conjugations": {
+      "ich": "höre auf",
+      "du": "hörst auf",
+      "er": "hört auf",
+      "wir": "hören auf",
+      "ihr": "hört auf",
+      "sie": "hören auf"
+    }
+  },
+  "vg-ausgeben": {
+    "lemma": "ausgeben",
+    "conjugations": {
+      "ich": "gebe aus",
+      "du": "gibst aus",
+      "er": "gibt aus",
+      "wir": "geben aus",
+      "ihr": "gebt aus",
+      "sie": "geben aus"
+    }
+  },
+  "vg-aussteigen": {
+    "lemma": "aussteigen",
+    "conjugations": {
+      "ich": "steige aus",
+      "du": "steigst aus",
+      "er": "steigt aus",
+      "wir": "steigen aus",
+      "ihr": "steigt aus",
+      "sie": "steigen aus"
+    }
+  },
+  "vg-bauen": {
+    "lemma": "bauen",
+    "conjugations": {
+      "ich": "baue",
+      "du": "baust",
+      "er": "baut",
+      "wir": "bauen",
+      "ihr": "baut",
+      "sie": "bauen"
+    }
+  },
+  "vg-bedeuten": {
+    "lemma": "bedeuten",
+    "conjugations": {
+      "ich": "bedeute",
+      "du": "bedeutest",
+      "er": "bedeutet",
+      "wir": "bedeuten",
+      "ihr": "bedeutet",
+      "sie": "bedeuten"
+    }
+  },
+  "vg-benutzen": {
+    "lemma": "benutzen",
+    "conjugations": {
+      "ich": "benutze",
+      "du": "benutzt",
+      "er": "benutzt",
+      "wir": "benutzen",
+      "ihr": "benutzt",
+      "sie": "benutzen"
+    }
+  },
+  "vg-brennen": {
+    "lemma": "brennen",
+    "conjugations": {
+      "ich": "brenne",
+      "du": "brennst",
+      "er": "brennt",
+      "wir": "brennen",
+      "ihr": "brennt",
+      "sie": "brennen"
+    }
+  },
+  "vg-danken": {
+    "lemma": "danken",
+    "conjugations": {
+      "ich": "danke",
+      "du": "dankst",
+      "er": "dankt",
+      "wir": "danken",
+      "ihr": "dankt",
+      "sie": "danken"
+    }
+  },
+  "vg-drucken": {
+    "lemma": "drücken",
+    "conjugations": {
+      "ich": "drücke",
+      "du": "drückst",
+      "er": "drückt",
+      "wir": "drücken",
+      "ihr": "drückt",
+      "sie": "drücken"
+    }
+  },
+  "vg-einladen": {
+    "lemma": "einladen",
+    "conjugations": {
+      "ich": "lade ein",
+      "du": "lädst ein",
+      "er": "lädt ein",
+      "wir": "laden ein",
+      "ihr": "ladet ein",
+      "sie": "laden ein"
+    }
+  },
+  "vg-einsteigen": {
+    "lemma": "einsteigen",
+    "conjugations": {
+      "ich": "steige ein",
+      "du": "steigst ein",
+      "er": "steigt ein",
+      "wir": "steigen ein",
+      "ihr": "steigt ein",
+      "sie": "steigen ein"
+    }
+  },
+  "vg-entschuldigen": {
+    "lemma": "entschuldigen",
+    "conjugations": {
+      "ich": "entschuldige mich",
+      "du": "entschuldigst dich",
+      "er": "entschuldigt sich",
+      "wir": "entschuldigen uns",
+      "ihr": "entschuldigt euch",
+      "sie": "entschuldigen sich"
+    }
+  },
+  "vg-erklaren": {
+    "lemma": "erklären",
+    "conjugations": {
+      "ich": "erkläre",
+      "du": "erklärst",
+      "er": "erklärt",
+      "wir": "erklären",
+      "ihr": "erklärt",
+      "sie": "erklären"
+    }
+  },
+  "vg-fallen": {
+    "lemma": "fallen",
+    "conjugations": {
+      "ich": "falle",
+      "du": "fällst",
+      "er": "fällt",
+      "wir": "fallen",
+      "ihr": "fallt",
+      "sie": "fallen"
+    }
+  },
+  "vg-fehlen": {
+    "lemma": "fehlen",
+    "conjugations": {
+      "ich": "fehle",
+      "du": "fehlst",
+      "er": "fehlt",
+      "wir": "fehlen",
+      "ihr": "fehlt",
+      "sie": "fehlen"
+    }
+  },
+  "vg-freuen": {
+    "lemma": "freuen",
+    "conjugations": {
+      "ich": "freue mich",
+      "du": "freust dich",
+      "er": "freut sich",
+      "wir": "freuen uns",
+      "ihr": "freut euch",
+      "sie": "freuen sich"
+    }
+  },
+  "vg-fuhlen": {
+    "lemma": "fühlen",
+    "conjugations": {
+      "ich": "fühle",
+      "du": "fühlst",
+      "er": "fühlt",
+      "wir": "fühlen",
+      "ihr": "fühlt",
+      "sie": "fühlen"
+    }
+  },
+  "vg-gefallen": {
+    "lemma": "gefallen",
+    "conjugations": {
+      "ich": "gefalle",
+      "du": "gefällst",
+      "er": "gefällt",
+      "wir": "gefallen",
+      "ihr": "gefallt",
+      "sie": "gefallen"
+    }
+  },
+  "vg-gehoren": {
+    "lemma": "gehören",
+    "conjugations": {
+      "ich": "gehöre",
+      "du": "gehörst",
+      "er": "gehört",
+      "wir": "gehören",
+      "ihr": "gehört",
+      "sie": "gehören"
+    }
+  },
+  "vg-gewinnen": {
+    "lemma": "gewinnen",
+    "conjugations": {
+      "ich": "gewinne",
+      "du": "gewinnst",
+      "er": "gewinnt",
+      "wir": "gewinnen",
+      "ihr": "gewinnt",
+      "sie": "gewinnen"
+    }
+  },
+  "vg-gratulieren": {
+    "lemma": "gratulieren",
+    "conjugations": {
+      "ich": "gratuliere",
+      "du": "gratulierst",
+      "er": "gratuliert",
+      "wir": "gratulieren",
+      "ihr": "gratuliert",
+      "sie": "gratulieren"
+    }
+  },
+  "vg-hangen": {
+    "lemma": "hängen",
+    "conjugations": {
+      "ich": "hänge",
+      "du": "hängst",
+      "er": "hängt",
+      "wir": "hängen",
+      "ihr": "hängt",
+      "sie": "hängen"
+    }
+  },
+  "vg-heiraten": {
+    "lemma": "heiraten",
+    "conjugations": {
+      "ich": "heirate",
+      "du": "heiratest",
+      "er": "heiratet",
+      "wir": "heiraten",
+      "ihr": "heiratet",
+      "sie": "heiraten"
+    }
+  },
+  "vg-interessieren": {
+    "lemma": "interessieren",
+    "conjugations": {
+      "ich": "interessiere",
+      "du": "interessierst",
+      "er": "interessiert",
+      "wir": "interessieren",
+      "ihr": "interessiert",
+      "sie": "interessieren"
+    }
+  },
+  "vg-merken": {
+    "lemma": "merken",
+    "conjugations": {
+      "ich": "merke mir",
+      "du": "merkst dir",
+      "er": "merkt sich",
+      "wir": "merken uns",
+      "ihr": "merkt euch",
+      "sie": "merken sich"
+    }
+  },
+  "vg-mieten": {
+    "lemma": "mieten",
+    "conjugations": {
+      "ich": "miete",
+      "du": "mietest",
+      "er": "mietet",
+      "wir": "mieten",
+      "ihr": "mietet",
+      "sie": "mieten"
+    }
+  },
+  "vg-mitmachen": {
+    "lemma": "mitmachen",
+    "conjugations": {
+      "ich": "mache mit",
+      "du": "machst mit",
+      "er": "macht mit",
+      "wir": "machen mit",
+      "ihr": "macht mit",
+      "sie": "machen mit"
+    }
+  },
+  "vg-packen": {
+    "lemma": "packen",
+    "conjugations": {
+      "ich": "packe",
+      "du": "packst",
+      "er": "packt",
+      "wir": "packen",
+      "ihr": "packt",
+      "sie": "packen"
+    }
+  },
+  "vg-passen": {
+    "lemma": "passen",
+    "conjugations": {
+      "ich": "passe",
+      "du": "passt",
+      "er": "passt",
+      "wir": "passen",
+      "ihr": "passt",
+      "sie": "passen"
+    }
+  },
+  "vg-planen": {
+    "lemma": "planen",
+    "conjugations": {
+      "ich": "plane",
+      "du": "planst",
+      "er": "plant",
+      "wir": "planen",
+      "ihr": "plant",
+      "sie": "planen"
+    }
+  },
+  "vg-reparieren": {
+    "lemma": "reparieren",
+    "conjugations": {
+      "ich": "repariere",
+      "du": "reparierst",
+      "er": "repariert",
+      "wir": "reparieren",
+      "ihr": "repariert",
+      "sie": "reparieren"
+    }
+  },
+  "vg-sammeln": {
+    "lemma": "sammeln",
+    "conjugations": {
+      "ich": "sammle",
+      "du": "sammelst",
+      "er": "sammelt",
+      "wir": "sammeln",
+      "ihr": "sammelt",
+      "sie": "sammeln"
+    }
+  },
+  "vg-scheinen": {
+    "lemma": "scheinen",
+    "conjugations": {
+      "ich": "scheine",
+      "du": "scheinst",
+      "er": "scheint",
+      "wir": "scheinen",
+      "ihr": "scheint",
+      "sie": "scheinen"
+    }
+  },
+  "vg-tragen": {
+    "lemma": "tragen",
+    "conjugations": {
+      "ich": "trage",
+      "du": "trägst",
+      "er": "trägt",
+      "wir": "tragen",
+      "ihr": "tragt",
+      "sie": "tragen"
+    }
+  },
+  "vg-umziehen": {
+    "lemma": "umziehen",
+    "conjugations": {
+      "ich": "ziehe mich um",
+      "du": "ziehst dich um",
+      "er": "zieht sich um",
+      "wir": "ziehen uns um",
+      "ihr": "zieht euch um",
+      "sie": "ziehen sich um"
+    }
+  },
+  "vg-verbringen": {
+    "lemma": "verbringen",
+    "conjugations": {
+      "ich": "verbringe",
+      "du": "verbringst",
+      "er": "verbringt",
+      "wir": "verbringen",
+      "ihr": "verbringt",
+      "sie": "verbringen"
+    }
+  },
+  "vg-vorstellen": {
+    "lemma": "vorstellen",
+    "conjugations": {
+      "ich": "stelle mich vor",
+      "du": "stellst dich vor",
+      "er": "stellt sich vor",
+      "wir": "stellen uns vor",
+      "ihr": "stellt euch vor",
+      "sie": "stellen sich vor"
+    }
+  },
+  "vg-wechseln": {
+    "lemma": "wechseln",
+    "conjugations": {
+      "ich": "wechsle",
+      "du": "wechselst",
+      "er": "wechselt",
+      "wir": "wechseln",
+      "ihr": "wechselt",
+      "sie": "wechseln"
+    }
+  },
+  "vg-wecken": {
+    "lemma": "wecken",
+    "conjugations": {
+      "ich": "wecke",
+      "du": "weckst",
+      "er": "weckt",
+      "wir": "wecken",
+      "ihr": "weckt",
+      "sie": "wecken"
+    }
+  },
+  "vg-wiederholen": {
+    "lemma": "wiederholen",
+    "conjugations": {
+      "ich": "wiederhole",
+      "du": "wiederholst",
+      "er": "wiederholt",
+      "wir": "wiederholen",
+      "ihr": "wiederholt",
+      "sie": "wiederholen"
+    }
+  },
+  "vg-zuhoren": {
+    "lemma": "zuhören",
+    "conjugations": {
+      "ich": "höre zu",
+      "du": "hörst zu",
+      "er": "hört zu",
+      "wir": "hören zu",
+      "ihr": "hört zu",
+      "sie": "hören zu"
+    }
+  },
+  "vg-aufpassen": {
+    "lemma": "aufpassen",
+    "conjugations": {
+      "ich": "passe auf",
+      "du": "passt auf",
+      "er": "passt auf",
+      "wir": "passen auf",
+      "ihr": "passt auf",
+      "sie": "passen auf"
+    }
+  },
+  "vg-ausfullen": {
+    "lemma": "ausfüllen",
+    "conjugations": {
+      "ich": "fülle aus",
+      "du": "füllst aus",
+      "er": "füllt aus",
+      "wir": "füllen aus",
+      "ihr": "füllt aus",
+      "sie": "füllen aus"
+    }
+  },
+  "vg-bitten": {
+    "lemma": "bitten",
+    "conjugations": {
+      "ich": "bitte",
+      "du": "bittest",
+      "er": "bittet",
+      "wir": "bitten",
+      "ihr": "bittet",
+      "sie": "bitten"
+    }
+  },
+  "vg-einziehen": {
+    "lemma": "einziehen",
+    "conjugations": {
+      "ich": "ziehe ein",
+      "du": "ziehst ein",
+      "er": "zieht ein",
+      "wir": "ziehen ein",
+      "ihr": "zieht ein",
+      "sie": "ziehen ein"
+    }
+  },
+  "vg-informieren": {
+    "lemma": "informieren",
+    "conjugations": {
+      "ich": "informiere",
+      "du": "informierst",
+      "er": "informiert",
+      "wir": "informieren",
+      "ihr": "informiert",
+      "sie": "informieren"
+    }
+  },
+  "vg-kummern": {
+    "lemma": "kümmern",
+    "conjugations": {
+      "ich": "kümmere mich",
+      "du": "kümmerst dich",
+      "er": "kümmert sich",
+      "wir": "kümmern uns",
+      "ihr": "kümmert euch",
+      "sie": "kümmern sich"
+    }
+  },
+  "vg-traumen": {
+    "lemma": "träumen",
+    "conjugations": {
+      "ich": "träume",
+      "du": "träumst",
+      "er": "träumt",
+      "wir": "träumen",
+      "ihr": "träumt",
+      "sie": "träumen"
+    }
+  },
+  "vg-anfassen": {
+    "lemma": "anfassen",
+    "conjugations": {
+      "ich": "fasse",
+      "du": "fasst",
+      "er": "fasst",
+      "wir": "fassen",
+      "ihr": "fasst",
+      "sie": "fassen"
+    }
+  },
+  "vg-anhalten": {
+    "lemma": "anhalten",
+    "conjugations": {
+      "ich": "halte an",
+      "du": "hältst an",
+      "er": "hält an",
+      "wir": "halten an",
+      "ihr": "haltet an",
+      "sie": "halten an"
+    }
+  },
+  "vg-anlacheln": {
+    "lemma": "anlächeln",
+    "conjugations": {
+      "ich": "lächle",
+      "du": "lächelst",
+      "er": "lächelt",
+      "wir": "lächeln",
+      "ihr": "lächelt",
+      "sie": "lächeln"
+    }
+  },
+  "vg-anschnallen": {
+    "lemma": "anschnallen",
+    "conjugations": {
+      "ich": "schnalle mich an",
+      "du": "schnallst dich an",
+      "er": "schnallt sich an",
+      "wir": "schnallen uns an",
+      "ihr": "schnallt euch an",
+      "sie": "schnallen sich an"
+    }
+  },
+  "vg-aufladen": {
+    "lemma": "aufladen",
+    "conjugations": {
+      "ich": "lade auf",
+      "du": "lädst auf",
+      "er": "lädt auf",
+      "wir": "laden auf",
+      "ihr": "ladet auf",
+      "sie": "laden auf"
+    }
+  },
+  "vg-aufwachen": {
+    "lemma": "aufwachen",
+    "conjugations": {
+      "ich": "wache auf",
+      "du": "wachst auf",
+      "er": "wacht auf",
+      "wir": "wachen auf",
+      "ihr": "wacht auf",
+      "sie": "wachen auf"
+    }
+  },
+  "vg-ausgehen": {
+    "lemma": "ausgehen",
+    "conjugations": {
+      "ich": "gehe aus",
+      "du": "gehst aus",
+      "er": "geht aus",
+      "wir": "gehen aus",
+      "ihr": "geht aus",
+      "sie": "gehen aus"
+    }
+  },
+  "vg-ausruhen": {
+    "lemma": "ausruhen",
+    "conjugations": {
+      "ich": "ruhe mich aus",
+      "du": "ruhst dich aus",
+      "er": "ruht sich aus",
+      "wir": "ruhen uns aus",
+      "ihr": "ruht euch aus",
+      "sie": "ruhen sich aus"
+    }
+  },
+  "vg-aussprechen": {
+    "lemma": "aussprechen",
+    "conjugations": {
+      "ich": "spreche aus",
+      "du": "sprichst aus",
+      "er": "spricht aus",
+      "wir": "sprechen aus",
+      "ihr": "sprecht aus",
+      "sie": "sprechen aus"
+    }
+  },
+  "vg-aussuchen": {
+    "lemma": "aussuchen",
+    "conjugations": {
+      "ich": "suche aus",
+      "du": "suchst aus",
+      "er": "sucht aus",
+      "wir": "suchen aus",
+      "ihr": "sucht aus",
+      "sie": "suchen aus"
+    }
+  },
+  "vg-ausziehen": {
+    "lemma": "ausziehen",
+    "conjugations": {
+      "ich": "ziehe mich aus",
+      "du": "ziehst dich aus",
+      "er": "zieht sich aus",
+      "wir": "ziehen uns aus",
+      "ihr": "zieht euch aus",
+      "sie": "ziehen sich aus"
+    }
+  },
+  "vg-gelten": {
+    "lemma": "gelten",
+    "conjugations": {
+      "ich": "gelte",
+      "du": "giltst",
+      "er": "gilt",
+      "wir": "gelten",
+      "ihr": "geltet",
+      "sie": "gelten"
+    }
+  },
+  "vg-bestehen": {
+    "lemma": "bestehen",
+    "conjugations": {
+      "ich": "bestehe",
+      "du": "bestehst",
+      "er": "besteht",
+      "wir": "bestehen",
+      "ihr": "besteht",
+      "sie": "bestehen"
+    }
+  },
+  "vg-abschliessen": {
+    "lemma": "abschließen",
+    "conjugations": {
+      "ich": "schließe ab",
+      "du": "schließt ab",
+      "er": "schließt ab",
+      "wir": "schließen ab",
+      "ihr": "schließt ab",
+      "sie": "schließen ab"
+    }
+  },
+  "vg-achten": {
+    "lemma": "achten",
+    "conjugations": {
+      "ich": "achte",
+      "du": "achtest",
+      "er": "achtet",
+      "wir": "achten",
+      "ihr": "achtet",
+      "sie": "achten"
+    }
+  },
+  "vg-aufgeben": {
+    "lemma": "aufgeben",
+    "conjugations": {
+      "ich": "gebe auf",
+      "du": "gibst auf",
+      "er": "gibt auf",
+      "wir": "geben auf",
+      "ihr": "gebt auf",
+      "sie": "geben auf"
+    }
+  },
+  "vg-berichten": {
+    "lemma": "berichten",
+    "conjugations": {
+      "ich": "berichte",
+      "du": "berichtest",
+      "er": "berichtet",
+      "wir": "berichten",
+      "ihr": "berichtet",
+      "sie": "berichten"
+    }
+  },
+  "vg-besprechen": {
+    "lemma": "besprechen",
+    "conjugations": {
+      "ich": "bespreche",
+      "du": "besprichst",
+      "er": "bespricht",
+      "wir": "besprechen",
+      "ihr": "besprecht",
+      "sie": "besprechen"
+    }
+  },
+  "vg-bieten": {
+    "lemma": "bieten",
+    "conjugations": {
+      "ich": "biete",
+      "du": "bietest",
+      "er": "bietet",
+      "wir": "bieten",
+      "ihr": "bietet",
+      "sie": "bieten"
+    }
+  },
+  "vg-bilden": {
+    "lemma": "bilden",
+    "conjugations": {
+      "ich": "bilde",
+      "du": "bildest",
+      "er": "bildet",
+      "wir": "bilden",
+      "ihr": "bildet",
+      "sie": "bilden"
+    }
+  },
+  "vg-blicken": {
+    "lemma": "blicken",
+    "conjugations": {
+      "ich": "blicke",
+      "du": "blickst",
+      "er": "blickt",
+      "wir": "blicken",
+      "ihr": "blickt",
+      "sie": "blicken"
+    }
+  },
+  "vg-brechen": {
+    "lemma": "brechen",
+    "conjugations": {
+      "ich": "breche",
+      "du": "brichst",
+      "er": "bricht",
+      "wir": "brechen",
+      "ihr": "brecht",
+      "sie": "brechen"
+    }
+  },
+  "vg-diskutieren": {
+    "lemma": "diskutieren",
+    "conjugations": {
+      "ich": "diskutiere",
+      "du": "diskutierst",
+      "er": "diskutiert",
+      "wir": "diskutieren",
+      "ihr": "diskutiert",
+      "sie": "diskutieren"
+    }
+  },
+  "vg-entdecken": {
+    "lemma": "entdecken",
+    "conjugations": {
+      "ich": "entdecke",
+      "du": "entdeckst",
+      "er": "entdeckt",
+      "wir": "entdecken",
+      "ihr": "entdeckt",
+      "sie": "entdecken"
+    }
+  },
+  "vg-entscheiden": {
+    "lemma": "entscheiden",
+    "conjugations": {
+      "ich": "entscheide mich",
+      "du": "entscheidest dich",
+      "er": "entscheidet sich",
+      "wir": "entscheiden uns",
+      "ihr": "entscheidet euch",
+      "sie": "entscheiden sich"
+    }
+  },
+  "vg-erinnern": {
+    "lemma": "erinnern",
+    "conjugations": {
+      "ich": "erinnere mich",
+      "du": "erinnerst dich",
+      "er": "erinnert sich",
+      "wir": "erinnern uns",
+      "ihr": "erinnert euch",
+      "sie": "erinnern sich"
+    }
+  },
+  "vg-erkennen": {
+    "lemma": "erkennen",
+    "conjugations": {
+      "ich": "erkenne",
+      "du": "erkennst",
+      "er": "erkennt",
+      "wir": "erkennen",
+      "ihr": "erkennt",
+      "sie": "erkennen"
+    }
+  },
+  "vg-erlauben": {
+    "lemma": "erlauben",
+    "conjugations": {
+      "ich": "erlaube",
+      "du": "erlaubst",
+      "er": "erlaubt",
+      "wir": "erlauben",
+      "ihr": "erlaubt",
+      "sie": "erlauben"
+    }
+  },
+  "vg-erreichen": {
+    "lemma": "erreichen",
+    "conjugations": {
+      "ich": "erreiche",
+      "du": "erreichst",
+      "er": "erreicht",
+      "wir": "erreichen",
+      "ihr": "erreicht",
+      "sie": "erreichen"
+    }
+  },
+  "vg-erscheinen": {
+    "lemma": "erscheinen",
+    "conjugations": {
+      "ich": "erscheine",
+      "du": "erscheinst",
+      "er": "erscheint",
+      "wir": "erscheinen",
+      "ihr": "erscheint",
+      "sie": "erscheinen"
+    }
+  },
+  "vg-klagen": {
+    "lemma": "klagen",
+    "conjugations": {
+      "ich": "klage",
+      "du": "klagst",
+      "er": "klagt",
+      "wir": "klagen",
+      "ihr": "klagt",
+      "sie": "klagen"
+    }
+  },
+  "vg-melden": {
+    "lemma": "melden",
+    "conjugations": {
+      "ich": "melde",
+      "du": "meldest",
+      "er": "meldet",
+      "wir": "melden",
+      "ihr": "meldet",
+      "sie": "melden"
+    }
+  },
+  "vg-nachdenken": {
+    "lemma": "nachdenken",
+    "conjugations": {
+      "ich": "denke nach",
+      "du": "denkst nach",
+      "er": "denkt nach",
+      "wir": "denken nach",
+      "ihr": "denkt nach",
+      "sie": "denken nach"
+    }
+  },
+  "vg-rechnen": {
+    "lemma": "rechnen",
+    "conjugations": {
+      "ich": "rechne",
+      "du": "rechnest",
+      "er": "rechnet",
+      "wir": "rechnen",
+      "ihr": "rechnet",
+      "sie": "rechnen"
+    }
+  },
+  "vg-schaffen": {
+    "lemma": "schaffen",
+    "conjugations": {
+      "ich": "schaffe",
+      "du": "schaffst",
+      "er": "schafft",
+      "wir": "schaffen",
+      "ihr": "schafft",
+      "sie": "schaffen"
+    }
+  },
+  "vg-teilnehmen": {
+    "lemma": "teilnehmen",
+    "conjugations": {
+      "ich": "nehme teil",
+      "du": "nimmst teil",
+      "er": "nimmt teil",
+      "wir": "nehmen teil",
+      "ihr": "nehmt teil",
+      "sie": "nehmen teil"
+    }
+  },
+  "vg-unterhalten": {
+    "lemma": "unterhalten",
+    "conjugations": {
+      "ich": "unterhalte mich",
+      "du": "unterhältst dich",
+      "er": "unterhält sich",
+      "wir": "unterhalten uns",
+      "ihr": "unterhaltet euch",
+      "sie": "unterhalten sich"
+    }
+  },
+  "vg-verbinden": {
+    "lemma": "verbinden",
+    "conjugations": {
+      "ich": "verbinde",
+      "du": "verbindest",
+      "er": "verbindet",
+      "wir": "verbinden",
+      "ihr": "verbindet",
+      "sie": "verbinden"
+    }
+  },
+  "vg-vergleichen": {
+    "lemma": "vergleichen",
+    "conjugations": {
+      "ich": "vergleiche",
+      "du": "vergleichst",
+      "er": "vergleicht",
+      "wir": "vergleichen",
+      "ihr": "vergleicht",
+      "sie": "vergleichen"
+    }
+  },
+  "vg-vorbereiten": {
+    "lemma": "vorbereiten",
+    "conjugations": {
+      "ich": "bereite mich vor",
+      "du": "bereitest dich vor",
+      "er": "bereitet sich vor",
+      "wir": "bereiten uns vor",
+      "ihr": "bereitet euch vor",
+      "sie": "bereiten sich vor"
+    }
+  },
+  "vg-werfen": {
+    "lemma": "werfen",
+    "conjugations": {
+      "ich": "werfe",
+      "du": "wirfst",
+      "er": "wirft",
+      "wir": "werfen",
+      "ihr": "werft",
+      "sie": "werfen"
+    }
+  },
+  "vg-zusammenarbeiten": {
+    "lemma": "zusammenarbeiten",
+    "conjugations": {
+      "ich": "arbeite zusammen",
+      "du": "arbeitest zusammen",
+      "er": "arbeitet zusammen",
+      "wir": "arbeiten zusammen",
+      "ihr": "arbeitet zusammen",
+      "sie": "arbeiten zusammen"
+    }
+  },
+  "vg-abhangen": {
+    "lemma": "abhängen",
+    "conjugations": {
+      "ich": "hänge ab",
+      "du": "hängst ab",
+      "er": "hängt ab",
+      "wir": "hängen ab",
+      "ihr": "hängt ab",
+      "sie": "hängen ab"
+    }
+  },
+  "vg-anpassen": {
+    "lemma": "anpassen",
+    "conjugations": {
+      "ich": "passe an",
+      "du": "passt an",
+      "er": "passt an",
+      "wir": "passen an",
+      "ihr": "passt an",
+      "sie": "passen an"
+    }
+  },
+  "vg-ausdrucken": {
+    "lemma": "ausdrücken",
+    "conjugations": {
+      "ich": "drücke mich aus",
+      "du": "drückst dich aus",
+      "er": "drückt sich aus",
+      "wir": "drücken uns aus",
+      "ihr": "drückt euch aus",
+      "sie": "drücken sich aus"
+    }
+  },
+  "vg-ausreichen": {
+    "lemma": "ausreichen",
+    "conjugations": {
+      "ich": "reiche aus",
+      "du": "reichst aus",
+      "er": "reicht aus",
+      "wir": "reichen aus",
+      "ihr": "reicht aus",
+      "sie": "reichen aus"
+    }
+  },
+  "vg-beachten": {
+    "lemma": "beachten",
+    "conjugations": {
+      "ich": "beachte",
+      "du": "beachtest",
+      "er": "beachtet",
+      "wir": "beachten",
+      "ihr": "beachtet",
+      "sie": "beachten"
+    }
+  },
+  "vg-bewerben": {
+    "lemma": "bewerben",
+    "conjugations": {
+      "ich": "bewerbe mich",
+      "du": "bewirbst dich",
+      "er": "bewirbt sich",
+      "wir": "bewerben uns",
+      "ihr": "bewerbt euch",
+      "sie": "bewerben sich"
+    }
+  },
+  "vg-erhohen": {
+    "lemma": "erhöhen",
+    "conjugations": {
+      "ich": "erhöhe",
+      "du": "erhöhst",
+      "er": "erhöht",
+      "wir": "erhöhen",
+      "ihr": "erhöht",
+      "sie": "erhöhen"
+    }
+  },
+  "vg-erkundigen": {
+    "lemma": "erkundigen",
+    "conjugations": {
+      "ich": "erkundige mich",
+      "du": "erkundigst dich",
+      "er": "erkundigt sich",
+      "wir": "erkundigen uns",
+      "ihr": "erkundigt euch",
+      "sie": "erkundigen sich"
+    }
+  },
+  "vg-ernahren": {
+    "lemma": "ernähren",
+    "conjugations": {
+      "ich": "ernähre mich",
+      "du": "ernährst dich",
+      "er": "ernährt sich",
+      "wir": "ernähren uns",
+      "ihr": "ernährt euch",
+      "sie": "ernähren sich"
+    }
+  },
+  "vg-gewohnen": {
+    "lemma": "gewöhnen",
+    "conjugations": {
+      "ich": "gewöhne mich",
+      "du": "gewöhnst dich",
+      "er": "gewöhnt sich",
+      "wir": "gewöhnen uns",
+      "ihr": "gewöhnt euch",
+      "sie": "gewöhnen sich"
+    }
+  },
+  "vg-handeln": {
+    "lemma": "handeln",
+    "conjugations": {
+      "ich": "handle",
+      "du": "handelst",
+      "er": "handelt",
+      "wir": "handeln",
+      "ihr": "handelt",
+      "sie": "handeln"
+    }
+  },
+  "vg-protestieren": {
+    "lemma": "protestieren",
+    "conjugations": {
+      "ich": "protestiere",
+      "du": "protestierst",
+      "er": "protestiert",
+      "wir": "protestieren",
+      "ihr": "protestiert",
+      "sie": "protestieren"
+    }
+  },
+  "vg-reagieren": {
+    "lemma": "reagieren",
+    "conjugations": {
+      "ich": "reagiere",
+      "du": "reagierst",
+      "er": "reagiert",
+      "wir": "reagieren",
+      "ihr": "reagiert",
+      "sie": "reagieren"
+    }
+  },
+  "vg-schutzen": {
+    "lemma": "schützen",
+    "conjugations": {
+      "ich": "schütze",
+      "du": "schützt",
+      "er": "schützt",
+      "wir": "schützen",
+      "ihr": "schützt",
+      "sie": "schützen"
+    }
+  },
+  "vg-sorgen": {
+    "lemma": "sorgen",
+    "conjugations": {
+      "ich": "sorge mich",
+      "du": "sorgst dich",
+      "er": "sorgt sich",
+      "wir": "sorgen uns",
+      "ihr": "sorgt euch",
+      "sie": "sorgen sich"
+    }
+  },
+  "vg-uberzeugen": {
+    "lemma": "überzeugen",
+    "conjugations": {
+      "ich": "überzeuge",
+      "du": "überzeugst",
+      "er": "überzeugt",
+      "wir": "überzeugen",
+      "ihr": "überzeugt",
+      "sie": "überzeugen"
+    }
+  },
+  "vg-verzichten": {
+    "lemma": "verzichten",
+    "conjugations": {
+      "ich": "verzichte",
+      "du": "verzichtest",
+      "er": "verzichtet",
+      "wir": "verzichten",
+      "ihr": "verzichtet",
+      "sie": "verzichten"
+    }
+  },
+  "vg-warnen": {
+    "lemma": "warnen",
+    "conjugations": {
+      "ich": "warne",
+      "du": "warnst",
+      "er": "warnt",
+      "wir": "warnen",
+      "ihr": "warnt",
+      "sie": "warnen"
+    }
+  },
+  "vg-zweifeln": {
+    "lemma": "zweifeln",
+    "conjugations": {
+      "ich": "zweifle",
+      "du": "zweifelst",
+      "er": "zweifelt",
+      "wir": "zweifeln",
+      "ihr": "zweifelt",
+      "sie": "zweifeln"
+    }
+  },
+  "vg-abgeben": {
+    "lemma": "abgeben",
+    "conjugations": {
+      "ich": "gebe ab",
+      "du": "gibst ab",
+      "er": "gibt ab",
+      "wir": "geben ab",
+      "ihr": "gebt ab",
+      "sie": "geben ab"
+    }
+  },
+  "vg-abnehmen": {
+    "lemma": "abnehmen",
+    "conjugations": {
+      "ich": "nehme ab",
+      "du": "nimmst ab",
+      "er": "nimmt ab",
+      "wir": "nehmen ab",
+      "ihr": "nehmt ab",
+      "sie": "nehmen ab"
+    }
+  },
+  "vg-anbieten": {
+    "lemma": "anbieten",
+    "conjugations": {
+      "ich": "biete an",
+      "du": "bietest an",
+      "er": "bietet an",
+      "wir": "bieten an",
+      "ihr": "bietet an",
+      "sie": "bieten an"
+    }
+  },
+  "vg-annehmen": {
+    "lemma": "annehmen",
+    "conjugations": {
+      "ich": "nehme an",
+      "du": "nimmst an",
+      "er": "nimmt an",
+      "wir": "nehmen an",
+      "ihr": "nehmt an",
+      "sie": "nehmen an"
+    }
+  },
+  "vg-ansprechen": {
+    "lemma": "ansprechen",
+    "conjugations": {
+      "ich": "spreche an",
+      "du": "sprichst an",
+      "er": "spricht an",
+      "wir": "sprechen an",
+      "ihr": "sprecht an",
+      "sie": "sprechen an"
+    }
+  },
+  "vg-anwenden": {
+    "lemma": "anwenden",
+    "conjugations": {
+      "ich": "wende an",
+      "du": "wendest an",
+      "er": "wendet an",
+      "wir": "wenden an",
+      "ihr": "wendet an",
+      "sie": "wenden an"
+    }
+  },
+  "vg-auffordern": {
+    "lemma": "auffordern",
+    "conjugations": {
+      "ich": "fordere auf",
+      "du": "forderst auf",
+      "er": "fordert auf",
+      "wir": "fordern auf",
+      "ihr": "fordert auf",
+      "sie": "fordern auf"
+    }
+  },
+  "vg-aufnehmen": {
+    "lemma": "aufnehmen",
+    "conjugations": {
+      "ich": "nehme auf",
+      "du": "nimmst auf",
+      "er": "nimmt auf",
+      "wir": "nehmen auf",
+      "ihr": "nehmt auf",
+      "sie": "nehmen auf"
+    }
+  },
+  "vg-ausrichten": {
+    "lemma": "ausrichten",
+    "conjugations": {
+      "ich": "richte aus",
+      "du": "richtest aus",
+      "er": "richtet aus",
+      "wir": "richten aus",
+      "ihr": "richtet aus",
+      "sie": "richten aus"
+    }
+  },
+  "vg-beantragen": {
+    "lemma": "beantragen",
+    "conjugations": {
+      "ich": "beantrage",
+      "du": "beantragst",
+      "er": "beantragt",
+      "wir": "beantragen",
+      "ihr": "beantragt",
+      "sie": "beantragen"
+    }
+  },
+  "vg-beeinflussen": {
+    "lemma": "beeinflussen",
+    "conjugations": {
+      "ich": "beeinflusse",
+      "du": "beeinflusst",
+      "er": "beeinflusst",
+      "wir": "beeinflussen",
+      "ihr": "beeinflusst",
+      "sie": "beeinflussen"
+    }
+  },
+  "vg-begrunden": {
+    "lemma": "begründen",
+    "conjugations": {
+      "ich": "begründe",
+      "du": "begründest",
+      "er": "begründet",
+      "wir": "begründen",
+      "ihr": "begründet",
+      "sie": "begründen"
+    }
+  },
+  "vg-behalten": {
+    "lemma": "behalten",
+    "conjugations": {
+      "ich": "behalte",
+      "du": "behältst",
+      "er": "behält",
+      "wir": "behalten",
+      "ihr": "behaltet",
+      "sie": "behalten"
+    }
+  },
+  "vg-beitragen": {
+    "lemma": "beitragen",
+    "conjugations": {
+      "ich": "trage bei",
+      "du": "tragst bei",
+      "er": "tragt bei",
+      "wir": "tragen bei",
+      "ihr": "tragt bei",
+      "sie": "tragen bei"
+    }
+  },
+  "vg-berucksichtigen": {
+    "lemma": "berücksichtigen",
+    "conjugations": {
+      "ich": "berücksichtige",
+      "du": "berücksichtigst",
+      "er": "berücksichtigt",
+      "wir": "berücksichtigen",
+      "ihr": "berücksichtigt",
+      "sie": "berücksichtigen"
+    }
+  },
+  "vg-beruhigen": {
+    "lemma": "beruhigen",
+    "conjugations": {
+      "ich": "beruhige mich",
+      "du": "beruhigst dich",
+      "er": "beruhigt sich",
+      "wir": "beruhigen uns",
+      "ihr": "beruhigt euch",
+      "sie": "beruhigen sich"
+    }
+  },
+  "vg-beschaftigen": {
+    "lemma": "beschäftigen",
+    "conjugations": {
+      "ich": "beschäftige mich",
+      "du": "beschäftigst dich",
+      "er": "beschäftigt sich",
+      "wir": "beschäftigen uns",
+      "ihr": "beschäftigt euch",
+      "sie": "beschäftigen sich"
+    }
+  },
+  "vg-beschweren": {
+    "lemma": "beschweren",
+    "conjugations": {
+      "ich": "beschwere mich",
+      "du": "beschwerst dich",
+      "er": "beschwert sich",
+      "wir": "beschweren uns",
+      "ihr": "beschwert euch",
+      "sie": "beschweren sich"
+    }
+  },
+  "vg-besitzen": {
+    "lemma": "besitzen",
+    "conjugations": {
+      "ich": "besitze",
+      "du": "besitzt",
+      "er": "besitzt",
+      "wir": "besitzen",
+      "ihr": "besitzt",
+      "sie": "besitzen"
+    }
+  },
+  "vg-betragen": {
+    "lemma": "betragen",
+    "conjugations": {
+      "ich": "betrage",
+      "du": "betragst",
+      "er": "betragt",
+      "wir": "betragen",
+      "ihr": "betragt",
+      "sie": "betragen"
+    }
+  },
+  "vg-beurteilen": {
+    "lemma": "beurteilen",
+    "conjugations": {
+      "ich": "beurteile",
+      "du": "beurteilst",
+      "er": "beurteilt",
+      "wir": "beurteilen",
+      "ihr": "beurteilt",
+      "sie": "beurteilen"
+    }
+  },
+  "vg-beweisen": {
+    "lemma": "beweisen",
+    "conjugations": {
+      "ich": "beweise",
+      "du": "beweist",
+      "er": "beweist",
+      "wir": "beweisen",
+      "ihr": "beweist",
+      "sie": "beweisen"
+    }
+  },
+  "vg-bezeichnen": {
+    "lemma": "bezeichnen",
+    "conjugations": {
+      "ich": "bezeichne",
+      "du": "bezeichnest",
+      "er": "bezeichnet",
+      "wir": "bezeichnen",
+      "ihr": "bezeichnet",
+      "sie": "bezeichnen"
+    }
+  },
+  "vg-darstellen": {
+    "lemma": "darstellen",
+    "conjugations": {
+      "ich": "stelle dar",
+      "du": "stellst dar",
+      "er": "stellt dar",
+      "wir": "stellen dar",
+      "ihr": "stellt dar",
+      "sie": "stellen dar"
+    }
+  },
+  "vg-durchfuhren": {
+    "lemma": "durchführen",
+    "conjugations": {
+      "ich": "führe durch",
+      "du": "führst durch",
+      "er": "führt durch",
+      "wir": "führen durch",
+      "ihr": "führt durch",
+      "sie": "führen durch"
+    }
+  },
+  "vg-eignen": {
+    "lemma": "eignen",
+    "conjugations": {
+      "ich": "eigne",
+      "du": "eignest",
+      "er": "eignet",
+      "wir": "eignen",
+      "ihr": "eignet",
+      "sie": "eignen"
+    }
+  },
+  "vg-einrichten": {
+    "lemma": "einrichten",
+    "conjugations": {
+      "ich": "richte ein",
+      "du": "richtest ein",
+      "er": "richtet ein",
+      "wir": "richten ein",
+      "ihr": "richtet ein",
+      "sie": "richten ein"
+    }
+  },
+  "vg-einstellen": {
+    "lemma": "einstellen",
+    "conjugations": {
+      "ich": "stelle ein",
+      "du": "stellst ein",
+      "er": "stellt ein",
+      "wir": "stellen ein",
+      "ihr": "stellt ein",
+      "sie": "stellen ein"
+    }
+  },
+  "vg-eintragen": {
+    "lemma": "eintragen",
+    "conjugations": {
+      "ich": "trage ein",
+      "du": "trägst ein",
+      "er": "trägt ein",
+      "wir": "tragen ein",
+      "ihr": "tragt ein",
+      "sie": "tragen ein"
+    }
+  },
+  "vg-empfehlen": {
+    "lemma": "empfehlen",
+    "conjugations": {
+      "ich": "empfehle",
+      "du": "empfiehlst",
+      "er": "empfiehlt",
+      "wir": "empfehlen",
+      "ihr": "empfehlt",
+      "sie": "empfehlen"
+    }
+  },
+  "vg-enthalten": {
+    "lemma": "enthalten",
+    "conjugations": {
+      "ich": "enthalte",
+      "du": "enthältst",
+      "er": "enthält",
+      "wir": "enthalten",
+      "ihr": "enthaltet",
+      "sie": "enthalten"
+    }
+  },
+  "vg-entlassen": {
+    "lemma": "entlassen",
+    "conjugations": {
+      "ich": "entlasse",
+      "du": "entlässt",
+      "er": "entlässt",
+      "wir": "entlassen",
+      "ihr": "entlasst",
+      "sie": "entlassen"
+    }
+  },
+  "vg-entstehen": {
+    "lemma": "entstehen",
+    "conjugations": {
+      "ich": "entstehe",
+      "du": "entstehst",
+      "er": "entsteht",
+      "wir": "entstehen",
+      "ihr": "entsteht",
+      "sie": "entstehen"
+    }
+  },
+  "vg-enttauschen": {
+    "lemma": "enttäuschen",
+    "conjugations": {
+      "ich": "enttäusche",
+      "du": "enttäuschst",
+      "er": "enttäuscht",
+      "wir": "enttäuschen",
+      "ihr": "enttäuscht",
+      "sie": "enttäuschen"
+    }
+  },
+  "vg-entwickeln": {
+    "lemma": "entwickeln",
+    "conjugations": {
+      "ich": "entwickle mich",
+      "du": "entwickelst dich",
+      "er": "entwickelt sich",
+      "wir": "entwickeln uns",
+      "ihr": "entwickelt euch",
+      "sie": "entwickeln sich"
+    }
+  },
+  "vg-erfahren": {
+    "lemma": "erfahren",
+    "conjugations": {
+      "ich": "erfahre",
+      "du": "erfährst",
+      "er": "erfährt",
+      "wir": "erfahren",
+      "ihr": "erfahrt",
+      "sie": "erfahren"
+    }
+  },
+  "vg-erfinden": {
+    "lemma": "erfinden",
+    "conjugations": {
+      "ich": "erfinde",
+      "du": "erfindest",
+      "er": "erfindet",
+      "wir": "erfinden",
+      "ihr": "erfindet",
+      "sie": "erfinden"
+    }
+  },
+  "vg-erfullen": {
+    "lemma": "erfüllen",
+    "conjugations": {
+      "ich": "erfülle",
+      "du": "erfüllst",
+      "er": "erfüllt",
+      "wir": "erfüllen",
+      "ihr": "erfüllt",
+      "sie": "erfüllen"
+    }
+  },
+  "vg-ergeben": {
+    "lemma": "ergeben",
+    "conjugations": {
+      "ich": "ergebe",
+      "du": "ergibst",
+      "er": "ergibt",
+      "wir": "ergeben",
+      "ihr": "ergebt",
+      "sie": "ergeben"
+    }
+  },
+  "vg-erhalten": {
+    "lemma": "erhalten",
+    "conjugations": {
+      "ich": "erhalte",
+      "du": "erhältst",
+      "er": "erhält",
+      "wir": "erhalten",
+      "ihr": "erhaltet",
+      "sie": "erhalten"
+    }
+  },
+  "vg-erledigen": {
+    "lemma": "erledigen",
+    "conjugations": {
+      "ich": "erledige",
+      "du": "erledigst",
+      "er": "erledigt",
+      "wir": "erledigen",
+      "ihr": "erledigt",
+      "sie": "erledigen"
+    }
+  },
+  "vg-ermoglichen": {
+    "lemma": "ermöglichen",
+    "conjugations": {
+      "ich": "ermögliche",
+      "du": "ermöglichst",
+      "er": "ermöglicht",
+      "wir": "ermöglichen",
+      "ihr": "ermöglicht",
+      "sie": "ermöglichen"
+    }
+  },
+  "vg-ersetzen": {
+    "lemma": "ersetzen",
+    "conjugations": {
+      "ich": "ersetze",
+      "du": "ersetzt",
+      "er": "ersetzt",
+      "wir": "ersetzen",
+      "ihr": "ersetzt",
+      "sie": "ersetzen"
+    }
+  },
+  "vg-erstellen": {
+    "lemma": "erstellen",
+    "conjugations": {
+      "ich": "erstelle",
+      "du": "erstellst",
+      "er": "erstellt",
+      "wir": "erstellen",
+      "ihr": "erstellt",
+      "sie": "erstellen"
+    }
+  },
+  "vg-erwarten": {
+    "lemma": "erwarten",
+    "conjugations": {
+      "ich": "erwarte",
+      "du": "erwartest",
+      "er": "erwartet",
+      "wir": "erwarten",
+      "ihr": "erwartet",
+      "sie": "erwarten"
+    }
+  },
+  "vg-erziehen": {
+    "lemma": "erziehen",
+    "conjugations": {
+      "ich": "erziehe",
+      "du": "erziehst",
+      "er": "erzieht",
+      "wir": "erziehen",
+      "ihr": "erzieht",
+      "sie": "erziehen"
+    }
+  },
+  "vg-feststellen": {
+    "lemma": "feststellen",
+    "conjugations": {
+      "ich": "stelle fest",
+      "du": "stellst fest",
+      "er": "stellt fest",
+      "wir": "stellen fest",
+      "ihr": "stellt fest",
+      "sie": "stellen fest"
+    }
+  },
+  "vg-fordern": {
+    "lemma": "fördern",
+    "conjugations": {
+      "ich": "fördere",
+      "du": "förderst",
+      "er": "fördert",
+      "wir": "fördern",
+      "ihr": "fördert",
+      "sie": "fördern"
+    }
+  },
+  "vg-gehorchen": {
+    "lemma": "gehorchen",
+    "conjugations": {
+      "ich": "gehorche",
+      "du": "gehorchst",
+      "er": "gehorcht",
+      "wir": "gehorchen",
+      "ihr": "gehorcht",
+      "sie": "gehorchen"
+    }
+  },
+  "vg-gelingen": {
+    "lemma": "gelingen",
+    "conjugations": {
+      "ich": "gelinge",
+      "du": "gelingst",
+      "er": "gelingt",
+      "wir": "gelingen",
+      "ihr": "gelingt",
+      "sie": "gelingen"
+    }
+  },
+  "vg-geniessen": {
+    "lemma": "genießen",
+    "conjugations": {
+      "ich": "genieße",
+      "du": "genießt",
+      "er": "genießt",
+      "wir": "genießen",
+      "ihr": "genießt",
+      "sie": "genießen"
+    }
+  },
+  "vg-geschehen": {
+    "lemma": "geschehen",
+    "conjugations": {
+      "ich": "geschehe",
+      "du": "geschiehst",
+      "er": "geschieht",
+      "wir": "geschehen",
+      "ihr": "geschieht",
+      "sie": "geschehen"
+    }
+  },
+  "vg-gestalten": {
+    "lemma": "gestalten",
+    "conjugations": {
+      "ich": "gestalte",
+      "du": "gestaltest",
+      "er": "gestaltet",
+      "wir": "gestalten",
+      "ihr": "gestaltet",
+      "sie": "gestalten"
+    }
+  },
+  "vg-losen": {
+    "lemma": "lösen",
+    "conjugations": {
+      "ich": "löse",
+      "du": "löst",
+      "er": "löst",
+      "wir": "lösen",
+      "ihr": "löst",
+      "sie": "lösen"
+    }
+  },
+  "vg-nachweisen": {
+    "lemma": "nachweisen",
+    "conjugations": {
+      "ich": "weise nach",
+      "du": "weist nach",
+      "er": "weist nach",
+      "wir": "weisen nach",
+      "ihr": "weist nach",
+      "sie": "weisen nach"
+    }
+  },
+  "vg-nutzen": {
+    "lemma": "nutzen",
+    "conjugations": {
+      "ich": "nutze",
+      "du": "nutzt",
+      "er": "nutzt",
+      "wir": "nutzen",
+      "ihr": "nutzt",
+      "sie": "nutzen"
+    }
+  },
+  "vg-prufen": {
+    "lemma": "prüfen",
+    "conjugations": {
+      "ich": "prüfe",
+      "du": "prüfst",
+      "er": "prüft",
+      "wir": "prüfen",
+      "ihr": "prüft",
+      "sie": "prüfen"
+    }
+  },
+  "vg-schaden": {
+    "lemma": "schaden",
+    "conjugations": {
+      "ich": "schade",
+      "du": "schadest",
+      "er": "schadet",
+      "wir": "schaden",
+      "ihr": "schadet",
+      "sie": "schaden"
+    }
+  },
+  "vg-scheitern": {
+    "lemma": "scheitern",
+    "conjugations": {
+      "ich": "scheitere",
+      "du": "scheiterst",
+      "er": "scheitert",
+      "wir": "scheitern",
+      "ihr": "scheitert",
+      "sie": "scheitern"
+    }
+  },
+  "vg-steigern": {
+    "lemma": "steigern",
+    "conjugations": {
+      "ich": "steigere",
+      "du": "steigerst",
+      "er": "steigert",
+      "wir": "steigern",
+      "ihr": "steigert",
+      "sie": "steigern"
+    }
+  },
+  "vg-ubernehmen": {
+    "lemma": "übernehmen",
+    "conjugations": {
+      "ich": "übernehme",
+      "du": "übernimmst",
+      "er": "übernimmt",
+      "wir": "übernehmen",
+      "ihr": "übernehmt",
+      "sie": "übernehmen"
+    }
+  },
+  "vg-uberprufen": {
+    "lemma": "überprüfen",
+    "conjugations": {
+      "ich": "überprüfe",
+      "du": "überprüfst",
+      "er": "überprüft",
+      "wir": "überprüfen",
+      "ihr": "überprüft",
+      "sie": "überprüfen"
+    }
+  },
+  "vg-uberweisen": {
+    "lemma": "überweisen",
+    "conjugations": {
+      "ich": "überweise",
+      "du": "überweist",
+      "er": "überweist",
+      "wir": "überweisen",
+      "ihr": "überweist",
+      "sie": "überweisen"
+    }
+  },
+  "vg-unterscheiden": {
+    "lemma": "unterscheiden",
+    "conjugations": {
+      "ich": "unterscheide",
+      "du": "unterscheidest",
+      "er": "unterscheidet",
+      "wir": "unterscheiden",
+      "ihr": "unterscheidet",
+      "sie": "unterscheiden"
+    }
+  },
+  "vg-untersuchen": {
+    "lemma": "untersuchen",
+    "conjugations": {
+      "ich": "untersuche",
+      "du": "untersuchst",
+      "er": "untersucht",
+      "wir": "untersuchen",
+      "ihr": "untersucht",
+      "sie": "untersuchen"
+    }
+  },
+  "vg-unterstutzen": {
+    "lemma": "unterstützen",
+    "conjugations": {
+      "ich": "unterstütze",
+      "du": "unterstützt",
+      "er": "unterstützt",
+      "wir": "unterstützen",
+      "ihr": "unterstützt",
+      "sie": "unterstützen"
+    }
+  },
+  "vg-verpassen": {
+    "lemma": "verpassen",
+    "conjugations": {
+      "ich": "verpasse",
+      "du": "verpasst",
+      "er": "verpasst",
+      "wir": "verpassen",
+      "ihr": "verpasst",
+      "sie": "verpassen"
+    }
+  },
+  "vg-vermeiden": {
+    "lemma": "vermeiden",
+    "conjugations": {
+      "ich": "vermeide",
+      "du": "vermeidest",
+      "er": "vermeidet",
+      "wir": "vermeiden",
+      "ihr": "vermeidet",
+      "sie": "vermeiden"
+    }
+  },
+  "vg-vermuten": {
+    "lemma": "vermuten",
+    "conjugations": {
+      "ich": "vermute",
+      "du": "vermutest",
+      "er": "vermutet",
+      "wir": "vermuten",
+      "ihr": "vermutet",
+      "sie": "vermuten"
+    }
+  },
+  "vg-verursachen": {
+    "lemma": "verursachen",
+    "conjugations": {
+      "ich": "verursache",
+      "du": "verursachst",
+      "er": "verursacht",
+      "wir": "verursachen",
+      "ihr": "verursacht",
+      "sie": "verursachen"
+    }
+  },
+  "vg-verwenden": {
+    "lemma": "verwenden",
+    "conjugations": {
+      "ich": "verwende",
+      "du": "verwendest",
+      "er": "verwendet",
+      "wir": "verwenden",
+      "ihr": "verwendet",
+      "sie": "verwenden"
+    }
+  },
+  "vg-widersprechen": {
+    "lemma": "widersprechen",
+    "conjugations": {
+      "ich": "widerspreche",
+      "du": "widersprichst",
+      "er": "widerspricht",
+      "wir": "widersprechen",
+      "ihr": "widersprecht",
+      "sie": "widersprechen"
+    }
+  },
+  "vg-zustimmen": {
+    "lemma": "zustimmen",
+    "conjugations": {
+      "ich": "stimme zu",
+      "du": "stimmst zu",
+      "er": "stimmt zu",
+      "wir": "stimmen zu",
+      "ihr": "stimmt zu",
+      "sie": "stimmen zu"
+    }
+  },
+  "vg-anbrennen": {
+    "lemma": "anbrennen",
+    "conjugations": {
+      "ich": "brenne an",
+      "du": "brennst an",
+      "er": "brennt an",
+      "wir": "brennen an",
+      "ihr": "brennt an",
+      "sie": "brennen an"
+    }
+  },
+  "vg-anbrullen": {
+    "lemma": "anbrüllen",
+    "conjugations": {
+      "ich": "brülle an",
+      "du": "brüllst an",
+      "er": "brüllt an",
+      "wir": "brüllen an",
+      "ihr": "brüllt an",
+      "sie": "brüllen an"
+    }
+  },
+  "vg-angeben": {
+    "lemma": "angeben",
+    "conjugations": {
+      "ich": "gebe an",
+      "du": "gibst an",
+      "er": "gibt an",
+      "wir": "geben an",
+      "ihr": "gebt an",
+      "sie": "geben an"
+    }
+  },
+  "vg-angreifen": {
+    "lemma": "angreifen",
+    "conjugations": {
+      "ich": "greife an",
+      "du": "greifst an",
+      "er": "greift an",
+      "wir": "greifen an",
+      "ihr": "greift an",
+      "sie": "greifen an"
+    }
+  },
+  "vg-anheben": {
+    "lemma": "anheben",
+    "conjugations": {
+      "ich": "hebe an",
+      "du": "hebst an",
+      "er": "hebt an",
+      "wir": "heben an",
+      "ihr": "hebt an",
+      "sie": "heben an"
+    }
+  },
+  "vg-anklagen": {
+    "lemma": "anklagen",
+    "conjugations": {
+      "ich": "klage an",
+      "du": "klagst an",
+      "er": "klagt an",
+      "wir": "klagen an",
+      "ihr": "klagt an",
+      "sie": "klagen an"
+    }
+  },
+  "vg-ankundigen": {
+    "lemma": "ankündigen",
+    "conjugations": {
+      "ich": "kündige an",
+      "du": "kündigst an",
+      "er": "kündigt an",
+      "wir": "kündigen an",
+      "ihr": "kündigt an",
+      "sie": "kündigen an"
+    }
+  },
+  "vg-anlugen": {
+    "lemma": "anlügen",
+    "conjugations": {
+      "ich": "lüge an",
+      "du": "lügst an",
+      "er": "lügt an",
+      "wir": "lügen an",
+      "ihr": "lügt an",
+      "sie": "lügen an"
+    }
+  },
+  "vg-anpacken": {
+    "lemma": "anpacken",
+    "conjugations": {
+      "ich": "packe an",
+      "du": "packst an",
+      "er": "packt an",
+      "wir": "packen an",
+      "ihr": "packt an",
+      "sie": "packen an"
+    }
+  },
+  "vg-anregen": {
+    "lemma": "anregen",
+    "conjugations": {
+      "ich": "rege an",
+      "du": "regst an",
+      "er": "regt an",
+      "wir": "regen an",
+      "ihr": "regt an",
+      "sie": "regen an"
+    }
+  },
+  "vg-anschliessen": {
+    "lemma": "anschließen",
+    "conjugations": {
+      "ich": "schließe an",
+      "du": "schließt an",
+      "er": "schließt an",
+      "wir": "schließen an",
+      "ihr": "schließt an",
+      "sie": "schließen an"
+    }
+  },
+  "vg-ansetzen": {
+    "lemma": "ansetzen",
+    "conjugations": {
+      "ich": "setze an",
+      "du": "setzt an",
+      "er": "setzt an",
+      "wir": "setzen an",
+      "ihr": "setzt an",
+      "sie": "setzen an"
+    }
+  },
+  "vg-anstecken": {
+    "lemma": "anstecken",
+    "conjugations": {
+      "ich": "stecke an",
+      "du": "steckst an",
+      "er": "steckt an",
+      "wir": "stecken an",
+      "ihr": "steckt an",
+      "sie": "stecken an"
+    }
+  },
+  "vg-ansteigen": {
+    "lemma": "ansteigen",
+    "conjugations": {
+      "ich": "steige an",
+      "du": "steigst an",
+      "er": "steigt an",
+      "wir": "steigen an",
+      "ihr": "steigt an",
+      "sie": "steigen an"
+    }
+  },
+  "vg-anstellen": {
+    "lemma": "anstellen",
+    "conjugations": {
+      "ich": "stelle an",
+      "du": "stellst an",
+      "er": "stellt an",
+      "wir": "stellen an",
+      "ihr": "stellt an",
+      "sie": "stellen an"
+    }
+  },
+  "vg-antreiben": {
+    "lemma": "antreiben",
+    "conjugations": {
+      "ich": "treibe an",
+      "du": "treibst an",
+      "er": "treibt an",
+      "wir": "treiben an",
+      "ihr": "treibt an",
+      "sie": "treiben an"
+    }
+  },
+  "vg-anweisen": {
+    "lemma": "anweisen",
+    "conjugations": {
+      "ich": "weise an",
+      "du": "weist an",
+      "er": "weist an",
+      "wir": "weisen an",
+      "ihr": "weist an",
+      "sie": "weisen an"
+    }
+  },
+  "vg-auffallen": {
+    "lemma": "auffallen",
+    "conjugations": {
+      "ich": "falle auf",
+      "du": "fällst auf",
+      "er": "fällt auf",
+      "wir": "fallen auf",
+      "ihr": "fallt auf",
+      "sie": "fallen auf"
+    }
+  },
+  "vg-auffassen": {
+    "lemma": "auffassen",
+    "conjugations": {
+      "ich": "fasse auf",
+      "du": "fasst auf",
+      "er": "fasst auf",
+      "wir": "fassen auf",
+      "ihr": "fasst auf",
+      "sie": "fassen auf"
+    }
+  },
+  "vg-auffinden": {
+    "lemma": "auffinden",
+    "conjugations": {
+      "ich": "finde auf",
+      "du": "findest auf",
+      "er": "findet auf",
+      "wir": "finden auf",
+      "ihr": "findet auf",
+      "sie": "finden auf"
+    }
+  },
+  "vg-aufklaren": {
+    "lemma": "aufklären",
+    "conjugations": {
+      "ich": "kläre auf",
+      "du": "klärst auf",
+      "er": "klärt auf",
+      "wir": "klären auf",
+      "ihr": "klärt auf",
+      "sie": "klären auf"
+    }
+  },
+  "vg-auftreten": {
+    "lemma": "auftreten",
+    "conjugations": {
+      "ich": "trete auf",
+      "du": "trittst auf",
+      "er": "tritt auf",
+      "wir": "treten auf",
+      "ihr": "tretet auf",
+      "sie": "treten auf"
+    }
+  },
+  "vg-ausbreiten": {
+    "lemma": "ausbreiten",
+    "conjugations": {
+      "ich": "breite aus",
+      "du": "breitest aus",
+      "er": "breitet aus",
+      "wir": "breiten aus",
+      "ihr": "breitet aus",
+      "sie": "breiten aus"
+    }
+  },
+  "vg-ausbilden": {
+    "lemma": "ausbilden",
+    "conjugations": {
+      "ich": "bilde aus",
+      "du": "bildest aus",
+      "er": "bildet aus",
+      "wir": "bilden aus",
+      "ihr": "bildet aus",
+      "sie": "bilden aus"
+    }
+  },
+  "vg-auskommen": {
+    "lemma": "auskommen",
+    "conjugations": {
+      "ich": "komme aus",
+      "du": "kommst aus",
+      "er": "kommt aus",
+      "wir": "kommen aus",
+      "ihr": "kommt aus",
+      "sie": "kommen aus"
+    }
+  },
+  "vg-ausrauben": {
+    "lemma": "ausrauben",
+    "conjugations": {
+      "ich": "raube aus",
+      "du": "raubst aus",
+      "er": "raubt aus",
+      "wir": "rauben aus",
+      "ihr": "raubt aus",
+      "sie": "rauben aus"
+    }
+  },
+  "vg-ausscheiden": {
+    "lemma": "ausscheiden",
+    "conjugations": {
+      "ich": "scheide aus",
+      "du": "scheidest aus",
+      "er": "scheidet aus",
+      "wir": "scheiden aus",
+      "ihr": "scheidet aus",
+      "sie": "scheiden aus"
+    }
+  },
+  "vg-ausschliessen": {
+    "lemma": "ausschließen",
+    "conjugations": {
+      "ich": "schließe aus",
+      "du": "schließt aus",
+      "er": "schließt aus",
+      "wir": "schließen aus",
+      "ihr": "schließt aus",
+      "sie": "schließen aus"
+    }
+  },
+  "vg-austauschen": {
+    "lemma": "austauschen",
+    "conjugations": {
+      "ich": "tausche aus",
+      "du": "tauschst aus",
+      "er": "tauscht aus",
+      "wir": "tauschen aus",
+      "ihr": "tauscht aus",
+      "sie": "tauschen aus"
+    }
+  },
+  "vg-ausweichen": {
+    "lemma": "ausweichen",
+    "conjugations": {
+      "ich": "weiche aus",
+      "du": "weichst aus",
+      "er": "weicht aus",
+      "wir": "weichen aus",
+      "ihr": "weicht aus",
+      "sie": "weichen aus"
+    }
+  }
+}

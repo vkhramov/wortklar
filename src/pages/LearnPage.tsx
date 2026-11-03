@@ -12,6 +12,7 @@ import { PronounceButton } from '../components/PronounceButton';
 import { WordPhoto } from '../components/WordPhoto';
 import { recognitionLangForMode } from '../lib/speechRecognition';
 import { hasWordImage, preloadWordImage } from '../lib/wordImages';
+import { scrollGradeActionsIntoView } from '../lib/scrollGradeActions';
 import type { AnswerResult, SessionItem } from '../types/vocab';
 import type { Grade } from '../lib/srs';
 
@@ -212,6 +213,12 @@ export function LearnPage() {
   }, [answering, index]);
 
   useEffect(() => {
+    if (!result) return;
+    const t = window.setTimeout(scrollGradeActionsIntoView, 80);
+    return () => window.clearTimeout(t);
+  }, [result, index]);
+
+  useEffect(() => {
     if (!result || !gradeReady || gradeActions.length === 0) return;
 
     function onKeyDown(e: KeyboardEvent) {
@@ -279,7 +286,9 @@ export function LearnPage() {
   const intoDe = producesGerman(mode);
 
   return (
-    <div className={`learn-screen${answering ? ' is-answering' : ''}`}>
+    <div
+      className={`learn-screen${answering ? ' is-answering' : ''}${result ? ' is-grading' : ''}`}
+    >
       <div className="meta-row learn-session-meta">
         <span>
           {index + 1} / {session.length}

@@ -324,6 +324,11 @@ h2 {
   font-size: 0.8rem;
 }
 
+.grade-actions {
+  /* Leave room for the fixed bottom nav when scrolling buttons into view */
+  scroll-margin-bottom: calc(5.75rem + var(--safe-bottom));
+}
+
 .your-answer {
   display: flex;
   flex-wrap: wrap;
@@ -1226,6 +1231,14 @@ h2 {
   .learn-screen.is-answering .dictate-btn {
     padding: 0.45rem 0.6rem;
     font-size: 0.78rem;
+  }
+
+  .learn-screen.is-grading .grade-hint {
+    display: none;
+  }
+
+  .learn-screen.is-grading .grade-actions {
+    scroll-margin-bottom: calc(6.25rem + var(--safe-bottom));
   }
 }
 

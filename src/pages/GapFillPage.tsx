@@ -7,6 +7,7 @@ import { PronounceButton } from '../components/PronounceButton';
 import { evaluateGapAnswer, gapCatalogStats } from '../lib/gapFill';
 import { buildGapSession, type GapSessionItem } from '../lib/gapSession';
 import { uiLangFromMode } from '../lib/leakage';
+import { scrollGradeActionsIntoView } from '../lib/scrollGradeActions';
 import type { Grade } from '../lib/srs';
 import type { AnswerResult } from '../types/vocab';
 
@@ -49,6 +50,12 @@ export function GapFillPage() {
     document.body.classList.toggle('learn-compose', answering);
     return () => document.body.classList.remove('learn-compose');
   }, [answering]);
+
+  useEffect(() => {
+    if (!result) return;
+    const t = window.setTimeout(scrollGradeActionsIntoView, 80);
+    return () => window.clearTimeout(t);
+  }, [result, index]);
 
   function submit(rawOverride?: string) {
     if (!gap || result) return;
@@ -239,7 +246,9 @@ export function GapFillPage() {
         : gap.person;
 
   return (
-    <div className={`learn-screen${answering ? ' is-answering' : ''}`}>
+    <div
+      className={`learn-screen${answering ? ' is-answering' : ''}${result ? ' is-grading' : ''}`}
+    >
       <div className="meta-row learn-session-meta">
         <span>
           {index + 1} / {session.length}

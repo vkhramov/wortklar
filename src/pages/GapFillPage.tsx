@@ -33,14 +33,22 @@ export function GapFillPage() {
   const [actionIndex, setActionIndex] = useState(0);
   const [gradeReady, setGradeReady] = useState(false);
 
+  // Value keys — not `settings.levels` by reference. GitHub sync replaces
+  // progress with a new object and was restarting the session mid-run.
+  const levelsKey = progress.settings.levels.join('\0');
+  const sessionSize = progress.settings.sessionSize;
+  const newPerSession = progress.settings.newPerSession;
+
   useEffect(() => {
-    const items = buildGapSession(vocabulary, progress);
+    const items = buildGapSession(vocabulary, useAppStore.getState().progress);
     setSession(items);
     setIndex(0);
     setAnswer('');
     setResult(null);
     setFinished(items.length === 0);
-  }, [vocabulary, progress.settings.levels, progress.settings.sessionSize, progress.settings.newPerSession]);
+    // Card updates / sync must not rebuild the queue mid-session (same as Learn).
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional
+  }, [vocabulary, levelsKey, sessionSize, newPerSession]);
 
   const item = session[index];
   const gap = item?.gap;

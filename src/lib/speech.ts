@@ -23,19 +23,12 @@ function normalizeLang(lang: string): string {
 
 function pickGermanVoice(): SpeechSynthesisVoice | undefined {
   const voices = window.speechSynthesis.getVoices();
-  const de = voices.filter((v) => normalizeLang(v.lang).startsWith('de'));
-  if (!de.length) return undefined;
-
-  // Prefer on-device voices only. Chrome "Google Deutsch" is remote and often
-  // silent or stuck on macOS.
-  const local =
-    de.find((v) => v.localService && normalizeLang(v.lang).startsWith('de-de')) ??
-    de.find((v) => v.localService);
-  if (local) return local;
-
-  // No local German voice: do not assign a Google network voice — leave unset
-  // and rely on utter.lang so the engine can pick a workable default.
-  return undefined;
+  // Same preference as before the macOS fixes: browser default de-DE voice
+  // (often Chrome's Google Deutsch), then any German voice.
+  return (
+    voices.find((v) => normalizeLang(v.lang) === 'de-de') ??
+    voices.find((v) => normalizeLang(v.lang).startsWith('de'))
+  );
 }
 
 function unlockSynth(): void {
@@ -64,7 +57,6 @@ function enqueue(text: string): void {
   utter.lang = 'de-DE';
   utter.rate = 0.92;
   const voice = pickGermanVoice();
-  // Only pin a voice when it is local; otherwise lang alone is safer on Chrome Mac.
   if (voice) utter.voice = voice;
 
   const release = () => {

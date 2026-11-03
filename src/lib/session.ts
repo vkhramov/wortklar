@@ -5,6 +5,7 @@ import type {
   VocabEntry,
 } from '../types/vocab';
 import { createNewCard, isDue } from './srs';
+import { shuffled } from './shuffle';
 
 function getCard(
   progress: AppProgress,
@@ -127,7 +128,8 @@ export function buildSession(
     }
   }
 
-  return session;
+  // Same cards each rebuild, random order so sessions don't feel identical
+  return shuffled(session);
 }
 
 export function countStats(vocabulary: VocabEntry[], progress: AppProgress) {

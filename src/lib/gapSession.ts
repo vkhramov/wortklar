@@ -1,6 +1,7 @@
 import type { AppProgress, CefrLevel } from '../types/vocab';
 import { createNewCard, isDue } from './srs';
 import { listGapItems, type GapFillItem } from './gapFill';
+import { shuffled } from './shuffle';
 
 export type GapSessionItem = {
   gap: GapFillItem;
@@ -101,7 +102,7 @@ export function buildGapSession(
     if (ni < newSlice.length) session.push(newSlice[ni++]);
   }
 
-  return session;
+  return shuffled(session);
 }
 
 export function countGapStats(

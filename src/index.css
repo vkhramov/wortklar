@@ -663,6 +663,18 @@ h2 {
   gap: 0.35rem;
 }
 
+.example-de-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.55rem 0.75rem;
+}
+
+.example-de-row .example-de {
+  flex: 1 1 12rem;
+  min-width: 0;
+}
+
 .example-de {
   font-family: var(--font-read);
   font-size: clamp(1.1rem, 2.8vw, 1.35rem);

@@ -345,7 +345,15 @@ export function LearnPage() {
             <div className="example-label">
               {ui === 'ru' ? 'Пример' : 'Example'}
             </div>
-            <div className="example-de">{previewExample.text}</div>
+            <div className="example-de-row">
+              <div className="example-de">{previewExample.text}</div>
+              {previewExample.lang === 'de' && (
+                <PronounceButton
+                  text={previewExample.text}
+                  label={ui === 'ru' ? 'Слушать' : 'Listen'}
+                />
+              )}
+            </div>
           </div>
         )}
 
@@ -461,7 +469,13 @@ export function LearnPage() {
                   <div className="example-label">
                     {ui === 'ru' ? 'Пример' : 'Example'}
                   </div>
-                  <div className="example-de">{reveal.example.de}</div>
+                  <div className="example-de-row">
+                    <div className="example-de">{reveal.example.de}</div>
+                    <PronounceButton
+                      text={reveal.example.de}
+                      label={ui === 'ru' ? 'Слушать' : 'Listen'}
+                    />
+                  </div>
                   <div className="example-tr">
                     {ui === 'ru' ? reveal.example.ru : reveal.example.en}
                   </div>

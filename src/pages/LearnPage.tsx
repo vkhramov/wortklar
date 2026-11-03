@@ -216,11 +216,13 @@ export function LearnPage() {
     return () => window.clearTimeout(t);
   }, [result]);
 
+  // Stop TTS only when leaving a card — not when `result` flips (that was
+  // cancelling speech right as the Listen button queued it on Chrome macOS).
   useEffect(() => {
     return () => {
       window.speechSynthesis?.cancel();
     };
-  }, [index, result]);
+  }, [index]);
 
   // Phone + keyboard: free vertical space so the cue word stays on screen
   const answering = Boolean(entry && !result && !finished);

@@ -9,7 +9,13 @@
 /** Keep utterances alive until spoken — Chrome GC can drop them mid-flight. */
 const pendingUtterances = new Set<SpeechSynthesisUtterance>();
 
-let voicesReady = false;
+const DEBUG =
+  typeof window !== 'undefined' &&
+  new URLSearchParams(window.location.search).has('ttsDebug');
+
+function log(...args: unknown[]): void {
+  if (DEBUG) console.info('[tts]', ...args);
+}
 
 function normalizeLang(lang: string): string {
   return lang.replace('_', '-').toLowerCase();
@@ -34,6 +40,11 @@ function pickGermanVoice(): SpeechSynthesisVoice | undefined {
 
 function unlockSynth(): void {
   const s = window.speechSynthesis;
+  log('unlock', {
+    speaking: s.speaking,
+    pending: s.pending,
+    paused: s.paused,
+  });
   try {
     if (s.paused) s.resume();
   } catch {
@@ -59,9 +70,21 @@ function enqueue(text: string): void {
   const release = () => {
     pendingUtterances.delete(utter);
   };
-  utter.addEventListener('end', release);
-  utter.addEventListener('error', release);
+  utter.addEventListener('start', () => log('start', text));
+  utter.addEventListener('end', () => {
+    log('end', text);
+    release();
+  });
+  utter.addEventListener('error', (ev) => {
+    log('error', (ev as SpeechSynthesisErrorEvent).error, text);
+    release();
+  });
   pendingUtterances.add(utter);
+
+  log('speak', {
+    text,
+    voice: voice ? `${voice.name} local=${voice.localService}` : '(default/lang)',
+  });
 
   // Must stay in the same user-gesture turn as the click (no setTimeout).
   try {
@@ -71,12 +94,15 @@ function enqueue(text: string): void {
   }
   window.speechSynthesis.speak(utter);
 
-  // Chrome sometimes leaves speaking=true but produces no audio until resume.
   window.setTimeout(() => {
+    const s = window.speechSynthesis;
+    log('after100ms', {
+      speaking: s.speaking,
+      pending: s.pending,
+      paused: s.paused,
+    });
     try {
-      if (window.speechSynthesis.speaking && window.speechSynthesis.paused) {
-        window.speechSynthesis.resume();
-      }
+      if (s.speaking && s.paused) s.resume();
     } catch {
       /* ignore */
     }
@@ -87,7 +113,8 @@ function enqueue(text: string): void {
 export function prefetchSpeechVoices(): void {
   if (typeof window === 'undefined' || !window.speechSynthesis) return;
   const mark = () => {
-    voicesReady = window.speechSynthesis.getVoices().length > 0;
+    const n = window.speechSynthesis.getVoices().length;
+    if (n) log('voices ready', n);
   };
   mark();
   window.speechSynthesis.addEventListener('voiceschanged', mark);
@@ -102,13 +129,9 @@ export function speakGerman(text: string): boolean {
   }
 
   const voices = window.speechSynthesis.getVoices();
-  voicesReady = voices.length > 0;
-
-  if (!voicesReady) {
-    // Kick load; speak immediately anyway with lang=de-DE (gesture still valid).
+  if (!voices.length) {
     const onVoices = () => {
       window.speechSynthesis.removeEventListener('voiceschanged', onVoices);
-      // Re-speak once voices arrive only if nothing is audible yet.
       if (!window.speechSynthesis.speaking) {
         enqueue(trimmed);
       }

@@ -38,8 +38,8 @@ export function AuthPage() {
               <div className="eyebrow">Wortklar</div>
               <h1>Sign in to keep your progress</h1>
               <p className="lede">
-                Create a username on this device. No email needed — your learning
-                stats and word strength stay tied to your account in this browser.
+                Use the same username and password on every device. No email
+                needed — learning progress syncs through GitHub in Settings.
               </p>
 
               {legacy && (
@@ -117,9 +117,9 @@ export function AuthPage() {
               </form>
 
               <p className="muted auth-note">
-                Accounts are stored locally on this device only. Use Export in
-                Settings to back up before clearing browser data or switching
-                phones.
+                On a new phone or browser, log in with the same username and
+                password, then open Settings → Sync, paste your GitHub PAT, and
+                Pull. Export remains a local backup.
               </p>
               <AppVersion />
             </section>

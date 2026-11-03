@@ -147,7 +147,9 @@ export async function loginUser(
   const registry = loadRegistry();
   const user = registry.users.find((u) => u.username === username);
   if (!user) {
-    return { ok: false, error: 'Unknown username on this device.' };
+    // New device: no local registry entry yet. Create one with the same
+    // username/password so Log in works across browsers; progress syncs via GitHub.
+    return registerUser(usernameRaw, password);
   }
   const passwordHash = await hashPassword(password, user.salt);
   if (passwordHash !== user.passwordHash) {

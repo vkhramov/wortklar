@@ -48,6 +48,14 @@ async function run() {
   const ok = await loginUser('Viktor', 'secret');
   console.assert(ok.ok);
 
+  // Fresh browser: Log in bootstraps a local account for the same username.
+  mem.clear();
+  logoutUser();
+  const boot = await loginUser('viktor', 'secret');
+  console.assert(boot.ok, 'login on empty device should create local account');
+  if (!boot.ok) throw new Error(boot.error);
+  console.assert(getCurrentUser()?.username === 'viktor');
+
   mem.set(LEGACY_PROGRESS_KEY, JSON.stringify({ cards: { x: 1 }, settings: {} }));
   const userId = getSessionUserId()!;
   mem.delete(progressKeyForUser(userId));

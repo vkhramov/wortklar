@@ -399,6 +399,32 @@ h2 {
   margin-inline: auto;
 }
 
+/* Keep the cue near the answer field; example sits under the form on narrow screens. */
+.prompt-card > .learn-card-meta,
+.prompt-card > .meta-row {
+  order: 0;
+}
+
+.prompt-card > .prompt-text {
+  order: 1;
+}
+
+.prompt-card > .example-while-answering {
+  order: 2;
+}
+
+.prompt-card > .hint-list {
+  order: 3;
+}
+
+.prompt-card > .answer-form {
+  order: 4;
+}
+
+.prompt-card > .feedback {
+  order: 5;
+}
+
 .progress-bar {
   height: 8px;
   background: var(--line);
@@ -1115,5 +1141,99 @@ h2 {
   .library-dl > div {
     grid-template-columns: 1fr;
     gap: 0.15rem;
+  }
+
+  /* S24 / phone keyboard: keep the cue word visible while typing */
+  body.learn-compose .bottom-nav {
+    display: none;
+  }
+
+  body.learn-compose .page {
+    padding: 0.65rem 0 1.25rem;
+  }
+
+  body.learn-compose .app-version {
+    display: none;
+  }
+
+  body.learn-compose .topbar .account-chip,
+  body.learn-compose .topbar .nav {
+    display: none;
+  }
+
+  body.learn-compose .topbar-inner {
+    padding: 0.45rem 0;
+  }
+
+  .learn-screen.is-answering {
+    gap: 0.5rem;
+  }
+
+  .learn-screen.is-answering .learn-session-meta .reason-chip {
+    display: none;
+  }
+
+  .learn-screen.is-answering .prompt-card {
+    gap: 0.55rem;
+    padding: 0.85rem 0.9rem 1rem;
+  }
+
+  .learn-screen.is-answering .prompt-text {
+    position: sticky;
+    top: 0.35rem;
+    z-index: 8;
+    font-size: clamp(1.35rem, 5.2vw, 1.75rem);
+    line-height: 1.2;
+    padding: 0.2rem 0 0.35rem;
+    background: var(--surface);
+    box-shadow: 0 10px 14px -12px rgba(20, 34, 31, 0.45);
+  }
+
+  .learn-screen.is-answering .prompt-text.gap-prompt {
+    font-size: clamp(1.05rem, 4.2vw, 1.35rem);
+  }
+
+  .learn-screen.is-answering .example-while-answering {
+    display: none;
+  }
+
+  /* Cue → answer first; hints sit under the field if space is tight */
+  .learn-screen.is-answering .answer-form {
+    order: 2;
+    gap: 0.55rem;
+  }
+
+  .learn-screen.is-answering .hint-list {
+    order: 3;
+  }
+
+  .learn-screen.is-answering .hint-list li {
+    font-size: 0.88rem;
+    line-height: 1.3;
+  }
+
+  .learn-screen.is-answering .answer-input {
+    padding: 0.8rem 0.85rem;
+    font-size: 1.05rem;
+    min-height: 2.9rem;
+  }
+
+  .learn-screen.is-answering .dictate-btn {
+    padding: 0.45rem 0.6rem;
+    font-size: 0.78rem;
+  }
+}
+
+@media (min-width: 721px) {
+  .prompt-card > .example-while-answering {
+    order: 2;
+  }
+
+  .prompt-card > .hint-list {
+    order: 3;
+  }
+
+  .prompt-card > .answer-form {
+    order: 4;
   }
 }

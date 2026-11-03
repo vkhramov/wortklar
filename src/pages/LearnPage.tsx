@@ -188,6 +188,29 @@ export function LearnPage() {
     };
   }, [index, result]);
 
+  // Phone + keyboard: free vertical space so the cue word stays on screen
+  const answering = Boolean(entry && !result && !finished);
+  useEffect(() => {
+    document.body.classList.toggle('learn-compose', answering);
+    return () => document.body.classList.remove('learn-compose');
+  }, [answering]);
+
+  useEffect(() => {
+    if (!answering) return;
+    const pinCue = () => {
+      document
+        .querySelector('.learn-screen.is-answering .prompt-text')
+        ?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    };
+    const t = window.setTimeout(pinCue, 120);
+    const vv = window.visualViewport;
+    vv?.addEventListener('resize', pinCue);
+    return () => {
+      window.clearTimeout(t);
+      vv?.removeEventListener('resize', pinCue);
+    };
+  }, [answering, index]);
+
   useEffect(() => {
     if (!result || !gradeReady || gradeActions.length === 0) return;
 
@@ -256,8 +279,8 @@ export function LearnPage() {
   const intoDe = producesGerman(mode);
 
   return (
-    <div className="learn-screen">
-      <div className="meta-row">
+    <div className={`learn-screen${answering ? ' is-answering' : ''}`}>
+      <div className="meta-row learn-session-meta">
         <span>
           {index + 1} / {session.length}
         </span>
@@ -273,7 +296,7 @@ export function LearnPage() {
       </div>
 
       <section className="prompt-card">
-        <div className="meta-row">
+        <div className="meta-row learn-card-meta">
           <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
             <span className="chip">{safe.posLabel}</span>
             <span className="chip">{safe.level}</span>
@@ -288,7 +311,7 @@ export function LearnPage() {
         <div className="prompt-text">{safe.prompt}</div>
 
         {previewExample && !result && (
-          <div className="example-block">
+          <div className="example-block example-while-answering">
             <div className="example-label">
               {ui === 'ru' ? 'Пример' : 'Example'}
             </div>

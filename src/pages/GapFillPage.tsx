@@ -43,6 +43,12 @@ export function GapFillPage() {
 
   const item = session[index];
   const gap = item?.gap;
+  const answering = Boolean(gap && !result && !finished);
+
+  useEffect(() => {
+    document.body.classList.toggle('learn-compose', answering);
+    return () => document.body.classList.remove('learn-compose');
+  }, [answering]);
 
   function submit(rawOverride?: string) {
     if (!gap || result) return;
@@ -233,8 +239,8 @@ export function GapFillPage() {
         : gap.person;
 
   return (
-    <div className="learn-screen">
-      <div className="meta-row">
+    <div className={`learn-screen${answering ? ' is-answering' : ''}`}>
+      <div className="meta-row learn-session-meta">
         <span>
           {index + 1} / {session.length}
         </span>
@@ -250,7 +256,7 @@ export function GapFillPage() {
       </div>
 
       <section className="prompt-card">
-        <div className="meta-row">
+        <div className="meta-row learn-card-meta">
           <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap' }}>
             <span className="chip">
               {ui === 'ru' ? 'Пропуск' : 'Gap-fill'}

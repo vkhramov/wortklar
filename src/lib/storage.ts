@@ -16,13 +16,15 @@ export const DEFAULT_SETTINGS: UserSettings = {
 };
 
 export function createEmptyProgress(): AppProgress {
+  const now = new Date().toISOString();
   return {
     cards: {},
     streak: 0,
     lastStudyDate: null,
     daily: [],
     settings: { ...DEFAULT_SETTINGS },
-    createdAt: new Date().toISOString(),
+    createdAt: now,
+    updatedAt: now,
     version: 1,
   };
 }
@@ -56,7 +58,11 @@ export function loadProgress(): AppProgress {
 export function saveProgress(progress: AppProgress): void {
   const key = activeProgressKey();
   if (!key) return;
-  localStorage.setItem(key, JSON.stringify(progress));
+  const stamped: AppProgress = {
+    ...progress,
+    updatedAt: progress.updatedAt ?? new Date().toISOString(),
+  };
+  localStorage.setItem(key, JSON.stringify(stamped));
 }
 
 export function exportProgress(progress: AppProgress): string {

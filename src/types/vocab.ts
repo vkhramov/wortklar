@@ -103,6 +103,8 @@ export interface AppProgress {
   daily: DailyStats[];
   settings: UserSettings;
   createdAt: string;
+  /** ISO timestamp for cross-device merge / GitHub sync. */
+  updatedAt?: string;
   version: number;
 }
 

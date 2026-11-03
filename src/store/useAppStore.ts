@@ -24,6 +24,13 @@ import {
   migrateLegacyProgressIfNeeded,
   registerUser,
 } from '../lib/auth';
+import {
+  getProgressPat,
+  pullProgress,
+  pushProgress,
+  scheduleProgressPush,
+  type SyncStatus,
+} from '../lib/progressSync';
 
 type GradeInput = SrsGrade;
 
@@ -32,6 +39,7 @@ interface AppState {
   vocabulary: VocabEntry[];
   progress: AppProgress;
   user: AuthUser | null;
+  syncStatus: SyncStatus;
   init: () => Promise<void>;
   register: (username: string, password: string) => Promise<string | null>;
   login: (username: string, password: string) => Promise<string | null>;
@@ -44,6 +52,8 @@ interface AppState {
   resetProgress: () => void;
   exportData: () => string;
   importData: (json: string) => void;
+  syncPull: () => Promise<string | null>;
+  syncPush: () => Promise<string | null>;
 }
 
 function bumpDaily(
@@ -86,11 +96,86 @@ function activateUserSession(): { user: AuthUser; progress: AppProgress } {
   return { user, progress };
 }
 
+function stamp(progress: AppProgress): AppProgress {
+  return { ...progress, updatedAt: new Date().toISOString() };
+}
+
+function persist(
+  progress: AppProgress,
+  set: (partial: Partial<AppState>) => void,
+  username?: string,
+) {
+  const next = stamp(progress);
+  saveProgress(next);
+  set({ progress: next });
+  if (username && getProgressPat()) {
+    scheduleProgressPush(username, next, (err, merged) => {
+      if (err) {
+        set({
+          syncStatus: {
+            state: 'error',
+            detail: err,
+          },
+        });
+        return;
+      }
+      if (merged) {
+        saveProgress(merged);
+        set({
+          progress: merged,
+          syncStatus: {
+            state: 'ok',
+            detail: 'Synced to GitHub',
+            at: new Date().toISOString(),
+          },
+        });
+      }
+    });
+  }
+}
+
+async function tryPullIntoSession(
+  user: AuthUser,
+  local: AppProgress,
+  set: (partial: Partial<AppState>) => void,
+): Promise<AppProgress> {
+  if (!getProgressPat()) return local;
+  set({ syncStatus: { state: 'syncing', detail: 'Pulling…' } });
+  try {
+    const { progress, changed } = await pullProgress(user.username, local);
+    if (changed) {
+      saveProgress(progress);
+      set({
+        progress,
+        syncStatus: {
+          state: 'ok',
+          detail: 'Merged from GitHub',
+          at: new Date().toISOString(),
+        },
+      });
+      return progress;
+    }
+    set({
+      syncStatus: {
+        state: 'ok',
+        detail: 'Up to date',
+        at: new Date().toISOString(),
+      },
+    });
+    return local;
+  } catch (e) {
+    const detail = e instanceof Error ? e.message : String(e);
+    set({ syncStatus: { state: 'error', detail } });
+    return local;
+  }
+}
+
 export const useAppStore = create<AppState>((set, get) => ({
   ready: false,
   vocabulary: [],
   progress: createEmptyProgress(),
   user: null,
+  syncStatus: { state: 'idle' },
 
   init: async () => {
     const base = import.meta.env.BASE_URL || '/';
@@ -99,12 +184,9 @@ export const useAppStore = create<AppState>((set, get) => ({
     const existing = getCurrentUser();
     if (existing) {
       migrateLegacyProgressIfNeeded(existing.id);
-      set({
-        vocabulary,
-        user: existing,
-        progress: loadProgress(),
-        ready: true,
-      });
+      const local = loadProgress();
+      set({ vocabulary, user: existing, progress: local, ready: true });
+      void tryPullIntoSession(existing, local, set);
       return;
     }
     set({ vocabulary, user: null, progress: createEmptyProgress(), ready: true });
@@ -115,6 +197,7 @@ export const useAppStore = create<AppState>((set, get) => ({
     if (!result.ok) return result.error;
     const { user, progress } = activateUserSession();
     set({ user, progress });
+    void tryPullIntoSession(user, progress, set);
     return null;
   },
 
@@ -123,36 +206,44 @@ export const useAppStore = create<AppState>((set, get) => ({
     if (!result.ok) return result.error;
     const { user, progress } = activateUserSession();
     set({ user, progress });
+    void tryPullIntoSession(user, progress, set);
     return null;
   },
 
   logout: () => {
     logoutUser();
-    set({ user: null, progress: createEmptyProgress() });
+    set({ user: null, progress: createEmptyProgress(), syncStatus: { state: 'idle' } });
   },
 
   setMode: (mode) => {
-    if (!get().user) return;
-    const progress = {
-      ...get().progress,
-      settings: { ...get().progress.settings, mode },
-    };
-    saveProgress(progress);
-    set({ progress });
+    const user = get().user;
+    if (!user) return;
+    persist(
+      {
+        ...get().progress,
+        settings: { ...get().progress.settings, mode },
+      },
+      set,
+      user.username,
+    );
   },
 
   updateSettings: (partial) => {
-    if (!get().user) return;
-    const progress = {
-      ...get().progress,
-      settings: { ...get().progress.settings, ...partial },
-    };
-    saveProgress(progress);
-    set({ progress });
+    const user = get().user;
+    if (!user) return;
+    persist(
+      {
+        ...get().progress,
+        settings: { ...get().progress.settings, ...partial },
+      },
+      set,
+      user.username,
+    );
   },
 
   applyGrade: (entryId, grade) => {
-    if (!get().user) return;
+    const user = get().user;
+    if (!user) return;
     let progress = updateStreak(get().progress);
     const existing = progress.cards[entryId] ?? createNewCard(entryId);
     const wasNew = existing.state === 'new' || !existing.introducedAt;
@@ -165,26 +256,29 @@ export const useAppStore = create<AppState>((set, get) => ({
         newDelta: wasNew && grade !== 'again' && grade !== 'know' ? 1 : 0,
       }),
     };
-    saveProgress(progress);
-    set({ progress });
+    persist(progress, set, user.username);
   },
 
   resumeLearning: (entryId) => {
-    if (!get().user) return;
+    const user = get().user;
+    if (!user) return;
     const existing = get().progress.cards[entryId];
     if (!existing) return;
     const updated = resumeFromKnown(existing);
     if (updated === existing) return;
-    const progress = {
-      ...get().progress,
-      cards: { ...get().progress.cards, [entryId]: updated },
-    };
-    saveProgress(progress);
-    set({ progress });
+    persist(
+      {
+        ...get().progress,
+        cards: { ...get().progress.cards, [entryId]: updated },
+      },
+      set,
+      user.username,
+    );
   },
 
   recordAnswer: (entryId, correct) => {
-    if (!get().user) return;
+    const user = get().user;
+    if (!user) return;
     const existing = get().progress.cards[entryId] ?? createNewCard(entryId);
     const card = {
       ...existing,
@@ -199,33 +293,76 @@ export const useAppStore = create<AppState>((set, get) => ({
         incorrectDelta: correct ? 0 : 1,
       }),
     };
-    saveProgress(progress);
-    set({ progress });
+    persist(progress, set, user.username);
   },
 
   resetProgress: () => {
-    if (!get().user) return;
+    const user = get().user;
+    if (!user) return;
     const { settings } = get().progress;
     const progress = {
-      cards: {},
-      streak: 0,
-      lastStudyDate: null,
-      daily: [],
+      ...createEmptyProgress(),
       settings,
-      createdAt: new Date().toISOString(),
-      version: 1,
     };
-    saveProgress(progress);
-    set({ progress });
+    persist(progress, set, user.username);
   },
 
   exportData: () => exportProgress(get().progress),
 
   importData: (json) => {
-    if (!get().user) return;
+    const user = get().user;
+    if (!user) return;
     const progress = parseImport(json);
-    saveProgress(progress);
-    set({ progress });
+    persist(progress, set, user.username);
+  },
+
+  syncPull: async () => {
+    const user = get().user;
+    if (!user) return 'Not signed in';
+    if (!getProgressPat()) return 'Save a GitHub PAT in Settings first';
+    set({ syncStatus: { state: 'syncing', detail: 'Pulling…' } });
+    try {
+      const { progress } = await pullProgress(user.username, get().progress);
+      saveProgress(progress);
+      set({
+        progress,
+        syncStatus: {
+          state: 'ok',
+          detail: 'Pulled from GitHub',
+          at: new Date().toISOString(),
+        },
+      });
+      return null;
+    } catch (e) {
+      const detail = e instanceof Error ? e.message : String(e);
+      set({ syncStatus: { state: 'error', detail } });
+      return detail;
+    }
+  },
+
+  syncPush: async () => {
+    const user = get().user;
+    if (!user) return 'Not signed in';
+    if (!getProgressPat()) return 'Save a GitHub PAT in Settings first';
+    set({ syncStatus: { state: 'syncing', detail: 'Pushing…' } });
+    try {
+      const { progress: merged } = await pullProgress(user.username, get().progress);
+      await pushProgress(user.username, merged);
+      saveProgress(merged);
+      set({
+        progress: merged,
+        syncStatus: {
+          state: 'ok',
+          detail: 'Pushed to GitHub',
+          at: new Date().toISOString(),
+        },
+      });
+      return null;
+    } catch (e) {
+      const detail = e instanceof Error ? e.message : String(e);
+      set({ syncStatus: { state: 'error', detail } });
+      return detail;
+    }
   },
 }));
 

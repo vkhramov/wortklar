@@ -1,7 +1,13 @@
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { useAppStore } from '../store/useAppStore';
 import type { CefrLevel } from '../types/vocab';
 import { uiLangFromMode } from '../lib/leakage';
+import {
+  getProgressPat,
+  getProgressRepo,
+  setProgressPat,
+  setProgressRepo,
+} from '../lib/progressSync';
 
 const ALL_LEVELS: CefrLevel[] = ['A1', 'A2', 'B1', 'B2'];
 const TOPICS = [
@@ -16,15 +22,21 @@ export function SettingsPage() {
   const {
     progress,
     user,
+    syncStatus,
     updateSettings,
     resetProgress,
     exportData,
     importData,
     logout,
+    syncPull,
+    syncPush,
   } = useAppStore();
   const s = progress.settings;
   const ui = uiLangFromMode(s.mode);
   const fileRef = useRef<HTMLInputElement>(null);
+  const [pat, setPat] = useState(() => getProgressPat());
+  const [repo, setRepo] = useState(() => getProgressRepo());
+  const [patSaved, setPatSaved] = useState(false);
 
   function toggleLevel(level: CefrLevel) {
     const levels = s.levels.includes(level)
@@ -173,12 +185,95 @@ export function SettingsPage() {
 
       <section className="panel">
         <div className="panel-title">
+          <h2>{ui === 'ru' ? 'Синхронизация (GitHub)' : 'Sync (GitHub)'}</h2>
+        </div>
+        <p className="muted" style={{ marginTop: 0, lineHeight: 1.5 }}>
+          {ui === 'ru'
+            ? 'Приватный репозиторий хранит прогресс. PAT остаётся только в этом браузере. На новом устройстве: тот же логин Wortklar + тот же PAT → Pull.'
+            : 'A private repo stores your progress. The PAT stays in this browser only. On a new device: same Wortklar login + same PAT → Pull.'}
+        </p>
+        <div className="field">
+          <label htmlFor="gh-repo">
+            {ui === 'ru' ? 'Репозиторий' : 'Repository'}
+          </label>
+          <input
+            id="gh-repo"
+            type="text"
+            value={repo}
+            onChange={(e) => setRepo(e.target.value)}
+            placeholder="vkhramov/wortklar-progress"
+            autoComplete="off"
+          />
+        </div>
+        <div className="field">
+          <label htmlFor="gh-pat">
+            {ui === 'ru' ? 'GitHub PAT (fine-grained)' : 'GitHub PAT (fine-grained)'}
+          </label>
+          <input
+            id="gh-pat"
+            type="password"
+            value={pat}
+            onChange={(e) => {
+              setPat(e.target.value);
+              setPatSaved(false);
+            }}
+            placeholder="github_pat_…"
+            autoComplete="off"
+          />
+        </div>
+        <div className="btn-row">
+          <button
+            type="button"
+            className="btn btn-secondary"
+            onClick={() => {
+              setProgressRepo(repo);
+              setProgressPat(pat);
+              setPatSaved(true);
+            }}
+          >
+            {ui === 'ru' ? 'Сохранить PAT' : 'Save PAT'}
+          </button>
+          <button
+            type="button"
+            className="btn btn-primary"
+            disabled={syncStatus.state === 'syncing'}
+            onClick={() => void syncPull()}
+          >
+            {ui === 'ru' ? 'Pull' : 'Pull'}
+          </button>
+          <button
+            type="button"
+            className="btn btn-ghost"
+            disabled={syncStatus.state === 'syncing'}
+            onClick={() => void syncPush()}
+          >
+            {ui === 'ru' ? 'Push' : 'Push'}
+          </button>
+        </div>
+        <p className="muted" style={{ marginTop: '0.75rem' }}>
+          {patSaved
+            ? ui === 'ru'
+              ? 'PAT сохранён на этом устройстве.'
+              : 'PAT saved on this device.'
+            : null}{' '}
+          {syncStatus.state === 'idle'
+            ? null
+            : syncStatus.state === 'syncing'
+              ? syncStatus.detail
+              : syncStatus.state === 'ok'
+                ? `${syncStatus.detail}${syncStatus.at ? ` · ${new Date(syncStatus.at).toLocaleString()}` : ''}`
+                : syncStatus.detail}
+        </p>
+      </section>
+
+      <section className="panel">
+        <div className="panel-title">
           <h2>{ui === 'ru' ? 'Данные' : 'Data'}</h2>
         </div>
         <p className="muted" style={{ marginTop: 0 }}>
           {ui === 'ru'
-            ? 'Прогресс привязан к аккаунту в этом браузере. Экспортируйте резервную копию перед сменой устройства.'
-            : 'Progress is tied to your account in this browser. Export a backup before switching devices.'}
+            ? 'Локальная копия в браузере. Экспорт — запасной вариант без GitHub.'
+            : 'Local browser copy. Export is a fallback without GitHub.'}
         </p>
         <div className="btn-row">
           <button

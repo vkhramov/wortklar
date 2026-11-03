@@ -23,11 +23,13 @@ function normalizeLang(lang: string): string {
 
 function pickGermanVoice(): SpeechSynthesisVoice | undefined {
   const voices = window.speechSynthesis.getVoices();
-  // Same preference as before the macOS fixes: browser default de-DE voice
-  // (often Chrome's Google Deutsch), then any German voice.
+  const de = voices.filter((v) => normalizeLang(v.lang).startsWith('de'));
+  // Prefer Chrome's neural Google Deutsch when available (closest to native).
   return (
-    voices.find((v) => normalizeLang(v.lang) === 'de-de') ??
-    voices.find((v) => normalizeLang(v.lang).startsWith('de'))
+    de.find((v) => /google/i.test(v.name) && /deutsch/i.test(v.name)) ??
+    de.find((v) => /google/i.test(v.name) && normalizeLang(v.lang) === 'de-de') ??
+    de.find((v) => normalizeLang(v.lang) === 'de-de') ??
+    de[0]
   );
 }
 

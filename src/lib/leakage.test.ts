@@ -70,7 +70,10 @@ const noun: VocabEntry = {
 const v2 = buildSafePrompt(noun, 'ru-de');
 console.assert(v2.prompt === 'дом');
 console.assert(!JSON.stringify(v2).includes('Haus'));
-// "das" may appear in the generic article hint (der/die/das), which does not reveal the answer
 console.assert(!/\bHaus\b/.test(JSON.stringify(v2)));
+console.assert(
+  !v2.safeHints.some((h) => /der \/ die \/ das|артикль/i.test(h)),
+  'no generic article instruction hint',
+);
 
 console.log('leakage.test.ts OK');

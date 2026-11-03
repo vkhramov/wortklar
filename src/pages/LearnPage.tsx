@@ -308,7 +308,9 @@ export function LearnPage() {
           )}
         </div>
 
-        <div className="prompt-text">{safe.prompt}</div>
+        <div className="prompt-text" id="answer-cue">
+          {safe.prompt}
+        </div>
 
         {previewExample && !result && (
           <div className="example-block example-while-answering">
@@ -329,26 +331,23 @@ export function LearnPage() {
 
         {!result ? (
           <div className="answer-form">
-            <div className="muted" id="answer-label">
-              {intoDe
-                ? ui === 'ru'
-                  ? 'Ответ на немецком'
-                  : 'Answer in German'
-                : mode === 'de-ru'
-                  ? 'Ответ на русском'
-                  : 'Answer in English'}
-            </div>
             <div className="answer-field-row">
               <AnswerField
                 resetKey={`${entry.id}-${index}`}
                 value={answer}
                 onChange={setAnswer}
                 onSubmit={submit}
-                labelledBy="answer-label"
+                labelledBy="answer-cue"
                 placeholder={
                   intoDe && entry.pos === 'noun'
                     ? 'der / die / das …'
-                    : undefined
+                    : intoDe
+                      ? ui === 'ru'
+                        ? 'Ответ на немецком'
+                        : 'Answer in German'
+                      : mode === 'de-ru'
+                        ? 'Ответ на русском'
+                        : 'Answer in English'
                 }
               />
               <DictateButton

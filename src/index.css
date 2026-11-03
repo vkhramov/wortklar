@@ -1193,18 +1193,23 @@ h2 {
     font-size: clamp(1.05rem, 4.2vw, 1.35rem);
   }
 
+  /* Cue → example → answer; leftover grammar hints sit under the field */
   .learn-screen.is-answering .example-while-answering {
-    display: none;
+    order: 2;
   }
 
-  /* Cue → answer first; hints sit under the field if space is tight */
   .learn-screen.is-answering .answer-form {
-    order: 2;
+    order: 3;
     gap: 0.55rem;
   }
 
   .learn-screen.is-answering .hint-list {
-    order: 3;
+    order: 4;
+  }
+
+  .learn-screen.is-answering .example-de {
+    font-size: 1.05rem;
+    line-height: 1.35;
   }
 
   .learn-screen.is-answering .hint-list li {

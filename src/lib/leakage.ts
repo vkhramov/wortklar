@@ -89,13 +89,7 @@ export function buildSafePrompt(
 
   if (intoGerman) {
     // Never show: German lemma, example.de, conjugations, "mit + Dativ", etc.
-    if (entry.pos === 'noun') {
-      safeHints.push(
-        ui === 'ru'
-          ? 'В ответе укажите артикль (der / die / das) и слово.'
-          : 'Include the article (der / die / das) with the noun.',
-      );
-    }
+    // Noun article reminder is omitted on purpose — the placeholder covers it.
     if (entry.pos === 'preposition' && entry.caseHint) {
       // caseHint is required to be language-neutral and must not contain the German word
       safeHints.push(ui === 'ru' ? entry.caseHint.ru : entry.caseHint.en);

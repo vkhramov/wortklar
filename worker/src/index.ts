@@ -105,31 +105,14 @@ Source preference:
 Return JSON only:
 {"items":[{"source":"...","topic":"...","citation":{"title":"...","author":"...","year":"..."}|null}]}`;
   const data = await gemini(key, prompt, 0.4);
-  const items = Array.isArray(data.items) ? data.items : [];
-  return {
-    items: items
-      .map((item) => {
-        const row = item as {
-          source?: unknown;
-          topic?: unknown;
-          citation?: { title?: unknown; author?: unknown; year?: unknown } | null;
-        };
-        const source = String(row.source ?? "").trim();
-        if (!source) return null;
-        const title = String(row.citation?.title ?? "").trim();
-        const author = String(row.citation?.author ?? "").trim();
-        const citation = title || author
-          ? {
-              title,
-              author,
-              year: String(row.citation?.year ?? "").trim(),
-            }
-          : null;
-        return { source, topic: String(row.topic ?? "").trim(), citation };
-      })
-      .filter(Boolean)
-      .slice(0, count),
-  };
+  const items = collectItems(data)
+    .map(normalizePrompt)
+    .filter((item) => item.source)
+    .slice(0, count);
+  if (!items.length) {
+    throw new Error(`Model JSON had no sentences. Keys: ${Object.keys(data).join(", ") || "none"}`);
+  }
+  return { items };
 }
 
 async function grade(key: string, body: GradeBody): Promise<unknown> {
@@ -213,10 +196,76 @@ async function gemini(key: string, prompt: string, temperature = 0.4): Promise<R
   throw new Error(lastError);
 }
 
+function collectItems(data: Record<string, unknown>): Array<Record<string, unknown> | string> {
+  for (const key of ["items", "sentences", "prompts", "examples"]) {
+    if (Array.isArray(data[key])) return data[key] as Array<Record<string, unknown> | string>;
+  }
+  for (const value of Object.values(data)) {
+    if (!value || typeof value !== "object" || Array.isArray(value)) continue;
+    const nested = collectItems(value as Record<string, unknown>);
+    if (nested.length) return nested;
+  }
+  return [];
+}
+
+function normalizePrompt(row: Record<string, unknown> | string): {
+  source: string;
+  topic: string;
+  citation: { title: string; author: string; year: string } | null;
+} {
+  if (typeof row === "string") {
+    return { source: row.trim(), topic: "", citation: null };
+  }
+  const source = ["source", "sentence", "text", "prompt", "line", "quote"]
+    .map((key) => String(row[key] ?? "").trim())
+    .find(Boolean) ?? "";
+  const citation = row.citation;
+  const cite = citation && typeof citation === "object"
+    ? citation as { title?: unknown; author?: unknown; year?: unknown }
+    : null;
+  const title = String(cite?.title ?? row.title ?? "").trim();
+  const author = String(cite?.author ?? row.author ?? "").trim();
+  return {
+    source,
+    topic: String(row.topic ?? "").trim(),
+    citation: title || author
+      ? { title, author, year: String(cite?.year ?? row.year ?? "").trim() }
+      : null,
+  };
+}
+
 function parseModelJson(text: string): Record<string, unknown> {
   const trimmed = text.trim().replace(/^```(?:json)?\s*/i, "").replace(/```$/g, "");
-  const json = extractFirstJsonObject(trimmed);
-  return JSON.parse(json) as Record<string, unknown>;
+  const parsed = extractJsonObjects(trimmed).flatMap((raw) => {
+    try {
+      const value = JSON.parse(raw) as unknown;
+      return value && typeof value === "object" && !Array.isArray(value)
+        ? [value as Record<string, unknown>]
+        : [];
+    } catch {
+      return [];
+    }
+  });
+  if (!parsed.length) throw new Error("Model did not return JSON");
+  return (
+    parsed.find((obj) => collectItems(obj).length > 0) ??
+    parsed.find((obj) => typeof obj.verdict === "string") ??
+    parsed[parsed.length - 1]
+  );
+}
+
+function extractJsonObjects(text: string): string[] {
+  const objects: string[] = [];
+  let offset = 0;
+  while (offset < text.length) {
+    const slice = text.slice(offset);
+    const start = slice.indexOf("{");
+    if (start < 0) break;
+    const json = extractFirstJsonObject(slice.slice(start));
+    objects.push(json);
+    offset += start + json.length;
+  }
+  return objects;
 }
 
 function extractFirstJsonObject(text: string): string {

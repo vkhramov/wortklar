@@ -10,11 +10,14 @@ import { MorePage } from './pages/MorePage';
 import { ProgressPage } from './pages/ProgressPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { TranslatePage } from './pages/TranslatePage';
+import { uiLangFromMode } from './lib/leakage';
+import { readShellLang, writeShellLang } from './lib/shellLang';
 import { prefetchSpeechVoices } from './lib/speech';
+import { applyTheme, readTheme } from './lib/theme';
 import { useAppStore } from './store/useAppStore';
 
 export default function App() {
-  const { ready, user, init } = useAppStore();
+  const { ready, user, init, progress } = useAppStore();
 
   useEffect(() => {
     void init();
@@ -24,11 +27,21 @@ export default function App() {
     prefetchSpeechVoices();
   }, []);
 
+  useEffect(() => {
+    applyTheme(user ? progress.settings.theme : readTheme());
+  }, [user, progress.settings.theme]);
+
+  useEffect(() => {
+    if (!user) return;
+    writeShellLang(uiLangFromMode(progress.settings.mode));
+  }, [user, progress.settings.mode]);
+
   if (!ready) {
+    const ui = readShellLang();
     return (
       <div className="app-shell">
         <div className="container" style={{ padding: '3rem 0' }}>
-          <div className="panel empty-state">Loading Wortklar…</div>
+          <div className="panel empty-state">{ui === 'ru' ? 'Открываю…' : 'Opening…'}</div>
         </div>
       </div>
     );

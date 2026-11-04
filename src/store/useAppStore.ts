@@ -36,6 +36,7 @@ type GradeInput = SrsGrade;
 
 interface AppState {
   ready: boolean;
+  vocabLoaded: boolean;
   vocabulary: VocabEntry[];
   progress: AppProgress;
   user: AuthUser | null;
@@ -172,24 +173,31 @@ async function tryPullIntoSession(
 
 export const useAppStore = create<AppState>((set, get) => ({
   ready: false,
+  vocabLoaded: false,
   vocabulary: [],
   progress: createEmptyProgress(),
   user: null,
   syncStatus: { state: 'idle' },
 
   init: async () => {
-    const base = import.meta.env.BASE_URL || '/';
-    const res = await fetch(`${base}data/vocabulary.json`);
-    const vocabulary = (await res.json()) as VocabEntry[];
     const existing = getCurrentUser();
     if (existing) {
       migrateLegacyProgressIfNeeded(existing.id);
       const local = loadProgress();
-      set({ vocabulary, user: existing, progress: local, ready: true });
+      set({ user: existing, progress: local, ready: true });
       void tryPullIntoSession(existing, local, set);
-      return;
+    } else {
+      set({ user: null, progress: createEmptyProgress(), ready: true });
     }
-    set({ vocabulary, user: null, progress: createEmptyProgress(), ready: true });
+    try {
+      const base = import.meta.env.BASE_URL || '/';
+      const res = await fetch(`${base}data/vocabulary.json`);
+      if (!res.ok) throw new Error(String(res.status));
+      const vocabulary = (await res.json()) as VocabEntry[];
+      set({ vocabulary, vocabLoaded: true });
+    } catch {
+      set({ vocabLoaded: true });
+    }
   },
 
   register: async (username, password) => {

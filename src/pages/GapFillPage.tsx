@@ -9,6 +9,7 @@ import {
 } from '../components/SessionSummary';
 import { evaluateGapAnswer, gapCatalogStats, type GapFillItem } from '../lib/gapFill';
 import { buildGapSession, type GapSessionItem } from '../lib/gapSession';
+import { bindKeyboardInset } from '../lib/keyboardInset';
 import { uiLangFromMode } from '../lib/leakage';
 import { scrollGradeActionsIntoView } from '../lib/scrollGradeActions';
 import type { Grade } from '../lib/srs';
@@ -33,7 +34,7 @@ type GradeAction = {
 };
 
 export function GapFillPage() {
-  const { vocabulary, progress, applyGrade, recordAnswer } = useAppStore();
+  const { vocabulary, vocabLoaded, progress, applyGrade, recordAnswer } = useAppStore();
   const ui = uiLangFromMode(progress.settings.mode);
   const catalogInfo = gapCatalogStats();
 
@@ -79,7 +80,12 @@ export function GapFillPage() {
 
   useEffect(() => {
     document.body.classList.toggle('learn-compose', answering);
-    return () => document.body.classList.remove('learn-compose');
+    if (!answering) return () => document.body.classList.remove('learn-compose');
+    const unbind = bindKeyboardInset();
+    return () => {
+      document.body.classList.remove('learn-compose');
+      unbind();
+    };
   }, [answering]);
 
   useEffect(() => {
@@ -229,6 +235,14 @@ export function GapFillPage() {
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [result, gradeReady, gradeActions, actionIndex]);
 
+  if (!vocabLoaded) {
+    return (
+      <div className="panel">
+        {ui === 'ru' ? 'Загружаю словарь…' : 'Loading the word list…'}
+      </div>
+    );
+  }
+
   if (finished || !gap || !item) {
     return (
       <SessionSummary
@@ -341,23 +355,25 @@ export function GapFillPage() {
                 ui={ui}
               />
             </div>
-            {progress.settings.showUmlautButtons && (
-              <div className="umlaut-row" aria-label="Umlaut helpers">
-                {UMLAUTS.map((ch) => (
-                  <button key={ch} type="button" onClick={() => insertChar(ch)}>
-                    {ch}
-                  </button>
-                ))}
+            <div className="compose-tools">
+              {progress.settings.showUmlautButtons && (
+                <div className="umlaut-row" aria-label="Umlaut helpers">
+                  {UMLAUTS.map((ch) => (
+                    <button key={ch} type="button" onClick={() => insertChar(ch)}>
+                      {ch}
+                    </button>
+                  ))}
+                </div>
+              )}
+              <div className="btn-row">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => submit()}
+                >
+                  {ui === 'ru' ? 'Проверить' : 'Check'}
+                </button>
               </div>
-            )}
-            <div className="btn-row">
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => submit()}
-              >
-                {ui === 'ru' ? 'Проверить' : 'Check'}
-              </button>
             </div>
           </div>
         ) : (

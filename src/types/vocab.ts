@@ -86,6 +86,8 @@ export interface DailyStats {
   incorrect: number;
 }
 
+export type ColorTheme = 'light' | 'dark';
+
 export interface UserSettings {
   mode: LearningMode;
   dailyGoal: number;
@@ -94,6 +96,7 @@ export interface UserSettings {
   topics: string[];
   levels: CefrLevel[];
   showUmlautButtons: boolean;
+  theme: ColorTheme;
 }
 
 export interface AppProgress {

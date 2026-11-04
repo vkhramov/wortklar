@@ -13,6 +13,7 @@ import {
   type SessionMiss,
 } from '../components/SessionSummary';
 import { WordPhoto } from '../components/WordPhoto';
+import { bindKeyboardInset } from '../lib/keyboardInset';
 import { recognitionLangForMode } from '../lib/speechRecognition';
 import { hasWordImage, preloadWordImage } from '../lib/wordImages';
 import { scrollGradeActionsIntoView } from '../lib/scrollGradeActions';
@@ -38,7 +39,7 @@ type GradeAction = {
 };
 
 export function LearnPage() {
-  const { vocabulary, progress, applyGrade, recordAnswer } = useAppStore();
+  const { vocabulary, vocabLoaded, progress, applyGrade, recordAnswer } = useAppStore();
   const mode = progress.settings.mode;
   const ui = uiLangFromMode(mode);
 
@@ -228,7 +229,12 @@ export function LearnPage() {
   const answering = Boolean(entry && !result && !finished);
   useEffect(() => {
     document.body.classList.toggle('learn-compose', answering);
-    return () => document.body.classList.remove('learn-compose');
+    if (!answering) return () => document.body.classList.remove('learn-compose');
+    const unbind = bindKeyboardInset();
+    return () => {
+      document.body.classList.remove('learn-compose');
+      unbind();
+    };
   }, [answering]);
 
   useEffect(() => {
@@ -278,6 +284,14 @@ export function LearnPage() {
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [result, gradeReady, gradeActions, actionIndex]);
+
+  if (!vocabLoaded) {
+    return (
+      <div className="panel">
+        {ui === 'ru' ? 'Загружаю словарь…' : 'Loading the word list…'}
+      </div>
+    );
+  }
 
   if (finished || !entry || !safe) {
     return (
@@ -393,23 +407,25 @@ export function LearnPage() {
                 ui={ui}
               />
             </div>
-            {progress.settings.showUmlautButtons && intoDe && (
-              <div className="umlaut-row" aria-label="Umlaut helpers">
-                {UMLAUTS.map((ch) => (
-                  <button key={ch} type="button" onClick={() => insertChar(ch)}>
-                    {ch}
-                  </button>
-                ))}
+            <div className="compose-tools">
+              {progress.settings.showUmlautButtons && intoDe && (
+                <div className="umlaut-row" aria-label="Umlaut helpers">
+                  {UMLAUTS.map((ch) => (
+                    <button key={ch} type="button" onClick={() => insertChar(ch)}>
+                      {ch}
+                    </button>
+                  ))}
+                </div>
+              )}
+              <div className="btn-row">
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={() => submit()}
+                >
+                  {ui === 'ru' ? 'Проверить' : 'Check'}
+                </button>
               </div>
-            )}
-            <div className="btn-row">
-              <button
-                type="button"
-                className="btn btn-primary"
-                onClick={() => submit()}
-              >
-                {ui === 'ru' ? 'Проверить' : 'Check'}
-              </button>
             </div>
           </div>
         ) : (

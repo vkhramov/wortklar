@@ -9,6 +9,7 @@ import {
   setProgressRepo,
 } from '../lib/progressSync';
 import { getGeminiKey, setGeminiKey } from '../lib/translate';
+import { topicLabel } from '../lib/topicLabels';
 
 const ALL_LEVELS: CefrLevel[] = ['A1', 'A2', 'B1', 'B2'];
 const TOPICS = [
@@ -71,6 +72,28 @@ export function SettingsPage() {
         <div className="btn-row">
           <button type="button" className="btn btn-ghost" onClick={() => logout()}>
             {ui === 'ru' ? 'Выйти' : 'Log out'}
+          </button>
+        </div>
+      </section>
+
+      <section className="panel">
+        <div className="panel-title">
+          <h2>{ui === 'ru' ? 'Оформление' : 'Appearance'}</h2>
+        </div>
+        <div className="btn-row">
+          <button
+            type="button"
+            className={`btn ${s.theme !== 'dark' ? 'btn-primary' : 'btn-ghost'}`}
+            onClick={() => updateSettings({ theme: 'light' })}
+          >
+            {ui === 'ru' ? 'Светлая' : 'Light'}
+          </button>
+          <button
+            type="button"
+            className={`btn ${s.theme === 'dark' ? 'btn-primary' : 'btn-ghost'}`}
+            onClick={() => updateSettings({ theme: 'dark' })}
+          >
+            {ui === 'ru' ? 'Тёмная' : 'Dark'}
           </button>
         </div>
       </section>
@@ -183,7 +206,7 @@ export function SettingsPage() {
                 aria-pressed={on}
                 onClick={() => toggleTopic(topic)}
               >
-                {topic}
+                {topicLabel(topic, ui)}
               </button>
             );
           })}
@@ -199,10 +222,8 @@ export function SettingsPage() {
         </p>
       </section>
 
-      <section className="panel">
-        <div className="panel-title">
-          <h2>{ui === 'ru' ? 'Перевод (Gemini)' : 'Translation (Gemini)'}</h2>
-        </div>
+      <details className="fold">
+        <summary>{ui === 'ru' ? 'Перевод (Gemini)' : 'Translation (Gemini)'}</summary>
         <p className="muted" style={{ marginTop: 0, lineHeight: 1.5 }}>
           {ui === 'ru'
             ? 'Ключ из Google AI Studio хранится только в этом браузере и нужен для упражнения Write. На бесплатном тарифе Google может использовать запросы для улучшения моделей.'
@@ -237,12 +258,10 @@ export function SettingsPage() {
             {ui === 'ru' ? 'Ключ сохранён на этом устройстве.' : 'Key saved on this device.'}
           </p>
         )}
-      </section>
+      </details>
 
-      <section className="panel">
-        <div className="panel-title">
-          <h2>{ui === 'ru' ? 'Синхронизация (GitHub)' : 'Sync (GitHub)'}</h2>
-        </div>
+      <details className="fold">
+        <summary>{ui === 'ru' ? 'Синхронизация (GitHub)' : 'Sync (GitHub)'}</summary>
         <p className="muted" style={{ marginTop: 0, lineHeight: 1.5 }}>
           {ui === 'ru'
             ? 'Приватный репозиторий хранит прогресс. PAT остаётся только в этом браузере. На новом устройстве: тот же логин Wortklar + тот же PAT → Pull.'
@@ -320,7 +339,7 @@ export function SettingsPage() {
                 ? `${syncStatus.detail}${syncStatus.at ? ` · ${new Date(syncStatus.at).toLocaleString()}` : ''}`
                 : syncStatus.detail}
         </p>
-      </section>
+      </details>
 
       <section className="panel">
         <div className="panel-title">

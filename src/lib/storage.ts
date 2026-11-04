@@ -13,6 +13,7 @@ export const DEFAULT_SETTINGS: UserSettings = {
   topics: [],
   levels: ['A1', 'A2', 'B1', 'B2'],
   showUmlautButtons: true,
+  theme: 'light',
 };
 
 export function createEmptyProgress(): AppProgress {
@@ -29,6 +30,11 @@ export function createEmptyProgress(): AppProgress {
   };
 }
 
+function normalizeSettings(settings: Partial<UserSettings> | undefined): UserSettings {
+  const merged = { ...DEFAULT_SETTINGS, ...settings };
+  return { ...merged, theme: merged.theme === 'dark' ? 'dark' : 'light' };
+}
+
 function activeProgressKey(): string | null {
   const userId = getSessionUserId();
   if (!userId) return null;
@@ -42,7 +48,7 @@ function readProgressJson(raw: string | null): AppProgress {
     return {
       ...createEmptyProgress(),
       ...parsed,
-      settings: { ...DEFAULT_SETTINGS, ...parsed.settings },
+      settings: normalizeSettings(parsed.settings),
     };
   } catch {
     return createEmptyProgress();
@@ -77,7 +83,7 @@ export function importProgress(json: string): AppProgress {
   return {
     ...createEmptyProgress(),
     ...parsed,
-    settings: { ...DEFAULT_SETTINGS, ...parsed.settings },
+    settings: normalizeSettings(parsed.settings),
   };
 }
 

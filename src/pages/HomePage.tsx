@@ -12,7 +12,7 @@ const MODES = [
 ];
 
 export function HomePage() {
-  const { vocabulary, progress, setMode } = useAppStore();
+  const { vocabulary, vocabLoaded, progress, setMode } = useAppStore();
   const ui = uiLangFromMode(progress.settings.mode);
   const stats = countStats(vocabulary, progress);
   const today = progress.daily.find((d) => d.date === todayKey());
@@ -33,15 +33,21 @@ export function HomePage() {
             : `${stats.due} due · ${progress.streak} day streak`}
         </p>
         <div className="btn-row">
-          <Link className="btn btn-primary" to="/learn">
-            {started
-              ? ui === 'ru'
-                ? 'Продолжить'
-                : 'Continue'
-              : ui === 'ru'
-                ? 'Начать'
-                : 'Start'}
-          </Link>
+          {vocabLoaded ? (
+            <Link className="btn btn-primary" to="/learn">
+              {started
+                ? ui === 'ru'
+                  ? 'Продолжить'
+                  : 'Continue'
+                : ui === 'ru'
+                  ? 'Начать'
+                  : 'Start'}
+            </Link>
+          ) : (
+            <button type="button" className="btn btn-primary" disabled>
+              {ui === 'ru' ? 'Загружаю словарь…' : 'Loading words…'}
+            </button>
+          )}
         </div>
       </section>
 

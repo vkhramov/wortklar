@@ -203,20 +203,44 @@ async function gemini(key: string, prompt: string, temperature = 0.4): Promise<R
       throw new Error(`Gemini ${res.status}: ${detail.slice(0, 240)}`);
     }
     const payload = (await res.json()) as {
-      candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
+      candidates?: Array<{ content?: { parts?: Array<{ text?: string; thought?: boolean }> } }>;
     };
-    const text = payload.candidates?.[0]?.content?.parts?.map((p) => p.text ?? "").join("") ?? "";
+    const parts = payload.candidates?.[0]?.content?.parts ?? [];
+    const visible = parts.filter((part) => part.text && !part.thought);
+    const text = (visible.length ? visible : parts).map((part) => part.text ?? "").join("\n");
     return parseModelJson(text);
   }
   throw new Error(lastError);
 }
 
 function parseModelJson(text: string): Record<string, unknown> {
-  const trimmed = text.trim().replace(/^```json\s*|```$/g, "");
-  const start = trimmed.indexOf("{");
-  const end = trimmed.lastIndexOf("}");
-  if (start < 0 || end < start) throw new Error("Model did not return JSON");
-  return JSON.parse(trimmed.slice(start, end + 1)) as Record<string, unknown>;
+  const trimmed = text.trim().replace(/^```(?:json)?\s*/i, "").replace(/```$/g, "");
+  const json = extractFirstJsonObject(trimmed);
+  return JSON.parse(json) as Record<string, unknown>;
+}
+
+function extractFirstJsonObject(text: string): string {
+  const start = text.indexOf("{");
+  if (start < 0) throw new Error("Model did not return JSON");
+  let depth = 0;
+  let inString = false;
+  let escaped = false;
+  for (let i = start; i < text.length; i++) {
+    const ch = text[i];
+    if (inString) {
+      if (escaped) escaped = false;
+      else if (ch === "\\") escaped = true;
+      else if (ch === '"') inString = false;
+      continue;
+    }
+    if (ch === '"') inString = true;
+    else if (ch === "{") depth++;
+    else if (ch === "}") {
+      depth--;
+      if (depth === 0) return text.slice(start, i + 1);
+    }
+  }
+  throw new Error("Model returned incomplete JSON");
 }
 
 function json(data: unknown, status: number): Response {

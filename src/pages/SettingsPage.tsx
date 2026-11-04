@@ -49,10 +49,12 @@ export function SettingsPage() {
   }
 
   function toggleTopic(topic: string) {
-    const topics = s.topics.includes(topic)
-      ? s.topics.filter((t) => t !== topic)
-      : [...s.topics, topic];
-    updateSettings({ topics });
+    const current = s.topics.length === 0 ? [...TOPICS] : s.topics;
+    const topics = current.includes(topic)
+      ? current.filter((t) => t !== topic)
+      : [...current, topic];
+    if (topics.length === 0) return;
+    updateSettings({ topics: topics.length === TOPICS.length ? [] : topics });
   }
 
   return (
@@ -164,31 +166,36 @@ export function SettingsPage() {
           <h2>{ui === 'ru' ? 'Темы' : 'Topics'}</h2>
           <button
             type="button"
-            className="btn btn-ghost"
+            className={`btn ${s.topics.length === 0 ? 'btn-primary' : 'btn-ghost'}`}
             onClick={() => updateSettings({ topics: [] })}
           >
             {ui === 'ru' ? 'Все темы' : 'All topics'}
           </button>
         </div>
         <div className="btn-row">
-          {TOPICS.map((topic) => (
-            <button
-              key={topic}
-              type="button"
-              className={`btn ${s.topics.includes(topic) || s.topics.length === 0 ? 'btn-secondary' : 'btn-ghost'}`}
-              style={{
-                opacity: s.topics.length === 0 || s.topics.includes(topic) ? 1 : 0.45,
-              }}
-              onClick={() => toggleTopic(topic)}
-            >
-              {topic}
-            </button>
-          ))}
+          {TOPICS.map((topic) => {
+            const on = s.topics.length === 0 || s.topics.includes(topic);
+            return (
+              <button
+                key={topic}
+                type="button"
+                className={`btn ${s.topics.length > 0 && on ? 'btn-secondary' : 'btn-ghost'}`}
+                aria-pressed={on}
+                onClick={() => toggleTopic(topic)}
+              >
+                {topic}
+              </button>
+            );
+          })}
         </div>
         <p className="muted" style={{ marginTop: '0.75rem' }}>
-          {ui === 'ru'
-            ? 'Пустой выбор = все темы. Нажмите тему, чтобы сузить.'
-            : 'Empty selection = all topics. Tap topics to narrow.'}
+          {s.topics.length === 0
+            ? ui === 'ru'
+              ? 'Сейчас включены все темы. Нажмите тему, чтобы выключить только её.'
+              : 'All topics are on. Tap a topic to turn that one off.'
+            : ui === 'ru'
+              ? 'Серым показаны выключенные темы. «Все темы» возвращает полный список.'
+              : 'Ghost buttons are off. “All topics” turns the full list back on.'}
         </p>
       </section>
 
@@ -360,24 +367,35 @@ export function SettingsPage() {
               e.target.value = '';
             }}
           />
-          <button
-            type="button"
-            className="btn btn-danger"
-            onClick={() => {
-              if (
-                confirm(
-                  ui === 'ru'
-                    ? 'Сбросить весь прогресс?'
-                    : 'Reset all learning progress?',
-                )
-              ) {
-                resetProgress();
-              }
-            }}
-          >
-            {ui === 'ru' ? 'Сбросить прогресс' : 'Reset progress'}
-          </button>
         </div>
+      </section>
+
+      <section className="panel">
+        <div className="panel-title">
+          <h2>{ui === 'ru' ? 'Сброс' : 'Reset'}</h2>
+        </div>
+        <p className="muted" style={{ marginTop: 0 }}>
+          {ui === 'ru'
+            ? 'Удаляет карточки и статистику на этом устройстве. Аккаунт и ключи остаются.'
+            : 'Deletes cards and stats on this device. The account and keys stay.'}
+        </p>
+        <button
+          type="button"
+          className="btn btn-danger"
+          onClick={() => {
+            if (
+              confirm(
+                ui === 'ru'
+                  ? 'Сбросить весь прогресс?'
+                  : 'Reset all learning progress?',
+              )
+            ) {
+              resetProgress();
+            }
+          }}
+        >
+          {ui === 'ru' ? 'Сбросить прогресс' : 'Reset progress'}
+        </button>
       </section>
     </div>
   );

@@ -6,6 +6,7 @@ import { HomePage } from './pages/HomePage';
 import { GapFillPage } from './pages/GapFillPage';
 import { LearnPage } from './pages/LearnPage';
 import { LibraryPage } from './pages/LibraryPage';
+import { MorePage } from './pages/MorePage';
 import { ProgressPage } from './pages/ProgressPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { TranslatePage } from './pages/TranslatePage';
@@ -50,6 +51,7 @@ export default function App() {
           <Route path="library" element={<LibraryPage />} />
           <Route path="progress" element={<ProgressPage />} />
           <Route path="settings" element={<SettingsPage />} />
+          <Route path="more" element={<MorePage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>

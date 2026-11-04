@@ -11,7 +11,7 @@ export function Layout() {
 
   const desktopLinks = [
     { to: '/', label: ru ? 'Дом' : 'Home', end: true },
-    { to: '/learn', label: ru ? 'Учить' : 'Learn' },
+    { to: '/learn', label: ru ? 'Слова' : 'Words' },
     { to: '/gaps', label: ru ? 'Пропуски' : 'Gaps' },
     { to: '/translate', label: ru ? 'Письмо' : 'Write' },
     { to: '/library', label: ru ? 'Словарь' : 'Library' },
@@ -20,7 +20,7 @@ export function Layout() {
   ];
 
   const mobileLinks = [
-    { to: '/learn', label: ru ? 'Учить' : 'Learn' },
+    { to: '/learn', label: ru ? 'Слова' : 'Words' },
     { to: '/gaps', label: ru ? 'Пропуски' : 'Gaps' },
     { to: '/translate', label: ru ? 'Письмо' : 'Write' },
     { to: '/library', label: ru ? 'Словарь' : 'Library' },

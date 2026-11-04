@@ -302,6 +302,13 @@ export function LibraryPage() {
         </section>
 
         {selected && (
+          <>
+          <button
+            type="button"
+            className="library-detail-backdrop"
+            aria-label={ui === 'ru' ? 'Закрыть' : 'Close'}
+            onClick={() => setSelectedId(null)}
+          />
           <section className="panel library-detail">
             <div className="panel-title">
               <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
@@ -459,6 +466,7 @@ export function LibraryPage() {
               )}
             </div>
           </section>
+          </>
         )}
       </div>
     </div>

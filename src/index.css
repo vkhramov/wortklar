@@ -1097,6 +1097,10 @@ h2 {
   overflow: auto;
 }
 
+.library-detail-backdrop {
+  display: none;
+}
+
 .library-row {
   width: 100%;
   display: grid;
@@ -1330,6 +1334,32 @@ h2 {
 
   .library-layout.has-detail {
     grid-template-columns: 1fr;
+  }
+
+  .library-list {
+    max-height: none;
+    overflow: visible;
+  }
+
+  .library-detail-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 24;
+    border: 0;
+    padding: 0;
+    background: rgba(12, 18, 16, 0.45);
+  }
+
+  .library-detail {
+    position: fixed;
+    z-index: 25;
+    top: 4.25rem;
+    left: 0.65rem;
+    right: 0.65rem;
+    bottom: calc(4.75rem + var(--safe-bottom));
+    margin: 0;
+    overflow: auto;
   }
 
   .library-sort {

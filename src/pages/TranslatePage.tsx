@@ -132,6 +132,13 @@ export function TranslatePage() {
           <>
             <div className="example-label">{current.topic || (ui === "ru" ? "Предложение" : "Sentence")}</div>
             <div className="prompt-text">{current.source}</div>
+            <p className="muted">
+              {current.citation
+                ? [current.citation.author, current.citation.title, current.citation.year].filter(Boolean).join(" · ")
+                : ui === "ru"
+                  ? "Оригинальное учебное предложение: модель не подтвердила источник."
+                  : "Original practice sentence: the model did not confirm a source."}
+            </p>
             <label className="field">
               <span>{ui === "ru" ? "Ваш перевод на немецкий" : "Your German translation"}</span>
               <textarea

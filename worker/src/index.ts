@@ -93,22 +93,39 @@ export default {
 async function generate(key: string, body: GenerateBody): Promise<unknown> {
   const count = Math.min(8, Math.max(1, body.count ?? 5));
   const lang = body.sourceLang === "ru" ? "Russian" : "English";
-  const prompt = `Create ${count} original ${lang} sentences for a learner to translate into German.
+  const prompt = `Choose ${count} short ${lang} sentences for a learner to translate into German.
 Level ${body.level}: ${LEVEL_GUIDE[body.level]}
-Rules:
-- Everyday, natural, non-offensive situations.
-- Do not include the German translation or German words.
-- Vary topics. No names of real private people.
-- Return JSON only: {"items":[{"source":"...","topic":"..."}]}`;
-  const data = await gemini(key, prompt);
+Source preference:
+- Prefer one real sentence from a published book, story, essay, or other edited text.
+- Prefer public-domain or classic works when they fit the level. Russian examples: Chekhov, Tolstoy, Pushkin, other published prose. English examples: public-domain fiction and essays.
+- Quote only a single sentence, verbatim. Do not stitch fragments or simplify a passage and still cite the original.
+- If you are not sure the sentence really appears in that work, do not invent a citation. Write a natural original sentence and set citation to null.
+- Everyday, non-offensive meaning. No German words and no German translation.
+- No names of real private people.
+Return JSON only:
+{"items":[{"source":"...","topic":"...","citation":{"title":"...","author":"...","year":"..."}|null}]}`;
+  const data = await gemini(key, prompt, 0.4);
   const items = Array.isArray(data.items) ? data.items : [];
   return {
     items: items
       .map((item) => {
-        const row = item as { source?: unknown; topic?: unknown };
+        const row = item as {
+          source?: unknown;
+          topic?: unknown;
+          citation?: { title?: unknown; author?: unknown; year?: unknown } | null;
+        };
         const source = String(row.source ?? "").trim();
         if (!source) return null;
-        return { source, topic: String(row.topic ?? "").trim() };
+        const title = String(row.citation?.title ?? "").trim();
+        const author = String(row.citation?.author ?? "").trim();
+        const citation = title || author
+          ? {
+              title,
+              author,
+              year: String(row.citation?.year ?? "").trim(),
+            }
+          : null;
+        return { source, topic: String(row.topic ?? "").trim(), citation };
       })
       .filter(Boolean)
       .slice(0, count),
@@ -132,7 +149,7 @@ Verdict:
 Write summary and error explanations in ${feedbackLang}. corrected and alternative must be German.
 Return JSON only:
 {"verdict":"correct|acceptable|needs_fix","corrected":"...","summary":"...","errors":[{"fragment":"...","issue":"...","fix":"..."}],"alternative":"..."}`;
-  const data = await gemini(key, prompt);
+  const data = await gemini(key, prompt, 0.4);
   const verdict = String(data.verdict ?? "");
   if (!["correct", "acceptable", "needs_fix"].includes(verdict)) {
     throw new Error("Model returned an invalid verdict");
@@ -157,7 +174,7 @@ Return JSON only:
   };
 }
 
-async function gemini(key: string, prompt: string): Promise<Record<string, unknown>> {
+async function gemini(key: string, prompt: string, temperature = 0.4): Promise<Record<string, unknown>> {
   let lastError = "Gemini request failed";
   for (const model of MODELS) {
     const res = await fetch(
@@ -171,7 +188,7 @@ async function gemini(key: string, prompt: string): Promise<Record<string, unkno
         body: JSON.stringify({
           contents: [{ role: "user", parts: [{ text: prompt }] }],
           generationConfig: {
-            temperature: 0.7,
+            temperature,
             responseMimeType: "application/json",
           },
         }),

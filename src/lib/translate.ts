@@ -13,9 +13,16 @@ export const TRANSLATE_LEVELS = [
 export type TranslateLevelId = (typeof TRANSLATE_LEVELS)[number]["id"];
 export type TranslateSourceLang = "ru" | "en";
 
+export type TranslateCitation = {
+  title: string;
+  author: string;
+  year: string;
+};
+
 export type TranslatePrompt = {
   source: string;
   topic: string;
+  citation: TranslateCitation | null;
 };
 
 export type TranslateGrade = {

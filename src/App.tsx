@@ -8,6 +8,7 @@ import { LearnPage } from './pages/LearnPage';
 import { LibraryPage } from './pages/LibraryPage';
 import { ProgressPage } from './pages/ProgressPage';
 import { SettingsPage } from './pages/SettingsPage';
+import { TranslatePage } from './pages/TranslatePage';
 import { prefetchSpeechVoices } from './lib/speech';
 import { useAppStore } from './store/useAppStore';
 
@@ -45,6 +46,7 @@ export default function App() {
           <Route index element={<HomePage />} />
           <Route path="learn" element={<LearnPage />} />
           <Route path="gaps" element={<GapFillPage />} />
+          <Route path="translate" element={<TranslatePage />} />
           <Route path="library" element={<LibraryPage />} />
           <Route path="progress" element={<ProgressPage />} />
           <Route path="settings" element={<SettingsPage />} />

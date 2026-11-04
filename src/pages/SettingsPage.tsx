@@ -8,6 +8,7 @@ import {
   setProgressPat,
   setProgressRepo,
 } from '../lib/progressSync';
+import { getGeminiKey, setGeminiKey } from '../lib/translate';
 
 const ALL_LEVELS: CefrLevel[] = ['A1', 'A2', 'B1', 'B2'];
 const TOPICS = [
@@ -37,6 +38,8 @@ export function SettingsPage() {
   const [pat, setPat] = useState(() => getProgressPat());
   const [repo, setRepo] = useState(() => getProgressRepo());
   const [patSaved, setPatSaved] = useState(false);
+  const [geminiKey, setGeminiKeyValue] = useState(() => getGeminiKey());
+  const [geminiSaved, setGeminiSaved] = useState(false);
 
   function toggleLevel(level: CefrLevel) {
     const levels = s.levels.includes(level)
@@ -187,6 +190,46 @@ export function SettingsPage() {
             ? 'Пустой выбор = все темы. Нажмите тему, чтобы сузить.'
             : 'Empty selection = all topics. Tap topics to narrow.'}
         </p>
+      </section>
+
+      <section className="panel">
+        <div className="panel-title">
+          <h2>{ui === 'ru' ? 'Перевод (Gemini)' : 'Translation (Gemini)'}</h2>
+        </div>
+        <p className="muted" style={{ marginTop: 0, lineHeight: 1.5 }}>
+          {ui === 'ru'
+            ? 'Ключ из Google AI Studio хранится только в этом браузере и нужен для упражнения Write. На бесплатном тарифе Google может использовать запросы для улучшения моделей.'
+            : 'A Google AI Studio key stays in this browser and powers the Write exercise. On the free tier, Google may use requests to improve its models.'}
+        </p>
+        <div className="field">
+          <label htmlFor="gemini-key">Gemini API key</label>
+          <input
+            id="gemini-key"
+            type="password"
+            value={geminiKey}
+            onChange={(e) => {
+              setGeminiKeyValue(e.target.value);
+              setGeminiSaved(false);
+            }}
+            placeholder="AIza…"
+            autoComplete="off"
+          />
+        </div>
+        <button
+          type="button"
+          className="btn btn-secondary"
+          onClick={() => {
+            setGeminiKey(geminiKey);
+            setGeminiSaved(true);
+          }}
+        >
+          {ui === 'ru' ? 'Сохранить ключ' : 'Save key'}
+        </button>
+        {geminiSaved && (
+          <p className="muted">
+            {ui === 'ru' ? 'Ключ сохранён на этом устройстве.' : 'Key saved on this device.'}
+          </p>
+        )}
       </section>
 
       <section className="panel">

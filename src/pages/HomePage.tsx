@@ -53,6 +53,9 @@ export function HomePage() {
           <Link className="btn btn-secondary" to="/gaps">
             Verb gaps ({gapStats.total} forms)
           </Link>
+          <Link className="btn btn-ghost" to="/translate">
+            Write
+          </Link>
           <Link className="btn btn-ghost" to="/library">
             Browse library
           </Link>

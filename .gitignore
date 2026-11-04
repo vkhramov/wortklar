@@ -33,3 +33,5 @@ scripts/.gap-corpus-translate-cache.json
 *.sln
 *.sw?
 scripts/data/graded-readers/.gutenberg*.txt
+
+worker/.wrangler/

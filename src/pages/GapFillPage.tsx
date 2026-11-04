@@ -10,7 +10,7 @@ import {
 import { evaluateGapAnswer, gapCatalogStats, type GapFillItem } from '../lib/gapFill';
 import { buildGapSession, type GapSessionItem } from '../lib/gapSession';
 import { bindKeyboardInset } from '../lib/keyboardInset';
-import { uiLangFromMode } from '../lib/leakage';
+import { interfaceLang, uiLangFromMode } from '../lib/leakage';
 import { scrollGradeActionsIntoView } from '../lib/scrollGradeActions';
 import type { Grade } from '../lib/srs';
 import type { AnswerResult } from '../types/vocab';
@@ -35,7 +35,8 @@ type GradeAction = {
 
 export function GapFillPage() {
   const { vocabulary, vocabLoaded, progress, applyGrade, recordAnswer } = useAppStore();
-  const ui = uiLangFromMode(progress.settings.mode);
+  const ui = interfaceLang(progress.settings);
+  const study = uiLangFromMode(progress.settings.mode);
   const catalogInfo = gapCatalogStats();
 
   const [session, setSession] = useState<GapSessionItem[]>([]);
@@ -412,11 +413,11 @@ export function GapFillPage() {
                   label={ui === 'ru' ? 'Слушать' : 'Listen'}
                 />
               </div>
-              {(ui === 'ru'
+              {(study === 'ru'
                 ? gap.exampleRu || gap.exampleEn
                 : gap.exampleEn || gap.exampleRu) && (
                 <div className="example-tr">
-                  {ui === 'ru'
+                  {study === 'ru'
                     ? gap.exampleRu || gap.exampleEn
                     : gap.exampleEn || gap.exampleRu}
                 </div>

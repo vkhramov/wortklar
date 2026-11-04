@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import { useAppStore } from '../store/useAppStore';
-import { uiLangFromMode } from '../lib/leakage';
+import { interfaceLang } from '../lib/leakage';
 
 export function MorePage() {
   const { progress, logout } = useAppStore();
-  const ui = uiLangFromMode(progress.settings.mode);
+  const ui = interfaceLang(progress.settings);
   const items = [
     {
       to: '/progress',

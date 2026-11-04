@@ -1,4 +1,5 @@
 import type { AppProgress, UserSettings } from '../types/vocab';
+import { uiLangFromMode } from './leakage';
 import {
   getSessionUserId,
   LEGACY_PROGRESS_KEY,
@@ -14,6 +15,7 @@ export const DEFAULT_SETTINGS: UserSettings = {
   levels: ['A1', 'A2', 'B1', 'B2'],
   showUmlautButtons: true,
   theme: 'light',
+  uiLang: 'en',
 };
 
 export function createEmptyProgress(): AppProgress {
@@ -32,7 +34,15 @@ export function createEmptyProgress(): AppProgress {
 
 function normalizeSettings(settings: Partial<UserSettings> | undefined): UserSettings {
   const merged = { ...DEFAULT_SETTINGS, ...settings };
-  return { ...merged, theme: merged.theme === 'dark' ? 'dark' : 'light' };
+  const uiLang =
+    settings?.uiLang === 'en' || settings?.uiLang === 'ru'
+      ? settings.uiLang
+      : uiLangFromMode(merged.mode);
+  return {
+    ...merged,
+    theme: merged.theme === 'dark' ? 'dark' : 'light',
+    uiLang,
+  };
 }
 
 function activeProgressKey(): string | null {

@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { PronounceButton } from "../components/PronounceButton";
-import { uiLangFromMode } from "../lib/leakage";
+import { interfaceLang } from "../lib/leakage";
 import {
   TRANSLATE_LEVELS,
   generatePrompts,
@@ -16,8 +16,9 @@ import {
 import { useAppStore } from "../store/useAppStore";
 
 export function TranslatePage() {
-  const mode = useAppStore((s) => s.progress.settings.mode);
-  const ui = uiLangFromMode(mode);
+  const settings = useAppStore((s) => s.progress.settings);
+  const mode = settings.mode;
+  const ui = interfaceLang(settings);
   const [level, setLevel] = useState<TranslateLevelId>("A1.2");
   const [sourceLang, setSourceLang] = useState<TranslateSourceLang>(
     mode.startsWith("ru") || mode.endsWith("ru") ? "ru" : "en",

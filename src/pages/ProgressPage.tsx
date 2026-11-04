@@ -2,11 +2,11 @@ import { useMemo } from 'react';
 import { useAppStore } from '../store/useAppStore';
 import { countStats } from '../lib/session';
 import { todayKey } from '../lib/storage';
-import { uiLangFromMode } from '../lib/leakage';
+import { interfaceLang } from '../lib/leakage';
 
 export function ProgressPage() {
   const { vocabulary, progress } = useAppStore();
-  const ui = uiLangFromMode(progress.settings.mode);
+  const ui = interfaceLang(progress.settings);
   const stats = countStats(vocabulary, progress);
   const today = progress.daily.find((d) => d.date === todayKey());
 

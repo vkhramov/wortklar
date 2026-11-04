@@ -3,7 +3,7 @@ import { useAppStore } from '../store/useAppStore';
 import { buildSession } from '../lib/session';
 import { evaluateAnswer, producesGerman } from '../lib/answer';
 import { exampleBeforeAnswer } from '../lib/example';
-import { buildReveal, buildSafePrompt, uiLangFromMode } from '../lib/leakage';
+import { buildReveal, buildSafePrompt, interfaceLang, uiLangFromMode } from '../lib/leakage';
 import { AnswerField } from '../components/AnswerField';
 import { DictateButton } from '../components/DictateButton';
 import { Illustration } from '../components/Illustration';
@@ -41,7 +41,8 @@ type GradeAction = {
 export function LearnPage() {
   const { vocabulary, vocabLoaded, progress, applyGrade, recordAnswer } = useAppStore();
   const mode = progress.settings.mode;
-  const ui = uiLangFromMode(mode);
+  const ui = interfaceLang(progress.settings);
+  const study = uiLangFromMode(mode);
 
   const [session, setSession] = useState<SessionItem[]>([]);
   const [index, setIndex] = useState(0);
@@ -86,12 +87,12 @@ export function LearnPage() {
   }, [entry, session, index]);
 
   const safe = useMemo(
-    () => (entry ? buildSafePrompt(entry, mode) : null),
-    [entry, mode],
+    () => (entry ? buildSafePrompt(entry, mode, ui) : null),
+    [entry, mode, ui],
   );
   const reveal = useMemo(
-    () => (entry && result ? buildReveal(entry, mode) : null),
-    [entry, mode, result],
+    () => (entry && result ? buildReveal(entry, mode, ui) : null),
+    [entry, mode, result, ui],
   );
   const previewExample = useMemo(
     () => (entry ? exampleBeforeAnswer(entry, mode) : null),
@@ -493,7 +494,7 @@ export function LearnPage() {
                     />
                   </div>
                   <div className="example-tr">
-                    {ui === 'ru' ? reveal.example.ru : reveal.example.en}
+                    {study === 'ru' ? reveal.example.ru : reveal.example.en}
                   </div>
                 </div>
               </>

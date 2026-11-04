@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { uiLangFromMode } from '../lib/leakage';
+import { interfaceLang } from '../lib/leakage';
 import { countStats } from '../lib/session';
 import { todayKey } from '../lib/storage';
 import { useAppStore } from '../store/useAppStore';
@@ -13,7 +13,7 @@ const MODES = [
 
 export function HomePage() {
   const { vocabulary, vocabLoaded, progress, setMode } = useAppStore();
-  const ui = uiLangFromMode(progress.settings.mode);
+  const ui = interfaceLang(progress.settings);
   const stats = countStats(vocabulary, progress);
   const today = progress.daily.find((d) => d.date === todayKey());
   const doneToday = today?.reviewsDone ?? 0;

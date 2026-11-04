@@ -1,11 +1,11 @@
 import { NavLink, Outlet, useLocation } from 'react-router-dom';
-import { uiLangFromMode } from '../lib/leakage';
+import { interfaceLang } from '../lib/leakage';
 import { useAppStore } from '../store/useAppStore';
 import { AppVersion } from './AppVersion';
 
 export function Layout() {
   const { user, logout, progress } = useAppStore();
-  const ui = uiLangFromMode(progress.settings.mode);
+  const ui = interfaceLang(progress.settings);
   const { pathname } = useLocation();
   const ru = ui === 'ru';
 

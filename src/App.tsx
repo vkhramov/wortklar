@@ -10,7 +10,6 @@ import { MorePage } from './pages/MorePage';
 import { ProgressPage } from './pages/ProgressPage';
 import { SettingsPage } from './pages/SettingsPage';
 import { TranslatePage } from './pages/TranslatePage';
-import { uiLangFromMode } from './lib/leakage';
 import { readShellLang, writeShellLang } from './lib/shellLang';
 import { prefetchSpeechVoices } from './lib/speech';
 import { applyTheme, readTheme } from './lib/theme';
@@ -33,8 +32,8 @@ export default function App() {
 
   useEffect(() => {
     if (!user) return;
-    writeShellLang(uiLangFromMode(progress.settings.mode));
-  }, [user, progress.settings.mode]);
+    writeShellLang(progress.settings.uiLang);
+  }, [user, progress.settings.uiLang]);
 
   if (!ready) {
     const ui = readShellLang();

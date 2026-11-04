@@ -88,8 +88,11 @@ export interface DailyStats {
 
 export type ColorTheme = 'light' | 'dark';
 
+export type UiLang = 'ru' | 'en';
+
 export interface UserSettings {
   mode: LearningMode;
+  uiLang: UiLang;
   dailyGoal: number;
   sessionSize: number;
   newPerSession: number;

@@ -1,6 +1,6 @@
 import { useDeferredValue, useMemo, useState } from 'react';
 import { useAppStore } from '../store/useAppStore';
-import { uiLangFromMode } from '../lib/leakage';
+import { interfaceLang, uiLangFromMode } from '../lib/leakage';
 import { resolveIllustrationId } from '../lib/illustrations';
 import { hasWordImage } from '../lib/wordImages';
 import {
@@ -36,7 +36,8 @@ function matchesQuery(entry: VocabEntry, q: string): boolean {
 
 export function LibraryPage() {
   const { vocabulary, progress, applyGrade, resumeLearning } = useAppStore();
-  const ui = uiLangFromMode(progress.settings.mode);
+  const ui = interfaceLang(progress.settings);
+  const study = uiLangFromMode(progress.settings.mode);
 
   const [query, setQuery] = useState('');
   const deferredQuery = useDeferredValue(query.trim().toLowerCase());
@@ -242,7 +243,7 @@ export function LibraryPage() {
                     ? `${entry.article} ${entry.lemma}`
                     : entry.lemma;
                 const gloss =
-                  ui === 'ru' ? entry.ru[0] ?? entry.en[0] : entry.en[0] ?? entry.ru[0];
+                  study === 'ru' ? entry.ru[0] ?? entry.en[0] : entry.en[0] ?? entry.ru[0];
                 return (
                   <li key={entry.id}>
                     <button
@@ -371,7 +372,7 @@ export function LibraryPage() {
               </div>
               <div className="example-de">{selected.entry.example.de}</div>
               <div className="example-tr">
-                {ui === 'ru'
+                {study === 'ru'
                   ? selected.entry.example.ru
                   : selected.entry.example.en}
               </div>

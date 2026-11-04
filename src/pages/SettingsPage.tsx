@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { useAppStore } from '../store/useAppStore';
 import type { CefrLevel } from '../types/vocab';
-import { uiLangFromMode } from '../lib/leakage';
+import { interfaceLang } from '../lib/leakage';
 import {
   getProgressPat,
   getProgressRepo,
@@ -34,7 +34,7 @@ export function SettingsPage() {
     syncPush,
   } = useAppStore();
   const s = progress.settings;
-  const ui = uiLangFromMode(s.mode);
+  const ui = interfaceLang(s);
   const fileRef = useRef<HTMLInputElement>(null);
   const [pat, setPat] = useState(() => getProgressPat());
   const [repo, setRepo] = useState(() => getProgressRepo());
@@ -72,6 +72,28 @@ export function SettingsPage() {
         <div className="btn-row">
           <button type="button" className="btn btn-ghost" onClick={() => logout()}>
             {ui === 'ru' ? 'Выйти' : 'Log out'}
+          </button>
+        </div>
+      </section>
+
+      <section className="panel">
+        <div className="panel-title">
+          <h2>{ui === 'ru' ? 'Язык интерфейса' : 'Interface language'}</h2>
+        </div>
+        <div className="btn-row">
+          <button
+            type="button"
+            className={`btn ${s.uiLang === 'ru' ? 'btn-primary' : 'btn-ghost'}`}
+            onClick={() => updateSettings({ uiLang: 'ru' })}
+          >
+            Русский
+          </button>
+          <button
+            type="button"
+            className={`btn ${s.uiLang === 'en' ? 'btn-primary' : 'btn-ghost'}`}
+            onClick={() => updateSettings({ uiLang: 'en' })}
+          >
+            English
           </button>
         </div>
       </section>

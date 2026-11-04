@@ -39,6 +39,16 @@ export function uiLangFromMode(mode: LearningMode): 'en' | 'ru' {
   return mode.startsWith('ru') || mode.endsWith('ru') ? 'ru' : 'en';
 }
 
+/** Chrome language. Study prompts stay on the direction's language. */
+export function interfaceLang(settings: {
+  uiLang?: string;
+  mode: LearningMode;
+}): 'en' | 'ru' {
+  return settings.uiLang === 'en' || settings.uiLang === 'ru'
+    ? settings.uiLang
+    : uiLangFromMode(settings.mode);
+}
+
 /**
  * Build a pre-answer view that cannot leak the German solution
  * when the learner is translating into German.
@@ -46,8 +56,9 @@ export function uiLangFromMode(mode: LearningMode): 'en' | 'ru' {
 export function buildSafePrompt(
   entry: VocabEntry,
   mode: LearningMode,
+  uiLang?: 'en' | 'ru',
 ): SafePromptView {
-  const ui = uiLangFromMode(mode);
+  const ui = uiLang ?? uiLangFromMode(mode);
   const intoGerman = producesGerman(mode);
 
   let prompt: string;
@@ -164,8 +175,12 @@ function escapeRegExp(s: string): string {
 }
 
 /** Post-answer reveal payload — German content allowed here. */
-export function buildReveal(entry: VocabEntry, mode: LearningMode) {
-  const ui = uiLangFromMode(mode);
+export function buildReveal(
+  entry: VocabEntry,
+  mode: LearningMode,
+  uiLang?: 'en' | 'ru',
+) {
+  const ui = uiLang ?? uiLangFromMode(mode);
   return {
     lemma:
       entry.pos === 'noun' && entry.article

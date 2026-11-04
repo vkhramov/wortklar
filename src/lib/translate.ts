@@ -12,6 +12,7 @@ export const TRANSLATE_LEVELS = [
 
 export type TranslateLevelId = (typeof TRANSLATE_LEVELS)[number]["id"];
 export type TranslateSourceLang = "ru" | "en";
+export type TranslateStyle = "textbook" | "everyday";
 
 export type TranslateCitation = {
   title: string;
@@ -65,14 +66,16 @@ async function post<T>(body: unknown): Promise<T> {
 export function generatePrompts(
   level: TranslateLevelId,
   sourceLang: TranslateSourceLang,
+  style: TranslateStyle,
   count = 5,
 ): Promise<{ items: TranslatePrompt[] }> {
-  return post({ action: "generate", level, sourceLang, count });
+  return post({ action: "generate", level, sourceLang, style, count });
 }
 
 export function gradeTranslation(input: {
   level: TranslateLevelId;
   sourceLang: TranslateSourceLang;
+  style: TranslateStyle;
   source: string;
   answer: string;
 }): Promise<TranslateGrade> {

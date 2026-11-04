@@ -11,6 +11,7 @@ import {
   type TranslateLevelId,
   type TranslatePrompt,
   type TranslateSourceLang,
+  type TranslateStyle,
 } from "../lib/translate";
 import { useAppStore } from "../store/useAppStore";
 
@@ -21,6 +22,7 @@ export function TranslatePage() {
   const [sourceLang, setSourceLang] = useState<TranslateSourceLang>(
     mode.startsWith("ru") || mode.endsWith("ru") ? "ru" : "en",
   );
+  const [style, setStyle] = useState<TranslateStyle>("textbook");
   const [queue, setQueue] = useState<TranslatePrompt[]>([]);
   const [answer, setAnswer] = useState("");
   const [grade, setGrade] = useState<TranslateGrade | null>(null);
@@ -37,7 +39,7 @@ export function TranslatePage() {
     setBusy("generate");
     setError("");
     try {
-      const data = await generatePrompts(level, sourceLang, 5);
+      const data = await generatePrompts(level, sourceLang, style, 5);
       if (!data.items?.length) throw new Error(ui === "ru" ? "Пустой ответ модели" : "Empty model response");
       setQueue(replace ? data.items : [...queue, ...data.items]);
       setAnswer("");
@@ -58,6 +60,7 @@ export function TranslatePage() {
         await gradeTranslation({
           level,
           sourceLang,
+          style,
           source: current.source,
           answer: answer.trim(),
         }),
@@ -89,6 +92,35 @@ export function TranslatePage() {
             <Link to="/settings">{ui === "ru" ? "Настройках" : "Settings"}</Link>.
           </p>
         )}
+        <div className="btn-row" role="group" aria-label={ui === "ru" ? "Тип фразы" : "Sentence style"}>
+          {([
+            ["textbook", ui === "ru" ? "Учебник" : "Textbook"],
+            ["everyday", ui === "ru" ? "Живая речь" : "Everyday speech"],
+          ] as const).map(([id, label]) => (
+            <button
+              key={id}
+              type="button"
+              className={`btn ${style === id ? "btn-primary" : "btn-ghost"}`}
+              onClick={() => {
+                setStyle(id);
+                setQueue([]);
+                setGrade(null);
+                setAnswer("");
+              }}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+        <p className="muted">
+          {style === "textbook"
+            ? ui === "ru"
+              ? "Ясная фраза, как в курсе немецкого. Gemini пишет её сам и не цитирует изданный учебник."
+              : "A clear coursebook-style sentence. Gemini writes it and does not quote a published textbook."
+            : ui === "ru"
+              ? "Реплика, как в разговоре или сообщении. Тоже написана Gemini, не цитата."
+              : "A line someone might say or text. Also written by Gemini, not a quotation."}
+        </p>
         <div className="btn-row" role="group" aria-label={ui === "ru" ? "Язык задания" : "Prompt language"}>
           {(["ru", "en"] as const).map((lang) => (
             <button
@@ -132,13 +164,11 @@ export function TranslatePage() {
           <>
             <div className="example-label">{current.topic || (ui === "ru" ? "Предложение" : "Sentence")}</div>
             <div className="prompt-text">{current.source}</div>
-            <p className="muted">
-              {current.citation
-                ? [current.citation.author, current.citation.title, current.citation.year].filter(Boolean).join(" · ")
-                : ui === "ru"
-                  ? "Оригинальное учебное предложение: модель не подтвердила источник."
-                  : "Original practice sentence: the model did not confirm a source."}
-            </p>
+            {current.citation && (
+              <p className="muted">
+                {[current.citation.author, current.citation.title, current.citation.year].filter(Boolean).join(" · ")}
+              </p>
+            )}
             <label className="field">
               <span>{ui === "ru" ? "Ваш перевод на немецкий" : "Your German translation"}</span>
               <textarea

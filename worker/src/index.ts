@@ -19,21 +19,24 @@ const LEVELS = new Set([
 ]);
 
 const LEVEL_GUIDE: Record<string, string> = {
-  "A1.1": "4–6 words. Present tense, sein/haben, concrete everyday nouns. One simple clause.",
-  "A1.2": "6–9 words. Modal verbs, accusative, separable verbs, simple time/place.",
-  "A1.3": "7–11 words. Perfekt or dative, one adverbial, still concrete and classroom-like.",
-  "A2.1": "8–12 words. Perfekt or Präteritum, two connected actions, familiar topics.",
-  "A2.2": "9–14 words. weil/dass/wenn, reflexive verbs, opinions about daily life.",
-  "A2.3": "10–16 words. Comparisons, relative clauses, reasons and sequences.",
-  "B1.1": "11–17 words. Konjunktiv II or a relative clause, connectors, slightly abstract.",
-  "B1.2": "12–20 words. Passive or argumentation, work/study/society vocabulary.",
-  "B1.3": "14–22 words. More than one subordinate clause, nuance, still natural speech.",
+  "A1.1": "About 4–8 words, one simple clause. Present tense, sein/haben, concrete everyday words.",
+  "A1.2": "About 6–10 words. A modal verb, accusative, or a simple time and place.",
+  "A1.3": "About 7–12 words. Perfekt or dative, still one clear situation.",
+  "A2.1": "About 8–14 words. Two connected actions in Perfekt or Präteritum.",
+  "A2.2": "About 9–16 words. weil, dass, or wenn, or a reflexive verb.",
+  "A2.3": "About 10–18 words. A comparison or a short sequence.",
+  "B1.1": "About 12–20 words. Konjunktiv II or a relative clause.",
+  "B1.2": "About 12–22 words. Passive or a practical argument about work or study.",
+  "B1.3": "About 14–24 words. More than one subordinate clause, still clear.",
 };
+
+type PromptStyle = "textbook" | "everyday";
 
 type GenerateBody = {
   action: "generate";
   level: string;
   sourceLang: "ru" | "en";
+  style?: PromptStyle;
   count?: number;
 };
 
@@ -41,6 +44,7 @@ type GradeBody = {
   action: "grade";
   level: string;
   sourceLang: "ru" | "en";
+  style?: PromptStyle;
   source: string;
   answer: string;
 };
@@ -90,22 +94,54 @@ export default {
   },
 };
 
+function asStyle(value: unknown): PromptStyle {
+  return value === "everyday" ? "everyday" : "textbook";
+}
+
+function generationPrompt(body: GenerateBody, count: number): string {
+  const style = asStyle(body.style);
+  const lang = body.sourceLang === "ru" ? "Russian" : "English";
+  const voice = style === "textbook"
+    ? `Voice: a modern German coursebook for adults, like Schritte, Menschen, or Netzwerk.
+- Clear, complete, neutral sentences about ordinary life: family, flat, food, work, shopping, travel, free time.
+- The grammar of this level should be easy to notice, the way a coursebook chapter presents one point.
+- Use simple recurring first names (Anna, Paul, Lena, Tim) when a person is needed.
+- Slightly formal learner language. No slang, no messenger abbreviations, no jokes that depend on tone.
+- Write a new sentence. Do not copy or closely paraphrase a published textbook, and do not invent a book title.`
+    : `Voice: living everyday speech, something a person would actually say or send today.
+- A text to a friend, a remark at home, a small problem, food, the commute, work, weather, plans for tonight.
+- Each sentence needs a concrete reason to be said.
+- Spoken rhythm is welcome. Grammar of this level may appear, but do not write a sentence just to demonstrate it.
+- Not a coursebook drill, not a dictionary gloss, not a phrasebook line.
+- Do not invent a book title.`;
+  const samples = style === "textbook"
+    ? body.sourceLang === "ru"
+      ? `Good: «Анна покупает хлеб в пекарне.» «В субботу Пауль едет к родителям.»
+Avoid: «Ну ты где вообще?» «Пицца и спать.»`
+      : `Good: "Anna buys bread at the bakery." "On Saturday Paul visits his parents."
+Avoid: "Where even are you?" "Pizza, then bed."`
+    : body.sourceLang === "ru"
+      ? `Good: «Опять ключи на работе забыл.» «Давай пиццу закажем, готовить уже лень.»
+Avoid: «Анна покупает хлеб в пекарне.» «Меня зовут Анна, я студент.»`
+      : `Good: "I left my keys at work again." "Let's just get pizza, I can't be bothered to cook."
+Avoid: "Anna buys bread at the bakery." "My name is Anna and I am a student."`;
+  return `Write ${count} original ${lang} sentences for a German learner.
+Level ${body.level}: ${LEVEL_GUIDE[body.level]}
+Style: ${style}.
+${voice}
+- A different situation in every sentence.
+- No German words and no German translation.
+- No names of real private people. Non-offensive.
+- Set citation to null on every item.
+${samples}
+Return one JSON object and nothing else. The root must be an object whose "items" array contains exactly ${count} sentence objects:
+{"items":[{"source":"...","topic":"...","citation":null}]}
+Do not return a single sentence as the root object.`;
+}
+
 async function generate(key: string, body: GenerateBody): Promise<unknown> {
   const count = Math.min(8, Math.max(1, body.count ?? 5));
-  const lang = body.sourceLang === "ru" ? "Russian" : "English";
-  const prompt = `Choose ${count} short ${lang} sentences for a learner to translate into German.
-Level ${body.level}: ${LEVEL_GUIDE[body.level]}
-Source preference:
-- Prefer one real sentence from a published book, story, essay, or other edited text.
-- Prefer public-domain or classic works when they fit the level. Russian examples: Chekhov, Tolstoy, Pushkin, other published prose. English examples: public-domain fiction and essays.
-- Quote only a single sentence, verbatim. Do not stitch fragments or simplify a passage and still cite the original.
-- If you are not sure the sentence really appears in that work, do not invent a citation. Write a natural original sentence and set citation to null.
-- Everyday, non-offensive meaning. No German words and no German translation.
-- No names of real private people.
-Return one JSON object and nothing else. The root must be an object whose "items" array contains exactly ${count} sentence objects:
-{"items":[{"source":"...","topic":"...","citation":{"title":"...","author":"...","year":"..."}|null}]}
-Do not return a single sentence as the root object.`;
-  const text = await geminiText(key, prompt, 0.4);
+  const text = await geminiText(key, generationPrompt(body, count), asStyle(body.style) === "textbook" ? 0.5 : 0.9);
   const items = promptsFromText(text).slice(0, count);
   if (!items.length) {
     const data = parseModelJson(text);
@@ -119,8 +155,12 @@ async function grade(key: string, body: GradeBody): Promise<unknown> {
   const answer = body.answer.trim().slice(0, 800);
   if (!source || !answer) throw new Error("Missing source or answer");
   const feedbackLang = body.sourceLang === "ru" ? "Russian" : "English";
+  const style = asStyle(body.style);
   const prompt = `You are a careful German teacher. The learner translated this ${body.sourceLang === "ru" ? "Russian" : "English"} sentence into German.
 Level target ${body.level}: ${LEVEL_GUIDE[body.level]}
+Register: ${style === "textbook"
+    ? "The source is a clear coursebook sentence. A neat, complete German sentence is appropriate."
+    : "The source is spoken everyday language. Natural spoken German is appropriate."}
 Source: ${JSON.stringify(source)}
 Learner German: ${JSON.stringify(answer)}
 Accept any natural German that preserves the meaning. Do not require one exact wording.

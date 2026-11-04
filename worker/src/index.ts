@@ -102,14 +102,13 @@ Source preference:
 - If you are not sure the sentence really appears in that work, do not invent a citation. Write a natural original sentence and set citation to null.
 - Everyday, non-offensive meaning. No German words and no German translation.
 - No names of real private people.
-Return JSON only:
-{"items":[{"source":"...","topic":"...","citation":{"title":"...","author":"...","year":"..."}|null}]}`;
-  const data = await gemini(key, prompt, 0.4);
-  const items = collectItems(data)
-    .map(normalizePrompt)
-    .filter((item) => item.source)
-    .slice(0, count);
+Return one JSON object and nothing else. The root must be an object whose "items" array contains exactly ${count} sentence objects:
+{"items":[{"source":"...","topic":"...","citation":{"title":"...","author":"...","year":"..."}|null}]}
+Do not return a single sentence as the root object.`;
+  const text = await geminiText(key, prompt, 0.4);
+  const items = promptsFromText(text).slice(0, count);
   if (!items.length) {
+    const data = parseModelJson(text);
     throw new Error(`Model JSON had no sentences. Keys: ${Object.keys(data).join(", ") || "none"}`);
   }
   return { items };
@@ -132,7 +131,7 @@ Verdict:
 Write summary and error explanations in ${feedbackLang}. corrected and alternative must be German.
 Return JSON only:
 {"verdict":"correct|acceptable|needs_fix","corrected":"...","summary":"...","errors":[{"fragment":"...","issue":"...","fix":"..."}],"alternative":"..."}`;
-  const data = await gemini(key, prompt, 0.4);
+  const data = parseModelJson(await geminiText(key, prompt, 0.4));
   const verdict = String(data.verdict ?? "");
   if (!["correct", "acceptable", "needs_fix"].includes(verdict)) {
     throw new Error("Model returned an invalid verdict");
@@ -157,7 +156,7 @@ Return JSON only:
   };
 }
 
-async function gemini(key: string, prompt: string, temperature = 0.4): Promise<Record<string, unknown>> {
+async function geminiText(key: string, prompt: string, temperature = 0.4): Promise<string> {
   let lastError = "Gemini request failed";
   for (const model of MODELS) {
     const res = await fetch(
@@ -190,22 +189,65 @@ async function gemini(key: string, prompt: string, temperature = 0.4): Promise<R
     };
     const parts = payload.candidates?.[0]?.content?.parts ?? [];
     const visible = parts.filter((part) => part.text && !part.thought);
-    const text = (visible.length ? visible : parts).map((part) => part.text ?? "").join("\n");
-    return parseModelJson(text);
+    return (visible.length ? visible : parts).map((part) => part.text ?? "").join("\n");
   }
   throw new Error(lastError);
 }
 
+function promptsFromText(text: string): Array<{
+  source: string;
+  topic: string;
+  citation: { title: string; author: string; year: string } | null;
+}> {
+  const trimmed = text.trim().replace(/^```(?:json)?\s*/i, "").replace(/```$/g, "");
+  const rows: Array<Record<string, unknown> | string> = [];
+  for (const raw of extractJsonObjects(trimmed)) {
+    let value: unknown;
+    try {
+      value = JSON.parse(raw) as unknown;
+    } catch {
+      continue;
+    }
+    if (Array.isArray(value)) {
+      rows.push(...value.filter(isSentenceValue));
+      continue;
+    }
+    if (value && typeof value === "object") rows.push(...collectItems(value as Record<string, unknown>));
+  }
+  const seen = new Set<string>();
+  return rows.map(normalizePrompt).filter((item) => {
+    if (!item.source || seen.has(item.source)) return false;
+    seen.add(item.source);
+    return true;
+  });
+}
+
+const SENTENCE_KEYS = ["source", "sentence", "text", "prompt", "line", "quote"];
+
 function collectItems(data: Record<string, unknown>): Array<Record<string, unknown> | string> {
   for (const key of ["items", "sentences", "prompts", "examples"]) {
-    if (Array.isArray(data[key])) return data[key] as Array<Record<string, unknown> | string>;
+    if (Array.isArray(data[key]) && data[key].length) {
+      return data[key] as Array<Record<string, unknown> | string>;
+    }
   }
+  if (Array.isArray(data)) return data as Array<Record<string, unknown> | string>;
+  if (isSentenceRow(data)) return [data];
   for (const value of Object.values(data)) {
+    if (Array.isArray(value) && value.length && value.every(isSentenceValue)) return value;
     if (!value || typeof value !== "object" || Array.isArray(value)) continue;
     const nested = collectItems(value as Record<string, unknown>);
     if (nested.length) return nested;
   }
   return [];
+}
+
+function isSentenceValue(value: unknown): value is Record<string, unknown> | string {
+  if (typeof value === "string") return value.trim().length > 0;
+  return !!value && typeof value === "object" && !Array.isArray(value) && isSentenceRow(value as Record<string, unknown>);
+}
+
+function isSentenceRow(data: Record<string, unknown>): boolean {
+  return SENTENCE_KEYS.some((key) => typeof data[key] === "string" && data[key].trim().length > 0);
 }
 
 function normalizePrompt(row: Record<string, unknown> | string): {
@@ -216,7 +258,7 @@ function normalizePrompt(row: Record<string, unknown> | string): {
   if (typeof row === "string") {
     return { source: row.trim(), topic: "", citation: null };
   }
-  const source = ["source", "sentence", "text", "prompt", "line", "quote"]
+  const source = SENTENCE_KEYS
     .map((key) => String(row[key] ?? "").trim())
     .find(Boolean) ?? "";
   const citation = row.citation;
@@ -248,8 +290,8 @@ function parseModelJson(text: string): Record<string, unknown> {
   });
   if (!parsed.length) throw new Error("Model did not return JSON");
   return (
-    parsed.find((obj) => collectItems(obj).length > 0) ??
     parsed.find((obj) => typeof obj.verdict === "string") ??
+    parsed.find((obj) => collectItems(obj).length > 0) ??
     parsed[parsed.length - 1]
   );
 }

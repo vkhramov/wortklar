@@ -948,6 +948,40 @@ h2 {
   margin-top: 0.35rem;
 }
 
+.translate-screen {
+  display: grid;
+  gap: 1rem;
+}
+
+.translate-screen textarea {
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.translate-screen .prompt-card > .field {
+  order: 2;
+}
+
+.translate-screen .prompt-card > .compose-tools,
+.translate-screen .prompt-card > .btn-row {
+  order: 3;
+}
+
+.translate-screen .prompt-card > .feedback {
+  order: 4;
+}
+
+.translate-screen.is-answering .translate-cue {
+  position: sticky;
+  top: 0.25rem;
+  z-index: 8;
+  scroll-margin-top: 3.25rem;
+  font-size: clamp(1.15rem, 4.4vw, 1.45rem);
+  line-height: 1.35;
+  padding: 0.15rem 0 0.4rem;
+  background: var(--surface);
+}
+
 .form-error {
   color: var(--bad);
 }
@@ -1408,6 +1442,10 @@ h2 {
 
   body.learn-compose .learn-screen {
     padding-bottom: 11rem;
+  }
+
+  body.learn-compose .translate-screen {
+    padding-bottom: 5.5rem;
   }
 
   .learn-screen.is-answering {

@@ -1,6 +1,7 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import { PronounceButton } from "../components/PronounceButton";
+import { bindKeyboardInset } from "../lib/keyboardInset";
 import { interfaceLang } from "../lib/leakage";
 import {
   TRANSLATE_LEVELS,
@@ -25,26 +26,31 @@ export function TranslatePage() {
   );
   const [style, setStyle] = useState<TranslateStyle>("textbook");
   const [queue, setQueue] = useState<TranslatePrompt[]>([]);
+  const [batchTotal, setBatchTotal] = useState(0);
+  const [phase, setPhase] = useState<"setup" | "practice" | "done">("setup");
   const [answer, setAnswer] = useState("");
   const [grade, setGrade] = useState<TranslateGrade | null>(null);
   const [busy, setBusy] = useState<"generate" | "grade" | null>(null);
   const [error, setError] = useState("");
   const hasKey = getGeminiKey().length > 0;
   const current = queue[0] ?? null;
+  const answering = phase === "practice" && Boolean(current) && !grade;
   const bands = useMemo(
     () => ["A1", "A2", "B1"].map((band) => TRANSLATE_LEVELS.filter((item) => item.band === band)),
     [],
   );
 
-  async function loadPrompts(replace = true) {
+  async function loadPrompts() {
     setBusy("generate");
     setError("");
     try {
       const data = await generatePrompts(level, sourceLang, style, 5);
       if (!data.items?.length) throw new Error(ui === "ru" ? "Пустой ответ модели" : "Empty model response");
-      setQueue(replace ? data.items : [...queue, ...data.items]);
+      setQueue(data.items);
+      setBatchTotal(data.items.length);
       setAnswer("");
       setGrade(null);
+      setPhase("practice");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Request failed");
     } finally {
@@ -74,10 +80,151 @@ export function TranslatePage() {
   }
 
   function next() {
-    setQueue((items) => items.slice(1));
+    const rest = queue.slice(1);
+    setQueue(rest);
     setAnswer("");
     setGrade(null);
     setError("");
+    if (rest.length === 0) setPhase("done");
+  }
+
+  function changeSettings() {
+    setQueue([]);
+    setAnswer("");
+    setGrade(null);
+    setError("");
+    setPhase("setup");
+  }
+
+  useEffect(() => {
+    document.body.classList.toggle("learn-compose", answering);
+    if (!answering) return () => document.body.classList.remove("learn-compose");
+    const unbind = bindKeyboardInset();
+    return () => {
+      document.body.classList.remove("learn-compose");
+      unbind();
+    };
+  }, [answering]);
+
+  useEffect(() => {
+    if (phase !== "practice" || !current) return;
+    const pin = () => {
+      document.querySelector(".translate-cue")?.scrollIntoView({ block: "start", inline: "nearest" });
+    };
+    const t = window.setTimeout(pin, 60);
+    const vv = window.visualViewport;
+    if (!answering) {
+      return () => window.clearTimeout(t);
+    }
+    vv?.addEventListener("resize", pin);
+    vv?.addEventListener("scroll", pin);
+    return () => {
+      window.clearTimeout(t);
+      vv?.removeEventListener("resize", pin);
+      vv?.removeEventListener("scroll", pin);
+    };
+  }, [phase, current, answering]);
+
+  if (phase === "done") {
+    return (
+      <div className="translate-screen">
+        <section className="panel">
+          <h2>{ui === "ru" ? "Пачка закончилась" : "Batch complete"}</h2>
+          <div className="btn-row">
+            <button type="button" className="btn btn-primary" disabled={busy !== null} onClick={() => void loadPrompts()}>
+              {busy === "generate" ? "…" : ui === "ru" ? "Новая пачка" : "New batch"}
+            </button>
+            <button type="button" className="btn btn-ghost" disabled={busy !== null} onClick={changeSettings}>
+              {ui === "ru" ? "Поменять настройки" : "Change settings"}
+            </button>
+            <Link className="btn btn-ghost" to="/">
+              {ui === "ru" ? "Завершить" : "Finish"}
+            </Link>
+          </div>
+          {error && <p className="form-error">{error}</p>}
+        </section>
+      </div>
+    );
+  }
+
+  if (phase === "practice" && current) {
+    const step = batchTotal - queue.length + 1;
+    return (
+      <div className={`translate-screen ${answering ? "is-answering" : ""}`}>
+        <section className="prompt-card">
+          <div className="meta-row">
+            <span className="chip">
+              {step} / {batchTotal}
+            </span>
+            <span className="muted">{level}</span>
+          </div>
+          <div className="prompt-text translate-cue">{current.source}</div>
+          {current.citation && (
+            <p className="muted">
+              {[current.citation.author, current.citation.title, current.citation.year].filter(Boolean).join(" · ")}
+            </p>
+          )}
+          <label className="field">
+            <span>{ui === "ru" ? "Ваш перевод на немецкий" : "Your German translation"}</span>
+            <textarea
+              value={answer}
+              onChange={(e) => setAnswer(e.target.value)}
+              rows={3}
+              disabled={Boolean(grade) || busy === "grade"}
+            />
+          </label>
+          {grade && (
+            <div className={`feedback ${grade.verdict === "needs_fix" ? "incorrect" : "correct"}`}>
+              <div className="feedback-title">
+                {grade.verdict === "correct"
+                  ? ui === "ru" ? "Верно" : "Correct"
+                  : grade.verdict === "acceptable"
+                    ? ui === "ru" ? "Допустимо" : "Acceptable"
+                    : ui === "ru" ? "Нужно исправить" : "Needs a fix"}
+              </div>
+              <p>{grade.summary}</p>
+              {grade.corrected && (
+                <div className="example-de-row">
+                  <div className="example-de">{grade.corrected}</div>
+                  <PronounceButton text={grade.corrected} label={ui === "ru" ? "Слушать" : "Listen"} />
+                </div>
+              )}
+              {grade.errors.length > 0 && (
+                <ul className="hint-list">
+                  {grade.errors.map((item, i) => (
+                    <li key={`${item.fragment}-${i}`}>
+                      {item.fragment ? <strong>{item.fragment}: </strong> : null}
+                      {item.issue}
+                      {item.fix ? ` → ${item.fix}` : ""}
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {grade.alternative && (
+                <p className="muted">
+                  {ui === "ru" ? "Ещё вариант: " : "Another option: "}
+                  {grade.alternative}
+                </p>
+              )}
+            </div>
+          )}
+          {answering ? (
+            <div className="compose-tools">
+              <button type="button" className="btn btn-primary" disabled={busy !== null || !answer.trim()} onClick={() => void check()}>
+                {busy === "grade" ? "…" : ui === "ru" ? "Проверить" : "Check"}
+              </button>
+            </div>
+          ) : (
+            <div className="btn-row">
+              <button type="button" className="btn btn-primary" onClick={next}>
+                {ui === "ru" ? "Дальше" : "Next"}
+              </button>
+            </div>
+          )}
+          {error && <p className="form-error">{error}</p>}
+        </section>
+      </div>
+    );
   }
 
   return (
@@ -158,84 +305,11 @@ export function TranslatePage() {
           </div>
         ))}
         <p className="muted">{TRANSLATE_LEVELS.find((item) => item.id === level)?.hint}</p>
-      </section>
-
-      <section className="prompt-card">
-        {current ? (
-          <>
-            <div className="example-label">{current.topic || (ui === "ru" ? "Предложение" : "Sentence")}</div>
-            <div className="prompt-text">{current.source}</div>
-            {current.citation && (
-              <p className="muted">
-                {[current.citation.author, current.citation.title, current.citation.year].filter(Boolean).join(" · ")}
-              </p>
-            )}
-            <label className="field">
-              <span>{ui === "ru" ? "Ваш перевод на немецкий" : "Your German translation"}</span>
-              <textarea
-                value={answer}
-                onChange={(e) => setAnswer(e.target.value)}
-                rows={3}
-                disabled={Boolean(grade) || busy === "grade"}
-              />
-            </label>
-            {grade && (
-              <div className={`feedback ${grade.verdict === "needs_fix" ? "incorrect" : "correct"}`}>
-                <div className="feedback-title">
-                  {grade.verdict === "correct"
-                    ? ui === "ru" ? "Верно" : "Correct"
-                    : grade.verdict === "acceptable"
-                      ? ui === "ru" ? "Допустимо" : "Acceptable"
-                      : ui === "ru" ? "Нужно исправить" : "Needs a fix"}
-                </div>
-                <p>{grade.summary}</p>
-                {grade.corrected && (
-                  <div className="example-de-row">
-                    <div className="example-de">{grade.corrected}</div>
-                    <PronounceButton text={grade.corrected} label={ui === "ru" ? "Слушать" : "Listen"} />
-                  </div>
-                )}
-                {grade.errors.length > 0 && (
-                  <ul className="hint-list">
-                    {grade.errors.map((item, i) => (
-                      <li key={`${item.fragment}-${i}`}>
-                        {item.fragment ? <strong>{item.fragment}: </strong> : null}
-                        {item.issue}
-                        {item.fix ? ` → ${item.fix}` : ""}
-                      </li>
-                    ))}
-                  </ul>
-                )}
-                {grade.alternative && (
-                  <p className="muted">
-                    {ui === "ru" ? "Ещё вариант: " : "Another option: "}
-                    {grade.alternative}
-                  </p>
-                )}
-              </div>
-            )}
-            <div className="btn-row">
-              {!grade ? (
-                <button type="button" className="btn btn-primary" disabled={busy !== null || !answer.trim()} onClick={() => void check()}>
-                  {busy === "grade" ? "…" : ui === "ru" ? "Проверить" : "Check"}
-                </button>
-              ) : (
-                <button type="button" className="btn btn-primary" onClick={next}>
-                  {ui === "ru" ? "Дальше" : "Next"}
-                </button>
-              )}
-              <button type="button" className="btn btn-ghost" disabled={busy !== null} onClick={() => void loadPrompts(true)}>
-                {ui === "ru" ? "Новая пачка" : "New batch"}
-              </button>
-            </div>
-          </>
-        ) : (
-          <div className="btn-row">
-            <button type="button" className="btn btn-primary" disabled={!hasKey || busy !== null} onClick={() => void loadPrompts(true)}>
-              {busy === "generate" ? "…" : ui === "ru" ? "Получить предложения" : "Get sentences"}
-            </button>
-          </div>
-        )}
+        <div className="btn-row">
+          <button type="button" className="btn btn-primary" disabled={!hasKey || busy !== null} onClick={() => void loadPrompts()}>
+            {busy === "generate" ? "…" : ui === "ru" ? "Получить предложения" : "Get sentences"}
+          </button>
+        </div>
         {error && <p className="form-error">{error}</p>}
         <p className="muted">
           {ui === "ru"

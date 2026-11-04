@@ -47,7 +47,7 @@ type GradeBody = {
 
 type Body = GenerateBody | GradeBody;
 
-const MODELS = ["gemini-2.5-flash", "gemini-2.0-flash"];
+const MODELS = ["gemini-3.5-flash-lite", "gemini-3.8-flash", "gemini-flash-latest"];
 
 export default {
   async fetch(request: Request): Promise<Response> {
